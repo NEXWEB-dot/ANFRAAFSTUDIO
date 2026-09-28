@@ -1,0 +1,1399 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1a1a1a">
+  <title>ANRAAF STUDIO – New Collection</title>
+
+  <!-- Google Fonts: Cormorant Garamond for editorial serif, DM Sans for clean UI, Dancing Script for script logo/text -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@200;300;400;500;600&family=Dancing+Script:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      color: #1a1a1a;
+      background: #ffffff;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+
+    :root {
+      --studio-bg: #dfd7cc;
+      --ink: #111111;
+      --muted: #555555;
+      --sale-red: #c0392b;
+      --border: rgba(0, 0, 0, 0.08);
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ── Scroll reveals ─────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+    }
+    .reveal.in { opacity: 1; transform: none; }
+    .stagger .reveal:nth-child(1) { transition-delay: 0.00s; }
+    .stagger .reveal:nth-child(2) { transition-delay: 0.08s; }
+    .stagger .reveal:nth-child(3) { transition-delay: 0.16s; }
+    .stagger .reveal:nth-child(4) { transition-delay: 0.24s; }
+
+    @supports ((animation-timeline: view()) and (animation-range: entry)) {
+      .reveal {
+        animation: rv .7s var(--ease) both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 45%;
+      }
+      .stagger .reveal:nth-child(1) { animation-delay: .00s; }
+      .stagger .reveal:nth-child(2) { animation-delay: .08s; }
+      .stagger .reveal:nth-child(3) { animation-delay: .16s; }
+      .stagger .reveal:nth-child(4) { animation-delay: .24s; }
+      @keyframes rv { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1 !important; transform: none !important; animation: none !important; transition: none !important; }
+    }
+
+    /* ── Announcement Bar ────────────────────── */
+    .ann-bar {
+      background: #111111;
+      color: rgba(255, 255, 255, 0.92);
+      text-align: center;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 8px 16px;
+      font-weight: 400;
+      position: relative;
+      z-index: 210;
+    }
+
+    /* ── Smart Sticky Header ─────────────────── */
+    .site-header {
+      position: sticky;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 200;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s;
+    }
+    .site-header.nav-hidden {
+      transform: translateY(-100%);
+    }
+    .site-header.nav-sticky {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+    .header-inner {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 0 clamp(16px, 3.5vw, 40px);
+      height: 52px;
+    }
+    .logo {
+      font-family: 'Cormorant', Georgia, serif;
+      font-size: clamp(20px, 3vw, 28px);
+      font-weight: 400;
+      letter-spacing: 0.24em;
+      text-align: center;
+      color: #111111;
+      white-space: nowrap;
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 16px;
+    }
+    .icon-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #111111;
+      transition: opacity 0.2s;
+    }
+    .icon-btn:hover { opacity: 0.5; }
+    .ham-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 500;
+      color: #111111;
+    }
+    .ham-lines {
+      display: flex;
+      flex-direction: column;
+      gap: 4.5px;
+    }
+    .ham-lines span {
+      display: block;
+      width: 18px;
+      height: 1.5px;
+      background: #111111;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .ham-btn.open .ham-lines span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .ham-btn.open .ham-lines span:nth-child(2) { opacity: 0; }
+    .ham-btn.open .ham-lines span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+    /* ── Mobile Drawer ───────────────────────── */
+    .d-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 300;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .d-overlay.open { opacity: 1; pointer-events: all; }
+    .drawer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: min(290px, 82vw);
+      height: 100dvh;
+      background: #ffffff;
+      z-index: 301;
+      transform: translateX(-100%);
+      transition: transform 0.38s var(--ease);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+    .drawer.open { transform: translateX(0); }
+    .drawer-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--border);
+    }
+    .drawer-head .d-logo {
+      font-family: 'Cormorant', serif;
+      font-size: 20px;
+      letter-spacing: 0.22em;
+      color: #111;
+    }
+    .drawer-close {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 22px;
+      color: #111;
+    }
+    .drawer-nav a {
+      display: block;
+      padding: 14px 22px;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      transition: background 0.15s, color 0.15s;
+    }
+    .drawer-nav a:hover {
+      background: rgba(0,0,0,0.03);
+      color: #000;
+    }
+
+    /* ── Search Overlay ──────────────────────── */
+    .srch-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.98);
+      z-index: 400;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    /* ── 16:9 SWIPABLE HERO CAROUSEL (NO ARROWS) ── */
+    .hero-carousel {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      height: clamp(440px, 78vh, 860px);
+      background: var(--studio-bg);
+      touch-action: pan-y pinch-zoom;
+      user-select: none;
+      cursor: grab;
+    }
+    .hero-carousel:active {
+      cursor: grabbing;
+    }
+    @media (max-width: 768px) {
+      .hero-carousel {
+        height: clamp(380px, 68vh, 580px);
+      }
+    }
+    .hero-slides {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.65s var(--ease);
+      will-change: transform;
+    }
+    .hero-slide {
+      flex: 0 0 100%;
+      width: 100%;
+      height: 100%;
+      position: relative;
+      background: var(--studio-bg);
+      overflow: hidden;
+    }
+
+    /* 16:9 background studio photo */
+    .hero-169-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      transition: transform 1.2s var(--ease);
+    }
+    .hero-slide.active .hero-169-img {
+      transform: scale(1.02);
+    }
+
+    /* Left cursive script text matching screenshot */
+    .hero-left-script {
+      position: absolute;
+      left: clamp(16px, 5.5vw, 84px);
+      top: 48%;
+      transform: translateY(-50%);
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(24px, 4.2vw, 48px);
+      font-weight: 500;
+      color: #1a1a1a;
+      z-index: 3;
+      pointer-events: none;
+      letter-spacing: 0.02em;
+      line-height: 1.15;
+      text-shadow: 0 1px 12px rgba(255,255,255,0.7);
+    }
+
+    /* Right RTW editorial typography matching screenshot */
+    .hero-right-rtw {
+      position: absolute;
+      right: clamp(16px, 5.5vw, 84px);
+      top: 48%;
+      transform: translateY(-50%);
+      text-align: right;
+      z-index: 3;
+      pointer-events: none;
+      text-shadow: 0 1px 12px rgba(255,255,255,0.7);
+    }
+    .rtw-title {
+      font-family: 'Cormorant', Georgia, serif;
+      font-size: clamp(34px, 6.5vw, 72px);
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      color: #1a1a1a;
+      line-height: 1;
+    }
+    .rtw-sub {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(8px, 1.1vw, 11px);
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #333;
+      margin-top: 6px;
+      line-height: 1.4;
+      white-space: nowrap;
+    }
+
+    /* Carousel Minimal Dots (NO ARROWS) */
+    .c-dots {
+      position: absolute;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 7px;
+      z-index: 10;
+    }
+    .c-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.28);
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      transition: all 0.3s ease;
+    }
+    .c-dot.active {
+      background: #111111;
+      width: 24px;
+      border-radius: 4px;
+    }
+
+    /* ── Section Titles ──────────────────────── */
+    .sec-label {
+      text-align: center;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: #111111;
+      margin-bottom: 24px;
+    }
+
+    /* ── Layout Helpers ──────────────────────── */
+    .container {
+      max-width: 1300px;
+      margin-inline: auto;
+      padding-inline: clamp(14px, 3.5vw, 36px);
+    }
+    .sec-pad {
+      padding-block: clamp(44px, 6vw, 76px);
+    }
+
+    /* ── HORIZONTAL SWIPABLE PRODUCT TRACK (ONE LINE) ── */
+    .p-track-outer {
+      width: 100%;
+      position: relative;
+    }
+    .p-track {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; /* Hide scrollbar Firefox */
+      padding-block: 6px 16px;
+      padding-inline: clamp(14px, 3.5vw, 36px);
+      cursor: grab;
+    }
+    .p-track:active {
+      cursor: grabbing;
+    }
+    .p-track::-webkit-scrollbar {
+      display: none; /* Hide scrollbar WebKit */
+    }
+
+    /* Cards in ONE LINE */
+    .p-track .p-card {
+      flex: 0 0 clamp(230px, 66vw, 290px);
+      max-width: 290px;
+      scroll-snap-align: start;
+      background: #ffffff;
+      transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+      border-radius: 4px;
+      overflow: hidden;
+      user-select: none;
+    }
+    @media (min-width: 1180px) {
+      .p-track {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        overflow-x: visible;
+        padding-inline: 0;
+        max-width: 1240px;
+        margin-inline: auto;
+        gap: 18px;
+      }
+      .p-track .p-card {
+        flex: unset;
+        max-width: 100%;
+      }
+    }
+
+    .p-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      position: relative;
+      z-index: 2;
+    }
+    .p-img {
+      position: relative;
+      padding-top: 132%;
+      overflow: hidden;
+      background: #f4f0eb;
+    }
+    .p-img img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      transition: opacity 0.45s ease, transform 0.6s var(--ease);
+      pointer-events: none;
+    }
+    .p-img .ia { opacity: 1; }
+    .p-img .ib { opacity: 0; }
+    .p-card:hover .ia { opacity: 0; transform: scale(1.04); }
+    .p-card:hover .ib { opacity: 1; transform: scale(1.04); }
+
+    .sale-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: var(--sale-red);
+      color: #ffffff;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 2px;
+      z-index: 2;
+    }
+
+    .p-info {
+      padding: 12px 6px 14px;
+      text-align: center;
+    }
+    .p-name {
+      font-size: 12px;
+      font-weight: 400;
+      color: #111111;
+      margin-bottom: 4px;
+      line-height: 1.35;
+      letter-spacing: 0.02em;
+    }
+    .p-price {
+      font-size: 12px;
+      font-weight: 500;
+      color: #111111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .p-price .was {
+      text-decoration: line-through;
+      color: #999999;
+      font-size: 11px;
+      font-weight: 400;
+    }
+    .p-price .now-sale {
+      color: var(--sale-red);
+      font-weight: 500;
+    }
+
+    /* View all button */
+    .view-all-btn {
+      display: inline-block;
+      background: #111111;
+      color: #ffffff;
+      text-align: center;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10.5px;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      padding: 13px 52px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.25s ease, transform 0.2s;
+    }
+    .view-all-btn:hover {
+      background: #333333;
+      transform: translateY(-1px);
+    }
+
+    /* ── 3-BLOCK EDITORIAL (Embroidered, Lawn, Heritage) ── */
+    .edit-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      width: 100%;
+    }
+    @media (max-width: 720px) {
+      .edit-grid { grid-template-columns: 1fr; }
+    }
+    .edit-block {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 3 / 4;
+      cursor: pointer;
+      background: #111;
+    }
+    @media (max-width: 720px) {
+      .edit-block { aspect-ratio: 4 / 3; }
+    }
+    .edit-block img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      transition: transform 0.75s var(--ease);
+    }
+    .edit-block:hover img {
+      transform: scale(1.06);
+    }
+    .edit-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(to top, rgba(0,0,0,0.38) 0%, rgba(0,0,0,0.12) 50%, rgba(0,0,0,0.32) 100%);
+      transition: background 0.3s ease;
+      pointer-events: none;
+      padding: 20px;
+    }
+    .edit-block:hover .edit-overlay {
+      background: linear-gradient(to top, rgba(0,0,0,0.48) 0%, rgba(0,0,0,0.18) 50%, rgba(0,0,0,0.38) 100%);
+    }
+    .edit-title {
+      font-family: 'Cormorant', Georgia, serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(34px, 5.2vw, 56px);
+      color: #ffffff;
+      letter-spacing: 0.04em;
+      text-shadow: 0 2px 20px rgba(0, 0, 0, 0.45);
+      line-height: 1;
+      text-align: center;
+      transition: transform 0.4s var(--ease);
+    }
+    .edit-block:hover .edit-title {
+      transform: scale(1.04);
+    }
+
+    /* ── 16:9 FOOTER CAMPAIGN SHOWCASE ────────── */
+    .bottom-campaign {
+      background: var(--studio-bg);
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+    }
+    .bottom-169-img {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    /* ── Footer ──────────────────────────────── */
+    footer {
+      background: #1a1a1a;
+      color: rgba(255, 255, 255, 0.7);
+      padding: clamp(40px, 6vw, 76px) clamp(16px, 3.5vw, 36px) 28px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: clamp(20px, 4vw, 48px);
+      margin-bottom: 40px;
+      max-width: 1200px;
+      margin-inline: auto;
+    }
+    @media (max-width: 860px) {
+      .footer-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .f-title {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.95);
+      margin-bottom: 14px;
+    }
+    .f-links { list-style: none; }
+    .f-links li { margin-bottom: 9px; }
+    .f-links a {
+      font-size: 11.5px;
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0.55);
+      transition: color 0.2s;
+    }
+    .f-links a:hover { color: #ffffff; }
+
+    .nl-label {
+      text-align: center;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 14px;
+    }
+    .nl-form {
+      display: flex;
+      max-width: 360px;
+      margin-inline: auto;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    .nl-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12.5px;
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0.85);
+      padding: 9px 4px;
+    }
+    .nl-input::placeholder { color: rgba(255, 255, 255, 0.35); }
+    .nl-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.8);
+      padding: 9px 0 9px 14px;
+      transition: color 0.2s;
+    }
+    .nl-btn:hover { color: #ffffff; }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin-inline: auto;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+    }
+    .f-logo-txt {
+      font-family: 'Cormorant', serif;
+      font-size: 22px;
+      letter-spacing: 0.26em;
+      color: rgba(255, 255, 255, 0.9);
+      display: block;
+      margin-bottom: 16px;
+    }
+    .f-social {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .f-social a {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255, 255, 255, 0.6);
+      transition: border-color 0.2s, color 0.2s, transform 0.2s;
+    }
+    .f-social a:hover {
+      border-color: rgba(255, 255, 255, 0.8);
+      color: #ffffff;
+      transform: scale(1.1);
+    }
+    .f-copy {
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      color: rgba(255, 255, 255, 0.35);
+    }
+
+    /* ── Floating WhatsApp ───────────────────── */
+    .wa-bubble {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #25d366;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 100;
+      box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+      color: #ffffff;
+      transition: transform 0.25s ease, box-shadow 0.25s;
+    }
+    .wa-bubble:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 24px rgba(37, 211, 102, 0.55);
+    }
+  </style>
+</head>
+<body>
+
+<!-- Mobile Drawer Overlay -->
+<div class="d-overlay" id="dOverlay" onclick="closeDrawer()"></div>
+<aside class="drawer" id="drawer" aria-label="Mobile Navigation">
+  <div class="drawer-head">
+    <span class="d-logo">ANRAAF STUDIO</span>
+    <button class="drawer-close" onclick="closeDrawer()" aria-label="Close menu">&#x2715;</button>
+  </div>
+  <nav class="drawer-nav">
+    <a href="#">New Arrivals</a>
+    <a href="#">Ready to Wear</a>
+    <a href="#">Embroidered</a>
+    <a href="#">Lawn Collection</a>
+    <a href="#">Heritage</a>
+    <a href="#">Sale</a>
+    <a href="#">About Us</a>
+    <a href="#">Contact</a>
+  </nav>
+</aside>
+
+<!-- Search Overlay -->
+<div class="srch-overlay" id="srchOverlay">
+  <button onclick="closeSrch()" style="position:absolute;top:22px;right:22px;background:none;border:none;cursor:pointer;font-size:24px;color:#111;">&#x2715;</button>
+  <p style="font-family:'Cormorant',serif;font-size:clamp(28px,5vw,46px);font-weight:300;letter-spacing:0.04em;margin-bottom:24px;color:#111;">Search</p>
+  <div style="width:100%;max-width:540px;border-bottom:1.5px solid #111;display:flex;gap:10px;padding-bottom:8px;">
+    <input id="srchIn" type="search" placeholder="Search collection, dresses, styles…" style="flex:1;border:none;outline:none;font-family:'DM Sans';font-size:16px;background:transparent;color:#111;">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+  </div>
+</div>
+
+<!-- ── TOP ANNOUNCEMENT BAR ────────────────────── -->
+<div class="ann-bar" id="annBar">
+  FOR INTERNATIONAL SHIPPING VISIT ANRAAFSTUDIO.COM
+</div>
+
+<!-- ── SMART AUTO-HIDING HEADER ────────────────── -->
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <!-- Left: Hamburger + MENU -->
+    <div class="header-left">
+      <button class="ham-btn" id="hamBtn" onclick="openDrawer()" aria-label="Open menu" aria-expanded="false">
+        <div class="ham-lines"><span></span><span></span><span></span></div>
+        <span>Menu</span>
+      </button>
+    </div>
+
+    <!-- Center: Logo -->
+    <a href="#" class="logo" aria-label="Anraaf Studio – Home">ANRAAF STUDIO</a>
+
+    <!-- Right: Search, Account, Bag (0) -->
+    <div class="header-right">
+      <button class="icon-btn" onclick="openSrch()" aria-label="Search">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+      <a href="#" class="icon-btn" aria-label="Account">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </a>
+      <a href="#" class="icon-btn" aria-label="Cart">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span style="font-size:11px;font-weight:400;margin-left:2px;">(0)</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ── 16:9 SWIPABLE HERO CAROUSEL (NO ARROWS) ── -->
+  <section class="hero-carousel" id="heroCarousel" aria-label="Anraaf Studio Campaign Carousel">
+    <div class="hero-slides" id="heroSlides">
+
+      <!-- Slide 1: 16:9 Black Floral Studio -->
+      <div class="hero-slide active">
+        <img
+          src="assets/WhatsApp_Image_2026-09-28_at_2.54.30_20260928155729 (1).jpg"
+          alt="Anraaf Studio Basics Prints Floral Outfit"
+          class="hero-169-img"
+          fetchpriority="high"
+        />
+        <div class="hero-left-script">
+          Basics Prints
+        </div>
+        <div class="hero-right-rtw">
+          <div class="rtw-title">RTW</div>
+          <div class="rtw-sub">NOW ITS YOUR MOMENT TO FALL IN LOVE !</div>
+        </div>
+      </div>
+
+      <!-- Slide 2: 16:9 Teal Lawn Studio -->
+      <div class="hero-slide">
+        <img
+          src="assets/WhatsApp_Image_2026-09-28_at_2.57.21_20260928161102 (1).jpg"
+          alt="Anraaf Studio Teal Summer Lawn Outfit"
+          class="hero-169-img"
+          loading="lazy"
+        />
+        <div class="hero-left-script">
+          Summer Lawn
+        </div>
+        <div class="hero-right-rtw">
+          <div class="rtw-title">LAWN</div>
+          <div class="rtw-sub">ARTFUL CRAFT FOR EFFORTLESS DAYS !</div>
+        </div>
+      </div>
+
+      <!-- Slide 3: 16:9 Rust Heritage Studio -->
+      <div class="hero-slide">
+        <img
+          src="assets/WhatsApp_Image_2026-09-28_at_2.58.08_20260928160928 (1).jpg"
+          alt="Anraaf Studio Rust Heritage Formal Outfit"
+          class="hero-169-img"
+          loading="lazy"
+        />
+        <div class="hero-left-script">
+          Heritage Edit
+        </div>
+        <div class="hero-right-rtw">
+          <div class="rtw-title">HERITAGE</div>
+          <div class="rtw-sub">TIMELESS MOTIFS EMBROIDERED WITH SOUL !</div>
+        </div>
+      </div>
+
+      <!-- Slide 4: 16:9 Navy Blue Couture Studio -->
+      <div class="hero-slide">
+        <img
+          src="assets/WhatsApp_Image_2026-09-28_at_2.58.51_20260928155847 (1).jpg"
+          alt="Anraaf Studio Navy Midnight Sequin Outfit"
+          class="hero-169-img"
+          loading="lazy"
+        />
+        <div class="hero-left-script">
+          Midnight Luxe
+        </div>
+        <div class="hero-right-rtw">
+          <div class="rtw-title">COUTURE</div>
+          <div class="rtw-sub">WHERE CELEBRATION MEETS POETRY !</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Carousel Minimal Dot Indicators (NO ARROWS) -->
+    <div class="c-dots" id="cDots">
+      <button class="c-dot active" aria-label="Slide 1"></button>
+      <button class="c-dot" aria-label="Slide 2"></button>
+      <button class="c-dot" aria-label="Slide 3"></button>
+      <button class="c-dot" aria-label="Slide 4"></button>
+    </div>
+  </section>
+
+  <!-- ── NEW ARRIVALS (ONE LINE SWIPABLE TRACK) ── -->
+  <section class="sec-pad" aria-label="New Arrivals">
+    <div class="container">
+      <p class="sec-label reveal">NEW ARRIVALS</p>
+    </div>
+
+    <div class="p-track-outer">
+      <div class="p-track stagger" id="newArrivalsTrack">
+
+        <!-- Card 1: Black Floral -->
+        <article class="p-card reveal">
+          <div class="p-img">
+            <img class="ia" src="assets/WhatsApp Image 2026-09-28 at 2.54.30 PM.jpeg" alt="Noir Floral Embroidered Set — full" loading="lazy">
+            <img class="ib" src="assets/WhatsApp Image 2026-09-28 at 2.54.16 PM.jpeg" alt="Noir Floral Embroidered Set — detail" loading="lazy">
+          </div>
+          <div class="p-info">
+            <p class="p-name">Noir Floral Embroidered Set</p>
+            <p class="p-price">Rs. 6,950 PKR</p>
+          </div>
+        </article>
+
+        <!-- Card 2: Teal Lawn -->
+        <article class="p-card reveal">
+          <div class="p-img">
+            <img class="ia" src="assets/WhatsApp Image 2026-09-28 at 2.57.21 PM.jpeg" alt="Teal Blossom Lawn Suit — full" loading="lazy">
+            <img class="ib" src="assets/WhatsApp Image 2026-09-28 at 2.56.45 PM.jpeg" alt="Teal Blossom Lawn Suit — detail" loading="lazy">
+          </div>
+          <div class="p-info">
+            <p class="p-name">Teal Blossom Lawn Suit</p>
+            <p class="p-price">Rs. 6,450 PKR</p>
+          </div>
+        </article>
+
+        <!-- Card 3: Rust Heritage -->
+        <article class="p-card reveal">
+          <div class="p-img">
+            <img class="ia" src="assets/WhatsApp Image 2026-09-28 at 2.58.08 PM.jpeg" alt="Rust Heritage Kurta Set — full" loading="lazy">
+            <img class="ib" src="assets/WhatsApp Image 2026-09-28 at 2.57.54 PM.jpeg" alt="Rust Heritage Kurta Set — detail" loading="lazy">
+          </div>
+          <div class="p-info">
+            <p class="p-name">Rust Heritage Kurta Set</p>
+            <p class="p-price">Rs. 7,250 PKR</p>
+          </div>
+        </article>
+
+        <!-- Card 4: Navy Sequin -->
+        <article class="p-card reveal">
+          <div class="p-img">
+            <img class="ia" src="assets/WhatsApp Image 2026-09-28 at 2.58.51 PM.jpeg" alt="Midnight Baroque Ensemble — full" loading="lazy">
+            <img class="ib" src="assets/WhatsApp Image 2026-09-28 at 2.58.37 PM.jpeg" alt="Midnight Baroque Ensemble — detail" loading="lazy">
+          </div>
+          <div class="p-info">
+            <p class="p-name">Midnight Baroque Ensemble</p>
+            <p class="p-price">Rs. 7,850 PKR</p>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- Centered View All Button -->
+    <div style="text-align:center;margin-top:34px;" class="reveal">
+      <a href="#" class="view-all-btn">View All</a>
+    </div>
+  </section>
+
+  <!-- ── 3-BLOCK EDITORIAL (Embroidered, Lawn, Heritage) ── -->
+  <section aria-label="Collections Editorial Showcase" class="reveal">
+    <div class="edit-grid">
+
+      <!-- Left: Embroidered (Navy Blue Embroidery Closeup) -->
+      <div class="edit-block">
+        <img
+          src="assets/WhatsApp Image 2026-09-28 at 2.58.37 PM.jpeg"
+          alt="Embroidered Collection"
+          loading="lazy"
+        />
+        <div class="edit-overlay">
+          <p class="edit-title">Embroidered</p>
+        </div>
+      </div>
+
+      <!-- Center: Lawn (Teal Floral Lawn Full Suit) -->
+      <div class="edit-block">
+        <img
+          src="assets/WhatsApp Image 2026-09-28 at 2.57.21 PM.jpeg"
+          alt="Lawn Collection"
+          loading="lazy"
+        />
+        <div class="edit-overlay">
+          <p class="edit-title">Lawn</p>
+        </div>
+      </div>
+
+      <!-- Right: Heritage (Rust Heritage Formal Suit) -->
+      <div class="edit-block">
+        <img
+          src="assets/WhatsApp Image 2026-09-28 at 2.58.08 PM.jpeg"
+          alt="Heritage Collection"
+          loading="lazy"
+        />
+        <div class="edit-overlay">
+          <p class="edit-title">Heritage</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── FEATURED COLLECTION (ONE LINE SWIPABLE TRACK) ── -->
+  <section class="sec-pad" aria-label="Featured Collection">
+    <div class="container">
+      <p class="sec-label reveal">FEATURED COLLECTION</p>
+    </div>
+
+    <div class="p-track-outer">
+      <div class="p-track stagger" id="featuredTrack">
+
+        <!-- Card 1: Navy Baroque -->
+        <article class="p-card reveal">
+          <div class="p-img">
+            <img class="ia" src="assets/WhatsApp Image 2026-09-28 at 2.58.51 PM.jpeg" alt="Midnight Sequin Kurta — full" loading="lazy">
+            <img class="ib" src="assets/WhatsApp Image 2026-09-28 at 2.58.37 PM.jpeg" alt="Midnight Sequin Kurta — detail" loading="lazy">
+          </div>
+          <div class="p-info">
+            <p class="p-name">Midnight Sequin Kurta</p>
+            <p class="p-price">Rs. 6,800 PKR</p>
+          </div>
+        </article>
+
+        <!-- Card 2: Black Floral (SALE) -->
+        <article class="p-card reveal">
+          <div class="p-img">
+            <span class="sale-badge">SALE</span>
+            <img class="ia" src="assets/WhatsApp Image 2026-09-28 at 2.54.30 PM.jpeg" alt="Embroidered Cambric Set — full" loading="lazy">
+            <img class="ib" src="assets/WhatsApp Image 2026-09-28 at 2.54.16 PM.jpeg" alt="Embroidered Cambric Set — detail" loading="lazy">
+          </div>
+          <div class="p-info">
+            <p class="p-name">Embroidered Cambric Set</p>
+            <p class="p-price">
+              <span class="was">Rs. 8,500 PKR</span>
+              <span class="now-sale">Rs. 5,950 PKR</span>
+            </p>
+          </div>
+        </article>
+
+        <!-- Card 3: Teal Lawn (SALE) -->
+        <article class="p-card reveal">
+          <div class="p-img">
+            <span class="sale-badge">SALE</span>
+            <img class="ia" src="assets/WhatsApp Image 2026-09-28 at 2.57.21 PM.jpeg" alt="Floral Cambric 3-Piece — full" loading="lazy">
+            <img class="ib" src="assets/WhatsApp Image 2026-09-28 at 2.56.45 PM.jpeg" alt="Floral Cambric 3-Piece — detail" loading="lazy">
+          </div>
+          <div class="p-info">
+            <p class="p-name">Floral Cambric 3-Piece</p>
+            <p class="p-price">
+              <span class="was">Rs. 7,500 PKR</span>
+              <span class="now-sale">Rs. 4,950 PKR</span>
+            </p>
+          </div>
+        </article>
+
+        <!-- Card 4: Rust Heritage (SALE) -->
+        <article class="p-card reveal">
+          <div class="p-img">
+            <span class="sale-badge">SALE</span>
+            <img class="ia" src="assets/WhatsApp Image 2026-09-28 at 2.58.08 PM.jpeg" alt="Heritage Rust Ensemble — full" loading="lazy">
+            <img class="ib" src="assets/WhatsApp Image 2026-09-28 at 2.57.54 PM.jpeg" alt="Heritage Rust Ensemble — detail" loading="lazy">
+          </div>
+          <div class="p-info">
+            <p class="p-name">Heritage Rust Ensemble</p>
+            <p class="p-price">
+              <span class="was">Rs. 9,000 PKR</span>
+              <span class="now-sale">Rs. 5,400 PKR</span>
+            </p>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 16:9 FOOTER CAMPAIGN SHOWCASE ────────── -->
+  <!-- Using the new widescreen 16:9 studio image -->
+  <section class="bottom-campaign reveal" aria-label="Anraaf Studio Campaign Showcase">
+    <img
+      src="assets/WhatsApp_Image_2026-09-28_at_2.54.30_20260928155729 (1).jpg"
+      alt="Anraaf Studio Widescreen 16:9 Campaign"
+      class="bottom-169-img"
+      loading="lazy"
+    />
+  </section>
+
+</main>
+
+<!-- ── FOOTER ──────────────────────────────────────── -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <h3 class="f-title">Quick Links</h3>
+      <ul class="f-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">New Arrivals</a></li>
+        <li><a href="#">Sale</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="f-title">Collections</h3>
+      <ul class="f-links">
+        <li><a href="#">Ready to Wear</a></li>
+        <li><a href="#">Embroidered</a></li>
+        <li><a href="#">Lawn Collection</a></li>
+        <li><a href="#">Heritage Edit</a></li>
+        <li><a href="#">Formal</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="f-title">Help</h3>
+      <ul class="f-links">
+        <li><a href="#">Shipping Policy</a></li>
+        <li><a href="#">Return Policy</a></li>
+        <li><a href="#">Size Guide</a></li>
+        <li><a href="#">Track Order</a></li>
+        <li><a href="#">FAQ</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="f-title">Contact</h3>
+      <ul class="f-links">
+        <li><a href="#">info@anraafstudio.com</a></li>
+        <li><a href="#">+92 300 0000000</a></li>
+        <li><a href="#">Karachi, Pakistan</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Newsletter -->
+  <div style="margin-bottom:34px;max-width:1200px;margin-inline:auto;">
+    <p class="nl-label">Subscribe to our emails</p>
+    <form class="nl-form" onsubmit="handleNL(event)">
+      <input class="nl-input" type="email" placeholder="Email address" aria-label="Email address" required>
+      <button class="nl-btn" type="submit">Subscribe</button>
+    </form>
+  </div>
+
+  <!-- Brand and Socials -->
+  <div class="footer-bottom">
+    <span class="f-logo-txt">ANRAAF STUDIO</span>
+    <div class="f-social">
+      <a href="#" aria-label="Facebook">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+      </a>
+      <a href="#" aria-label="Instagram">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      </a>
+      <a href="#" aria-label="TikTok">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V9.35a8.16 8.16 0 0 0 4.78 1.52V7.42a4.85 4.85 0 0 1-1.01-.73z"/></svg>
+      </a>
+      <a href="#" aria-label="Pinterest">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+      </a>
+      <a href="#" aria-label="YouTube">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/></svg>
+      </a>
+    </div>
+    <p class="f-copy">&copy; 2025 ANRAAF STUDIO. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- Floating WhatsApp Action -->
+<a href="#" class="wa-bubble" aria-label="Chat on WhatsApp">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
+  </svg>
+</a>
+
+<script>
+// ── Drawer Open/Close ─────────────────────────────
+const dOverlay = document.getElementById('dOverlay');
+const drawer   = document.getElementById('drawer');
+const hamBtn   = document.getElementById('hamBtn');
+
+function openDrawer() {
+  dOverlay.classList.add('open');
+  drawer.classList.add('open');
+  hamBtn.classList.add('open');
+  hamBtn.setAttribute('aria-expanded', 'true');
+  document.body.style.overflow = 'hidden';
+}
+function closeDrawer() {
+  dOverlay.classList.remove('open');
+  drawer.classList.remove('open');
+  hamBtn.classList.remove('open');
+  hamBtn.setAttribute('aria-expanded', 'false');
+  document.body.style.overflow = '';
+}
+
+// ── Search Overlay ────────────────────────────────
+const srchOverlay = document.getElementById('srchOverlay');
+function openSrch() {
+  srchOverlay.style.display = 'flex';
+  document.getElementById('srchIn').focus();
+  document.body.style.overflow = 'hidden';
+}
+function closeSrch() {
+  srchOverlay.style.display = 'none';
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeDrawer(); closeSrch(); }
+});
+
+// ── Smart Navbar (Hide on scroll down, reveal on scroll up) ──
+let lastScrollY = window.scrollY;
+const header = document.getElementById('siteHeader');
+
+window.addEventListener('scroll', () => {
+  const currentScrollY = window.scrollY;
+  const delta = currentScrollY - lastScrollY;
+
+  if (currentScrollY <= 20) {
+    // At top of page: restore natural position
+    header.classList.remove('nav-hidden');
+    header.classList.remove('nav-sticky');
+  } else if (delta > 6 && currentScrollY > 70) {
+    // Scrolling down: hide navbar smoothly
+    header.classList.add('nav-hidden');
+    header.classList.remove('nav-sticky');
+  } else if (delta < -4) {
+    // Scrolling up: reveal sticky navbar smoothly
+    header.classList.remove('nav-hidden');
+    header.classList.add('nav-sticky');
+  }
+
+  lastScrollY = currentScrollY;
+}, { passive: true });
+
+// ── 16:9 Hero Carousel Swiper (Touch Swipe + Auto-play) ──
+(function() {
+  const carousel = document.getElementById('heroCarousel');
+  const slides   = document.getElementById('heroSlides');
+  const slideEls = slides.querySelectorAll('.hero-slide');
+  const dots     = [...document.getElementById('cDots').querySelectorAll('.c-dot')];
+  const total    = slideEls.length;
+  let cur = 0;
+  let timer;
+  let startX = 0;
+  let startY = 0;
+  let isSwiping = false;
+
+  function goTo(n) {
+    cur = (n + total) % total;
+    slides.style.transform = `translateX(-${cur * 100}%)`;
+    dots.forEach((d, i) => d.classList.toggle('active', i === cur));
+    slideEls.forEach((s, i) => s.classList.toggle('active', i === cur));
+  }
+  function next() { goTo(cur + 1); }
+  function prev() { goTo(cur - 1); }
+
+  function startAuto() {
+    stopAuto();
+    timer = setInterval(next, 5000);
+  }
+  function stopAuto() {
+    if (timer) clearInterval(timer);
+  }
+
+  dots.forEach((d, i) => d.addEventListener('click', () => {
+    stopAuto(); goTo(i); startAuto();
+  }));
+
+  // Touch Swipe for Mobile
+  carousel.addEventListener('touchstart', e => {
+    stopAuto();
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    isSwiping = true;
+  }, { passive: true });
+
+  carousel.addEventListener('touchmove', e => {
+    if (!isSwiping) return;
+    const dx = e.touches[0].clientX - startX;
+    const dy = e.touches[0].clientY - startY;
+    // If predominantly horizontal swipe, prevent page jank
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 10) {
+      if (e.cancelable) e.preventDefault();
+    }
+  }, { passive: false });
+
+  carousel.addEventListener('touchend', e => {
+    if (!isSwiping) return;
+    isSwiping = false;
+    const dx = e.changedTouches[0].clientX - startX;
+    if (Math.abs(dx) > 35) {
+      dx < 0 ? next() : prev();
+    }
+    startAuto();
+  }, { passive: true });
+
+  // Mouse Drag for Desktop
+  let isPointerDown = false;
+  carousel.addEventListener('pointerdown', e => {
+    if (e.pointerType === 'touch') return; // Handled by touch events
+    isPointerDown = true;
+    startX = e.clientX;
+    stopAuto();
+    carousel.setPointerCapture(e.pointerId);
+  });
+  carousel.addEventListener('pointerup', e => {
+    if (!isPointerDown) return;
+    isPointerDown = false;
+    const dx = e.clientX - startX;
+    if (Math.abs(dx) > 40) {
+      dx < 0 ? next() : prev();
+    }
+    startAuto();
+  });
+
+  // Keyboard navigation
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') { stopAuto(); next(); startAuto(); }
+    if (e.key === 'ArrowLeft')  { stopAuto(); prev(); startAuto(); }
+  });
+
+  carousel.addEventListener('mouseenter', stopAuto);
+  carousel.addEventListener('mouseleave', startAuto);
+
+  startAuto();
+})();
+
+// ── Horizontal Drag/Swipe Helper for Product Tracks ──
+function enableDragScroll(track) {
+  if (!track) return;
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+
+  track.addEventListener('mousedown', e => {
+    isDown = true;
+    track.style.cursor = 'grabbing';
+    startX = e.pageX - track.offsetLeft;
+    scrollLeft = track.scrollLeft;
+  });
+  track.addEventListener('mouseleave', () => {
+    isDown = false;
+    track.style.cursor = 'grab';
+  });
+  track.addEventListener('mouseup', () => {
+    isDown = false;
+    track.style.cursor = 'grab';
+  });
+  track.addEventListener('mousemove', e => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - track.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    track.scrollLeft = scrollLeft - walk;
+  });
+}
+enableDragScroll(document.getElementById('newArrivalsTrack'));
+enableDragScroll(document.getElementById('featuredTrack'));
+
+// ── Scroll Reveal Fallback ────────────────────────
+if (!CSS.supports('(animation-timeline:view()) and (animation-range:entry)')) {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const p = e.target.parentElement;
+        if (p && p.classList.contains('stagger')) {
+          const s = [...p.children].filter(c => c.classList.contains('reveal'));
+          e.target.style.transitionDelay = `${s.indexOf(e.target) * 0.08}s`;
+        }
+        e.target.classList.add('in');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+}
+
+// ── Newsletter Form ───────────────────────────────
+function handleNL(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('button');
+  const orig = btn.textContent;
+  btn.textContent = 'Subscribed!';
+  e.target.querySelector('input').value = '';
+  setTimeout(() => { btn.textContent = orig; }, 3000);
+}
+</script>
+</body>
+</html>
