@@ -621,14 +621,15 @@
       background: linear-gradient(to top, rgba(0,0,0,0.48) 0%, rgba(0,0,0,0.18) 50%, rgba(0,0,0,0.38) 100%);
     }
     .edit-title {
-      font-family: 'Cormorant', Georgia, serif;
-      font-style: italic;
-      font-weight: 300;
-      font-size: clamp(34px, 5.2vw, 56px);
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-style: normal;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: clamp(22px, 3.6vw, 38px);
       color: #ffffff;
-      letter-spacing: 0.04em;
-      text-shadow: 0 2px 20px rgba(0, 0, 0, 0.45);
-      line-height: 1;
+      letter-spacing: 0.16em;
+      text-shadow: 0 2px 25px rgba(0, 0, 0, 0.7);
+      line-height: 1.1;
       text-align: center;
       transition: transform 0.4s var(--ease);
     }
@@ -822,31 +823,20 @@
     <button class="drawer-close" onclick="closeDrawer()" aria-label="Close menu">&#x2715;</button>
   </div>
   <nav class="drawer-nav">
-    <a href="#">New Arrivals</a>
-    <a href="#">Ready to Wear</a>
-    <a href="#">Embroidered</a>
-    <a href="#">Lawn Collection</a>
-    <a href="#">Heritage</a>
-    <a href="#">Sale</a>
-    <a href="#">About Us</a>
-    <a href="#">Contact</a>
+    <a href="./store.html">All Collections</a>
+    <a href="./store.html?category=ready-to-wear">Ready to Wear</a>
+    <a href="./store.html?category=embroidered">Embroidered</a>
+    <a href="./store.html?category=lawn">Lawn Collection</a>
+    <a href="./store.html?category=heritage">Heritage Edit</a>
+    <a href="./checkout.html">Shopping Bag / Checkout</a>
+    <a href="https://wa.me/923000000000" target="_blank" rel="noopener">WhatsApp Concierge</a>
   </nav>
 </aside>
-
-<!-- Search Overlay -->
-<div class="srch-overlay" id="srchOverlay">
-  <button onclick="closeSrch()" style="position:absolute;top:22px;right:22px;background:none;border:none;cursor:pointer;font-size:24px;color:#111;">&#x2715;</button>
-  <p style="font-family:'Cormorant',serif;font-size:clamp(28px,5vw,46px);font-weight:300;letter-spacing:0.04em;margin-bottom:24px;color:#111;">Search</p>
-  <div style="width:100%;max-width:540px;border-bottom:1.5px solid #111;display:flex;gap:10px;padding-bottom:8px;">
-    <input id="srchIn" type="search" placeholder="Search collection, dresses, styles…" style="flex:1;border:none;outline:none;font-family:'DM Sans';font-size:16px;background:transparent;color:#111;">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-  </div>
-</div>
 
 <!-- ── SMART AUTO-HIDING HEADER ────────────────── -->
 <header class="site-header" id="siteHeader">
   <div class="header-inner">
-    <!-- Left: Hamburger icon only (Menu text removed) -->
+    <!-- Left: Hamburger icon only -->
     <div class="header-left">
       <button class="ham-btn" id="hamBtn" onclick="openDrawer()" aria-label="Open menu" aria-expanded="false">
         <div class="ham-lines"><span></span><span></span><span></span></div>
@@ -854,16 +844,13 @@
     </div>
 
     <!-- Center: Logo ANRAF only -->
-    <a href="#" class="logo" aria-label="ANRAF – Home">ANRAF</a>
+    <a href="./index.html" class="logo" aria-label="ANRAF – Home">ANRAF</a>
 
-    <!-- Right: Search and Cart moved to the right (Login removed) -->
+    <!-- Right: Cart only (Search icon removed as requested) -->
     <div class="header-right">
-      <button class="icon-btn" onclick="openSrch()" aria-label="Search">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      </button>
-      <a href="#" class="icon-btn" aria-label="Cart">
+      <a href="./checkout.html" class="icon-btn" id="headerCartBtn" aria-label="Cart">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-        <span style="font-size:11px;font-weight:400;margin-left:2px;">(0)</span>
+        <span id="navCartCount" style="font-size:11px;font-weight:500;margin-left:3px;">(0)</span>
       </a>
     </div>
   </div>
@@ -981,7 +968,7 @@
     <div class="edit-grid">
 
       <!-- Left: Embroidered (Navy Blue Embroidery Closeup) -->
-      <a href="./store.html?category=embroidery" class="edit-block">
+      <a href="./store.html?category=embroidered" class="edit-block">
         <img
           src="assets/WhatsApp Image 2026-09-28 at 2.58.37 PM.jpeg"
           alt="Embroidered Collection"
@@ -1057,39 +1044,39 @@
     <div>
       <h3 class="f-title">Quick Links</h3>
       <ul class="f-links">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">About Us</a></li>
-        <li><a href="#">New Arrivals</a></li>
-        <li><a href="#">Sale</a></li>
-        <li><a href="#">Contact</a></li>
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="./store.html">All Collections</a></li>
+        <li><a href="./store.html?category=lawn">Lawn Series</a></li>
+        <li><a href="./store.html?category=embroidered">Embroidered Pret</a></li>
+        <li><a href="./checkout.html">Shopping Bag</a></li>
       </ul>
     </div>
     <div>
       <h3 class="f-title">Collections</h3>
       <ul class="f-links">
-        <li><a href="#">Ready to Wear</a></li>
-        <li><a href="#">Embroidered</a></li>
-        <li><a href="#">Lawn Collection</a></li>
-        <li><a href="#">Heritage Edit</a></li>
-        <li><a href="#">Formal</a></li>
+        <li><a href="./store.html?category=ready-to-wear">Ready to Wear</a></li>
+        <li><a href="./store.html?category=embroidered">Embroidered</a></li>
+        <li><a href="./store.html?category=lawn">Lawn Collection</a></li>
+        <li><a href="./store.html?category=heritage">Heritage Edit</a></li>
+        <li><a href="./store.html">All Garments</a></li>
       </ul>
     </div>
     <div>
-      <h3 class="f-title">Help</h3>
+      <h3 class="f-title">Customer Care</h3>
       <ul class="f-links">
-        <li><a href="#">Shipping Policy</a></li>
-        <li><a href="#">Return Policy</a></li>
-        <li><a href="#">Size Guide</a></li>
-        <li><a href="#">Track Order</a></li>
-        <li><a href="#">FAQ</a></li>
+        <li><a href="./checkout.html">Track Order</a></li>
+        <li><a href="https://wa.me/923000000000" target="_blank" rel="noopener">WhatsApp Concierge</a></li>
+        <li><a href="./checkout.html">Cash on Delivery</a></li>
+        <li><a href="./store.html">Free Nationwide Shipping</a></li>
+        <li><a href="https://wa.me/923000000000" target="_blank" rel="noopener">Size & Fit Inquiries</a></li>
       </ul>
     </div>
     <div>
-      <h3 class="f-title">Contact</h3>
+      <h3 class="f-title">Contact & Studio</h3>
       <ul class="f-links">
-        <li><a href="#">info@anraafstudio.com</a></li>
-        <li><a href="#">+92 300 0000000</a></li>
-        <li><a href="#">Karachi, Pakistan</a></li>
+        <li><a href="mailto:info@anraafstudio.com">info@anraafstudio.com</a></li>
+        <li><a href="https://wa.me/923000000000" target="_blank" rel="noopener">+92 300 0000000</a></li>
+        <li><span>Karachi, Pakistan</span></li>
       </ul>
     </div>
   </div>
@@ -1155,20 +1142,23 @@ function closeDrawer() {
   document.body.style.overflow = '';
 }
 
-// ── Search Overlay ────────────────────────────────
-const srchOverlay = document.getElementById('srchOverlay');
-function openSrch() {
-  srchOverlay.style.display = 'flex';
-  document.getElementById('srchIn').focus();
-  document.body.style.overflow = 'hidden';
-}
-function closeSrch() {
-  srchOverlay.style.display = 'none';
-  document.body.style.overflow = '';
-}
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') { closeDrawer(); closeSrch(); }
+  if (e.key === 'Escape') { closeDrawer(); }
 });
+
+// ── Real-time Cart Count Synchronizer ──────────
+function updateCartCount() {
+  try {
+    const raw = localStorage.getItem('cart:v1');
+    const items = raw ? JSON.parse(raw) : [];
+    const count = items.reduce((sum, item) => sum + (Number(item.qty) || 1), 0);
+    const el = document.getElementById('navCartCount');
+    if (el) el.textContent = `(${count})`;
+  } catch {}
+}
+updateCartCount();
+window.addEventListener('storage', updateCartCount);
+window.addEventListener('cart:updated', updateCartCount);
 
 // ── Smart Navbar (Hide on scroll down, reveal on scroll up) ──
 let lastScrollY = window.scrollY;
@@ -1179,15 +1169,12 @@ window.addEventListener('scroll', () => {
   const delta = currentScrollY - lastScrollY;
 
   if (currentScrollY <= 20) {
-    // At top of page: restore natural position
     header.classList.remove('nav-hidden');
     header.classList.remove('nav-sticky');
   } else if (delta > 6 && currentScrollY > 70) {
-    // Scrolling down: hide navbar smoothly
     header.classList.add('nav-hidden');
     header.classList.remove('nav-sticky');
   } else if (delta < -4) {
-    // Scrolling up: reveal sticky navbar smoothly
     header.classList.remove('nav-hidden');
     header.classList.add('nav-sticky');
   }
@@ -1195,7 +1182,7 @@ window.addEventListener('scroll', () => {
   lastScrollY = currentScrollY;
 }, { passive: true });
 
-// ── 16:9 Hero Carousel Swiper (Touch Swipe + Auto-play) ──
+// ── 16:9 Hero Carousel Swiper (Touch Swipe + Click to Shop) ──
 (function() {
   const carousel = document.getElementById('heroCarousel');
   const slides   = document.getElementById('heroSlides');
@@ -1207,6 +1194,7 @@ window.addEventListener('scroll', () => {
   let startX = 0;
   let startY = 0;
   let isSwiping = false;
+  let wasDragged = false;
 
   function goTo(n) {
     cur = (n + total) % total;
@@ -1225,7 +1213,8 @@ window.addEventListener('scroll', () => {
     if (timer) clearInterval(timer);
   }
 
-  dots.forEach((d, i) => d.addEventListener('click', () => {
+  dots.forEach((d, i) => d.addEventListener('click', (e) => {
+    e.stopPropagation();
     stopAuto(); goTo(i); startAuto();
   }));
 
@@ -1235,13 +1224,16 @@ window.addEventListener('scroll', () => {
     startX = e.touches[0].clientX;
     startY = e.touches[0].clientY;
     isSwiping = true;
+    wasDragged = false;
   }, { passive: true });
 
   carousel.addEventListener('touchmove', e => {
     if (!isSwiping) return;
     const dx = e.touches[0].clientX - startX;
     const dy = e.touches[0].clientY - startY;
-    // If predominantly horizontal swipe, prevent page jank
+    if (Math.abs(dx) > 12 || Math.abs(dy) > 12) {
+      wasDragged = true;
+    }
     if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 10) {
       if (e.cancelable) e.preventDefault();
     }
@@ -1260,11 +1252,19 @@ window.addEventListener('scroll', () => {
   // Mouse Drag for Desktop
   let isPointerDown = false;
   carousel.addEventListener('pointerdown', e => {
-    if (e.pointerType === 'touch') return; // Handled by touch events
+    if (e.pointerType === 'touch') return;
     isPointerDown = true;
+    wasDragged = false;
     startX = e.clientX;
+    startY = e.clientY;
     stopAuto();
     carousel.setPointerCapture(e.pointerId);
+  });
+  carousel.addEventListener('pointermove', e => {
+    if (!isPointerDown) return;
+    if (Math.abs(e.clientX - startX) > 10 || Math.abs(e.clientY - startY) > 10) {
+      wasDragged = true;
+    }
   });
   carousel.addEventListener('pointerup', e => {
     if (!isPointerDown) return;
@@ -1274,6 +1274,14 @@ window.addEventListener('scroll', () => {
       dx < 0 ? next() : prev();
     }
     startAuto();
+  });
+
+  // Clicking on carousel opens shop page (unless dragged or clicked a dot)
+  carousel.addEventListener('click', e => {
+    if (e.target.closest('#cDots') || e.target.closest('.c-dot')) return;
+    if (!wasDragged) {
+      window.location.href = './store.html';
+    }
   });
 
   // Keyboard navigation

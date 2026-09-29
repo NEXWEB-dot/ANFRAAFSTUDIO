@@ -46,9 +46,6 @@
       <a href="./index.html" class="logo" aria-label="ANRAF Home">ANRAF</a>
 
       <div class="header-right">
-        <button class="icon-btn" id="openSearchBtn" aria-label="Search">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        </button>
         <button class="icon-btn" id="cartBtn" aria-label="Cart">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
           <span class="cart-badge" id="navCartCount">(0)</span>
@@ -67,26 +64,14 @@
     <nav class="drawer-nav">
       <a href="./index.html">Home</a>
       <a href="./store.html">All Collections</a>
-      <a href="./store.html?category=lawn">Lawn Collection</a>
-      <a href="./store.html?category=embroidery">Embroidered</a>
-      <a href="./store.html?category=heritage">Heritage</a>
       <a href="./store.html?category=ready-to-wear">Ready to Wear</a>
-      <a href="./checkout.html">Checkout</a>
+      <a href="./store.html?category=embroidered">Embroidered</a>
+      <a href="./store.html?category=lawn">Lawn Collection</a>
+      <a href="./store.html?category=heritage">Heritage Edit</a>
+      <a href="./checkout.html">Shopping Bag / Checkout</a>
+      <a href="https://wa.me/923000000000" target="_blank" rel="noopener">WhatsApp Concierge</a>
     </nav>
   </aside>
-
-  <!-- ── SEARCH OVERLAY ──────────────────────────────────────── -->
-  <div class="srch-overlay" id="srchOverlay" role="dialog" aria-modal="true" aria-label="Search">
-    <button id="srchClose" style="position:absolute;top:24px;right:24px;background:none;border:none;font-size:28px;cursor:pointer;">&times;</button>
-    <div class="srch-inner">
-      <p style="font-family:var(--font-serif);font-size:2.2rem;font-weight:300;text-align:center;">Search Collection</p>
-      <div class="srch-bar">
-        <input type="search" id="srchInput" placeholder="Search lawn, embroidered, formal..." autocomplete="off">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      </div>
-      <div class="srch-results" id="srchResults"></div>
-    </div>
-  </div>
 
 
   <!-- ── STICKY FILTER BAR ───────────────────────────────────── -->
@@ -221,17 +206,6 @@
     cartClose.addEventListener('click', closeCart);
     cartOverlay.addEventListener('click', closeCart);
 
-    // ── Search Overlay ───────────────────────────────────────
-    const srchOverlay = document.getElementById('srchOverlay');
-    const openSearchBtn = document.getElementById('openSearchBtn');
-    const srchClose = document.getElementById('srchClose');
-    const srchInput = document.getElementById('srchInput');
-    const srchResults = document.getElementById('srchResults');
-    openSearchBtn.addEventListener('click', () => {
-      srchOverlay.classList.add('open');
-      srchInput.focus();
-    });
-    srchClose.addEventListener('click', () => srchOverlay.classList.remove('open'));
 
     // ── Product Rendering & Filtering ───────────────────────
     let catalogData = mergeAdminProducts(DEFAULT_CATALOG);
