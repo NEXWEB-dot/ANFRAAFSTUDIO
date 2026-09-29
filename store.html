@@ -300,19 +300,7 @@
               <span class="${isSale ? 'p-now-sale' : ''}">${formatPrice(p.price)}</span>
             </div>
           </div>
-          <button type="button" class="quick-add-btn" ${!p.in_stock ? 'disabled' : ''}>
-            ${p.in_stock ? '+ Quick Add' : 'Sold Out'}
-          </button>
         `;
-
-        const addBtn = card.querySelector('.quick-add-btn');
-        if (p.in_stock && addBtn) {
-          addBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            addToCart(p.id, 1, 'Unstitched');
-            openCart();
-          });
-        }
 
         grid.appendChild(card);
       }

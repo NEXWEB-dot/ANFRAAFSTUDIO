@@ -363,23 +363,7 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
 }
 .p-now-sale { color: var(--sale-red); font-weight: 600; }
 
-.quick-add-btn {
-  margin-top: 0.75rem;
-  background: transparent;
-  border: 1px solid var(--ink);
-  color: var(--ink);
-  padding: 7px 14px;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-weight: 500;
-  transition: all 0.25s ease;
-  width: 100%;
-}
-.quick-add-btn:hover {
-  background: var(--ink);
-  color: var(--white);
-}
+
 
 /* ── PRODUCT DETAIL PAGE ────────────────────────────────────────────── */
 .product-page-container {
