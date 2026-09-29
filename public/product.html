@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product — ANRAF</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/store.css">
+  <script>
+    window.STORE_CONFIG = {
+      cdnOrigin: '',
+      whatsappUrl: 'https://wa.me/923000000000'
+    };
+  </script>
+</head>
+<body>
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <a href="/" class="logo">ANRAF</a>
+      <div class="header-right">
+        <a href="/cart.html" class="icon-btn cart-icon" aria-label="Cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span class="cart-count" id="cart-count">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE DRAWER -->
+  <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Navigation menu">
+    <button class="drawer-close" id="drawer-close" aria-label="Close menu">&times;</button>
+    <a class="drawer-logo" href="/">ANRAF</a>
+    <nav class="drawer-nav">
+      <a href="/store.html">Shop All</a>
+      <a href="/store.html?category=lawn">Lawn</a>
+      <a href="/store.html?category=embroidery">Embroidery</a>
+      <a href="/store.html?category=heritage">Heritage</a>
+    </nav>
+  </div>
+  <div class="drawer-overlay" id="drawer-overlay"></div>
+
+  <main class="product-main" id="product-main">
+    <div class="product-detail" id="product-detail">
+      <div class="product-gallery" id="product-gallery"></div>
+      <div class="product-info" id="product-info"></div>
+    </div>
+    <p id="product-not-found" class="not-found-msg" hidden>Product not found. <a href="/store.html" style="text-decoration: underline;">Browse all products</a></p>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-brand">ANRAF</p>
+    <p class="footer-copy">© 2026 ANRAF Studio.</p>
+  </footer>
+
+  <script type="module">
+    import { loadCatalog, getProductBySlug } from '/js/catalog.js';
+    import { getCartCount, addToCart } from '/js/cart.js';
+
+    const slug = new URLSearchParams(location.search).get('slug') ?? '';
+    if (!slug) { window.location.href = '/store.html'; }
+
+    function updateBadge() {
+      const el = document.getElementById('cart-count');
+      if (el) el.textContent = getCartCount();
+    }
+    updateBadge();
+    addEventListener('cart:updated', updateBadge);
+
+    const drawer = document.getElementById('drawer');
+    const overlay = document.getElementById('drawer-overlay');
+    const hamburger = document.getElementById('hamburger');
+    function openDrawer() { drawer.classList.add('open'); overlay.classList.add('open'); hamburger.setAttribute('aria-expanded', 'true'); document.body.style.overflow = 'hidden'; }
+    function closeDrawer() { drawer.classList.remove('open'); overlay.classList.remove('open'); hamburger.setAttribute('aria-expanded', 'false'); document.body.style.overflow = ''; }
+    hamburger.addEventListener('click', openDrawer);
+    document.getElementById('drawer-close').addEventListener('click', closeDrawer);
+    overlay.addEventListener('click', closeDrawer);
+
+    let lastY = 0;
+    const header = document.getElementById('site-header');
+    addEventListener('scroll', () => {
+      const y = scrollY;
+      const delta = y - lastY;
+      if (delta > 6 && y > 70) header.classList.add('nav-hidden');
+      else if (delta < -4) header.classList.remove('nav-hidden');
+      lastY = y;
+    }, { passive: true });
+
+    loadCatalog((data) => {
+      if (!data) return;
+      const p = getProductBySlug(data, slug);
+      if (!p) {
+        document.getElementById('product-not-found').hidden = false;
+        return;
+      }
+
+      document.title = `${p.name} — ANRAF`;
+
+      const gallery = document.getElementById('product-gallery');
+      gallery.innerHTML = '';
+      if (p.images?.length) {
+        const mainImg = document.createElement('img');
+        mainImg.className = 'gallery-main';
+        mainImg.src = p.images[0].url;
+        mainImg.alt = p.name;
+        gallery.appendChild(mainImg);
+
+        if (p.images.length > 1) {
+          const thumbs = document.createElement('div');
+          thumbs.className = 'gallery-thumbs';
+          p.images.forEach((img, i) => {
+            const t = document.createElement('img');
+            t.src = img.thumb || img.url;
+            t.alt = `${p.name} view ${i + 1}`;
+            t.className = 'gallery-thumb' + (i === 0 ? ' active' : '');
+            t.addEventListener('click', () => {
+              mainImg.src = img.url;
+              thumbs.querySelectorAll('.gallery-thumb').forEach((el) => el.classList.remove('active'));
+              t.classList.add('active');
+            });
+            thumbs.appendChild(t);
+          });
+          gallery.appendChild(thumbs);
+        }
+      } else {
+        const placeholder = document.createElement('div');
+        placeholder.className = 'gallery-placeholder';
+        placeholder.textContent = 'No image available';
+        gallery.appendChild(placeholder);
+      }
+
+      const info = document.getElementById('product-info');
+      info.innerHTML = '';
+
+      if (p.category) {
+        const cat = document.createElement('span');
+        cat.className = 'product-category';
+        cat.textContent = p.category;
+        info.appendChild(cat);
+      }
+
+      const h1 = document.createElement('h1');
+      h1.className = 'product-title';
+      h1.textContent = p.name;
+      info.appendChild(h1);
+
+      const priceRow = document.createElement('div');
+      priceRow.className = 'price-row';
+      const priceEl = document.createElement('span');
+      priceEl.className = 'price';
+      priceEl.textContent = 'PKR ' + Number(p.price).toLocaleString('en-PK');
+      priceRow.appendChild(priceEl);
+      if (p.compare_at_price && Number(p.compare_at_price) > Number(p.price)) {
+        const comp = document.createElement('span');
+        comp.className = 'compare-price';
+        comp.textContent = 'PKR ' + Number(p.compare_at_price).toLocaleString('en-PK');
+        priceRow.appendChild(comp);
+      }
+      info.appendChild(priceRow);
+
+      if (p.description) {
+        const desc = document.createElement('p');
+        desc.className = 'product-description';
+        desc.textContent = p.description;
+        info.appendChild(desc);
+      }
+
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'add-to-cart-btn large';
+      if (p.in_stock) {
+        btn.textContent = 'Add to Cart';
+        btn.addEventListener('click', () => {
+          addToCart(p.id);
+          btn.textContent = 'Added to Cart ✓';
+          setTimeout(() => { btn.textContent = 'Add to Cart'; }, 2000);
+        });
+      } else {
+        btn.textContent = 'Sold Out';
+        btn.disabled = true;
+      }
+      info.appendChild(btn);
+
+      const wa = document.createElement('a');
+      wa.href = `${window.STORE_CONFIG?.whatsappUrl ?? '#'}&text=${encodeURIComponent('Hi ANRAF, I want to order ' + p.name)}`;
+      wa.target = '_blank';
+      wa.rel = 'noopener';
+      wa.className = 'btn-whatsapp';
+      wa.textContent = 'Order via WhatsApp';
+      info.appendChild(wa);
+    });
+  </script>
+</body>
+</html>

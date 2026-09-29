@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Confirmed — ANRAF</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/store.css">
+  <script>window.STORE_CONFIG = { whatsappUrl: 'https://wa.me/923000000000' };</script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="logo">ANRAF</a>
+    </div>
+  </header>
+
+  <main class="confirmation-main">
+    <div class="confirmation-box">
+      <div class="confirmation-icon">✓</div>
+      <h1 class="confirmation-title">Order Received</h1>
+      <p class="confirmation-subtitle" id="confirmation-sub">Thank you for your order.</p>
+      <p class="confirmation-offline" id="confirmation-offline" hidden style="background: #fff3cd; color: #a05c00; padding: 0.75rem; margin: 1rem 0; font-size: 0.9rem;">
+        Note: Captured in offline reserve. Your order is secured and will sync automatically.
+      </p>
+      <p class="confirmation-ref">Order Reference: <strong id="order-ref"></strong></p>
+      <p class="confirmation-total">Total Amount: <strong id="order-total"></strong></p>
+      
+      <div style="margin: 2rem 0 1.5rem;">
+        <a id="whatsapp-link" href="#" class="btn-whatsapp" target="_blank" rel="noopener" style="display: block; width: 100%; text-align: center;">
+          Confirm via WhatsApp
+        </a>
+      </div>
+      <a href="/store.html" class="btn-continue">Return to Store</a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-brand">ANRAF</p>
+    <p class="footer-copy">© 2026 ANRAF Studio.</p>
+  </footer>
+
+  <script>
+    const p = new URLSearchParams(location.search);
+    const ref = p.get('ref') ?? '';
+    const total = p.get('total') ?? '0';
+    const offline = p.get('offline') === '1';
+
+    const refEl = document.getElementById('order-ref');
+    const totalEl = document.getElementById('order-total');
+    const subEl = document.getElementById('confirmation-sub');
+    const offlineEl = document.getElementById('confirmation-offline');
+    const waLink = document.getElementById('whatsapp-link');
+
+    if (refEl) refEl.textContent = ref || 'Pending';
+    if (totalEl) totalEl.textContent = 'PKR ' + Number(total).toLocaleString('en-PK');
+    if (subEl) subEl.textContent = offline
+      ? 'We have safely received your order and will confirm delivery via WhatsApp shortly.'
+      : 'Thank you for choosing ANRAF. Our team will verify your delivery details via WhatsApp shortly.';
+    if (offline && offlineEl) offlineEl.hidden = false;
+    
+    const waBase = window.STORE_CONFIG?.whatsappUrl ?? 'https://wa.me/923000000000';
+    if (waLink) waLink.href = `${waBase}?text=${encodeURIComponent('Hello ANRAF, I just placed order #' + (ref || 'pending') + ' for PKR ' + total)}`;
+  </script>
+</body>
+</html>

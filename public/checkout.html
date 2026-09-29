@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout — ANRAF</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/store.css">
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  <script>
+    window.STORE_CONFIG = {
+      cdnOrigin: '',
+      whatsappUrl: 'https://wa.me/923000000000'
+    };
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="logo">ANRAF</a>
+      <div class="header-right">
+        <a href="/cart.html" class="icon-btn cart-icon" aria-label="Back to cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="checkout-main">
+    <h1 class="page-title">Secure Checkout</h1>
+    <div class="checkout-layout">
+      <form class="checkout-form" id="checkout-form" novalidate>
+        <!-- Honeypot (hidden from real users, must stay empty) -->
+        <input type="text" name="hp" autocomplete="off" tabindex="-1" aria-hidden="true" style="display:none">
+
+        <fieldset class="form-section">
+          <legend>Delivery Details</legend>
+
+          <label for="name">Full Name *</label>
+          <input type="text" id="name" name="name" required autocomplete="name"
+                 minlength="1" maxlength="100" placeholder="e.g. Fatima Khan">
+
+          <label for="phone">Phone Number *</label>
+          <input type="tel" id="phone" name="phone" required autocomplete="tel"
+                 placeholder="e.g. 0300 1234567">
+
+          <label for="address">Complete Shipping Address *</label>
+          <textarea id="address" name="address" required autocomplete="street-address"
+                    rows="3" maxlength="500" placeholder="House/Apartment #, Street, Area, City"></textarea>
+
+          <label for="notes">Order Notes / Custom Requests (Optional)</label>
+          <textarea id="notes" name="notes" rows="2" maxlength="500"
+                    placeholder="Specific delivery timing, stitching notes, etc."></textarea>
+        </fieldset>
+
+        <!-- Turnstile widget -->
+        <div style="margin: 1.5rem 0;">
+          <div class="cf-turnstile"
+               data-sitekey="0x4AAAAAAAMm_exampleSiteKey"
+               data-theme="light"
+               data-action="checkout"
+               aria-label="Security check"></div>
+        </div>
+
+        <div id="checkout-error" class="checkout-error" aria-live="polite"></div>
+
+        <button type="submit" class="btn-checkout" id="submit-btn">Place Order (Cash on Delivery)</button>
+
+        <p class="checkout-note">
+          No advance payment required. Our concierge will contact you via WhatsApp to confirm dispatch.
+        </p>
+      </form>
+
+      <!-- Order summary -->
+      <div class="checkout-sidebar">
+        <h2 style="font-family: var(--font-serif); font-size: 1.4rem; margin-bottom: 1.25rem;">Order Summary</h2>
+        <div id="cart-summary"></div>
+        <div class="summary-total-row">
+          <span>Total Payable</span>
+          <span id="cart-total">PKR 0</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-brand">ANRAF</p>
+    <p class="footer-copy">© 2026 ANRAF Studio.</p>
+  </footer>
+
+  <script type="module" src="/js/checkout.js"></script>
+</body>
+</html>

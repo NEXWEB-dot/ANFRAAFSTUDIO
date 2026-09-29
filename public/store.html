@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop — ANRAF</title>
+  <meta name="description" content="Browse the ANRAF Studio collection. Premium lawn, embroidery and heritage wear.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/store.css">
+  <script>
+    window.STORE_CONFIG = {
+      cdnOrigin: '', // Replace with e.g. https://cdn.anrafstudio.com or leave empty for local fallback
+      whatsappUrl: 'https://wa.me/923000000000'
+    };
+  </script>
+</head>
+<body>
+  <!-- NAV -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <a href="/" class="logo" aria-label="ANRAF home">ANRAF</a>
+      <div class="header-right">
+        <button class="icon-btn" id="search-btn" aria-label="Search">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+        <a href="/cart.html" class="icon-btn cart-icon" aria-label="Cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span class="cart-count" id="cart-count" aria-live="polite">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE DRAWER -->
+  <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Navigation menu">
+    <button class="drawer-close" id="drawer-close" aria-label="Close menu">&times;</button>
+    <a class="drawer-logo" href="/">ANRAF</a>
+    <nav class="drawer-nav">
+      <a href="/store.html">Shop All</a>
+      <a href="/store.html?category=lawn">Lawn</a>
+      <a href="/store.html?category=embroidery">Embroidery</a>
+      <a href="/store.html?category=heritage">Heritage</a>
+    </nav>
+  </div>
+  <div class="drawer-overlay" id="drawer-overlay"></div>
+
+  <!-- SEARCH MODAL -->
+  <div class="search-modal" id="search-modal" role="dialog" aria-modal="true" aria-label="Search">
+    <div class="search-inner">
+      <input type="search" id="search-input" placeholder="Search products…" autocomplete="off" aria-label="Search products">
+      <button class="search-close" id="search-close" aria-label="Close search">&times;</button>
+    </div>
+    <div class="search-results" id="search-results"></div>
+  </div>
+
+  <!-- FILTERS BAR -->
+  <div class="filters-bar">
+    <div class="filters-inner">
+      <div class="filter-group">
+        <label for="category-filter" class="sr-only">Category</label>
+        <select id="category-filter" class="filter-select">
+          <option value="">All Categories</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="sort-select" class="sr-only">Sort</label>
+        <select id="sort-select" class="filter-select">
+          <option value="default">Sort: Featured</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+          <option value="name">Name A–Z</option>
+        </select>
+      </div>
+      <div class="results-count" id="results-count"></div>
+    </div>
+  </div>
+
+  <!-- PRODUCT GRID -->
+  <main class="store-main" id="store-main">
+    <div class="product-grid" id="product-grid">
+      <div class="product-card skeleton"></div>
+      <div class="product-card skeleton"></div>
+      <div class="product-card skeleton"></div>
+      <div class="product-card skeleton"></div>
+    </div>
+    <p class="unavailable-msg" id="unavailable-msg" hidden></p>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-brand">ANRAF</p>
+    <p class="footer-copy">© 2026 ANRAF Studio. All rights reserved.</p>
+    <nav class="footer-nav">
+      <a href="/store.html">Shop</a>
+      <a href="/cart.html">Cart</a>
+    </nav>
+  </footer>
+
+  <script type="module">
+    import { loadCatalog, getCategories, getByCategory } from '/js/catalog.js';
+    import { getCartCount, addToCart } from '/js/cart.js';
+
+    function updateBadge() {
+      const el = document.getElementById('cart-count');
+      if (el) el.textContent = getCartCount();
+    }
+    updateBadge();
+    addEventListener('cart:updated', updateBadge);
+
+    let lastY = 0;
+    const header = document.getElementById('site-header');
+    addEventListener('scroll', () => {
+      const y = scrollY;
+      const delta = y - lastY;
+      if (delta > 6 && y > 70) header.classList.add('nav-hidden');
+      else if (delta < -4) header.classList.remove('nav-hidden');
+      lastY = y;
+    }, { passive: true });
+
+    const drawer = document.getElementById('drawer');
+    const overlay = document.getElementById('drawer-overlay');
+    const hamburger = document.getElementById('hamburger');
+    function openDrawer() { drawer.classList.add('open'); overlay.classList.add('open'); hamburger.setAttribute('aria-expanded', 'true'); document.body.style.overflow = 'hidden'; }
+    function closeDrawer() { drawer.classList.remove('open'); overlay.classList.remove('open'); hamburger.setAttribute('aria-expanded', 'false'); document.body.style.overflow = ''; }
+    hamburger.addEventListener('click', openDrawer);
+    document.getElementById('drawer-close').addEventListener('click', closeDrawer);
+    overlay.addEventListener('click', closeDrawer);
+
+    const searchModal = document.getElementById('search-modal');
+    const searchInput = document.getElementById('search-input');
+    const searchResults = document.getElementById('search-results');
+    document.getElementById('search-btn').addEventListener('click', () => {
+      searchModal.classList.add('open');
+      searchInput.focus();
+    });
+    document.getElementById('search-close').addEventListener('click', () => {
+      searchModal.classList.remove('open');
+    });
+
+    let allProducts = [];
+    searchInput.addEventListener('input', () => {
+      const q = searchInput.value.trim().toLowerCase();
+      searchResults.innerHTML = '';
+      if (!q || q.length < 2) return;
+      const hits = allProducts.filter(
+        (p) => p.name.toLowerCase().includes(q) || (p.description ?? '').toLowerCase().includes(q)
+      ).slice(0, 8);
+      for (const p of hits) {
+        const a = document.createElement('a');
+        a.href = `/product.html?slug=${encodeURIComponent(p.slug)}`;
+        a.className = 'search-result-item';
+        const name = document.createElement('span');
+        name.textContent = p.name;
+        a.appendChild(name);
+        searchResults.appendChild(a);
+      }
+      if (!hits.length) {
+        const none = document.createElement('p');
+        none.className = 'search-none';
+        none.textContent = 'No results found.';
+        searchResults.appendChild(none);
+      }
+    });
+
+    const catFilter = document.getElementById('category-filter');
+    const sortSelect = document.getElementById('sort-select');
+    const countEl = document.getElementById('results-count');
+    let currentCatalog = null;
+    const urlCat = new URLSearchParams(location.search).get('category') ?? '';
+
+    function renderGrid(catalog) {
+      if (!catalog) return;
+      currentCatalog = catalog;
+      allProducts = catalog.products ?? [];
+
+      catFilter.innerHTML = '';
+      const allOpt = document.createElement('option');
+      allOpt.value = '';
+      allOpt.textContent = 'All Categories';
+      catFilter.appendChild(allOpt);
+      for (const cat of getCategories(catalog)) {
+        const opt = document.createElement('option');
+        opt.value = cat;
+        opt.textContent = cat.charAt(0).toUpperCase() + cat.slice(1);
+        catFilter.appendChild(opt);
+      }
+      if (urlCat) catFilter.value = urlCat;
+
+      applyFilters();
+    }
+
+    function applyFilters() {
+      const cat = catFilter.value;
+      const sort = sortSelect.value;
+      let products = cat ? getByCategory(currentCatalog, cat) : (currentCatalog?.products ?? []);
+
+      if (sort === 'price-asc') products = [...products].sort((a, b) => a.price - b.price);
+      else if (sort === 'price-desc') products = [...products].sort((a, b) => b.price - a.price);
+      else if (sort === 'name') products = [...products].sort((a, b) => a.name.localeCompare(b.name));
+
+      buildGrid(products);
+      countEl.textContent = `${products.length} product${products.length !== 1 ? 's' : ''}`;
+    }
+
+    catFilter.addEventListener('change', applyFilters);
+    sortSelect.addEventListener('change', applyFilters);
+
+    function buildGrid(products) {
+      const grid = document.getElementById('product-grid');
+      grid.innerHTML = '';
+
+      if (!products.length) {
+        const msg = document.createElement('p');
+        msg.className = 'empty-category';
+        msg.textContent = 'No products found.';
+        grid.appendChild(msg);
+        return;
+      }
+
+      for (const p of products) {
+        const card = document.createElement('article');
+        card.className = 'product-card' + (p.in_stock ? '' : ' out-of-stock');
+
+        const imgLink = document.createElement('a');
+        imgLink.href = `/product.html?slug=${encodeURIComponent(p.slug)}`;
+        imgLink.className = 'product-img-wrap';
+        imgLink.setAttribute('tabindex', '-1');
+        imgLink.setAttribute('aria-hidden', 'true');
+
+        const img = document.createElement('img');
+        img.src = p.images?.[0]?.thumb || p.images?.[0]?.url || '/img/placeholder.svg';
+        img.alt = p.name;
+        img.loading = 'lazy';
+        img.width = 400;
+        img.height = 533;
+        if (p.images?.[1]) {
+          img.addEventListener('mouseover', () => { img.src = p.images[1].thumb || p.images[1].url; });
+          img.addEventListener('mouseout', () => { img.src = p.images[0].thumb || p.images[0].url; });
+        }
+        imgLink.appendChild(img);
+
+        if (!p.in_stock) {
+          const badge = document.createElement('span');
+          badge.className = 'sold-out-badge';
+          badge.textContent = 'Sold Out';
+          imgLink.appendChild(badge);
+        }
+        card.appendChild(imgLink);
+
+        const body = document.createElement('div');
+        body.className = 'product-card-body';
+
+        if (p.category) {
+          const catTag = document.createElement('span');
+          catTag.className = 'product-category';
+          catTag.textContent = p.category;
+          body.appendChild(catTag);
+        }
+
+        const nameLink = document.createElement('a');
+        nameLink.href = `/product.html?slug=${encodeURIComponent(p.slug)}`;
+        nameLink.className = 'product-name';
+        nameLink.textContent = p.name;
+        body.appendChild(nameLink);
+
+        const priceRow = document.createElement('div');
+        priceRow.className = 'price-row';
+        const priceEl = document.createElement('span');
+        priceEl.className = 'price';
+        priceEl.textContent = 'PKR ' + Number(p.price).toLocaleString('en-PK');
+        priceRow.appendChild(priceEl);
+        if (p.compare_at_price && Number(p.compare_at_price) > Number(p.price)) {
+          const comp = document.createElement('span');
+          comp.className = 'compare-price';
+          comp.textContent = 'PKR ' + Number(p.compare_at_price).toLocaleString('en-PK');
+          priceRow.appendChild(comp);
+        }
+        body.appendChild(priceRow);
+
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'add-to-cart-btn';
+        if (p.in_stock) {
+          btn.textContent = 'Add to Cart';
+          btn.addEventListener('click', () => {
+            addToCart(p.id);
+            btn.textContent = 'Added!';
+            setTimeout(() => { btn.textContent = 'Add to Cart'; }, 1200);
+          });
+        } else {
+          btn.textContent = 'Sold Out';
+          btn.disabled = true;
+        }
+        body.appendChild(btn);
+
+        card.appendChild(body);
+        grid.appendChild(card);
+      }
+    }
+
+    loadCatalog((data, source) => {
+      const unavailMsg = document.getElementById('unavailable-msg');
+      if (!data) {
+        const grid = document.getElementById('product-grid');
+        grid.innerHTML = '';
+        if (unavailMsg) {
+          unavailMsg.hidden = false;
+          unavailMsg.textContent = 'Our catalog is temporarily unavailable. Please contact us on WhatsApp.';
+        }
+        return;
+      }
+      if (unavailMsg) unavailMsg.hidden = true;
+      renderGrid(data);
+    });
+  </script>
+</body>
+</html>

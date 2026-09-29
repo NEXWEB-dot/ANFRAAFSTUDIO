@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /admin
+Disallow: /api
+
+# Real protection is WAF rules + Cloudflare Access — this is for polite bots only.
