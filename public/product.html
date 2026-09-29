@@ -3,8 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Product Details — ANRAF</title>
-  <meta name="description" content="View fabric specifications, high-definition embroidery closeups, and sizing for this ANRAF garment.">
+  <title>Product Details — ANRAF Studio | Luxury Pakistani Fashion</title>
+  <meta name="description" content="View fabric specifications, high-definition embroidery closeups, and sizing for this ANRAF Studio luxury garment.">
+  <link rel="canonical" id="canonicalLink" href="https://anrafstudio.com/product.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="product" id="ogType">
+  <meta property="og:site_name"   content="ANRAF Studio">
+  <meta property="og:title"       content="Product Details — ANRAF Studio" id="ogTitle">
+  <meta property="og:description" content="Handcrafted luxury couture and embroidered pret from ANRAF Studio." id="ogDesc">
+  <meta property="og:url"         content="https://anrafstudio.com/product.html" id="ogUrl">
+  <meta property="og:image"       content="https://anrafstudio.com/assets/og-cover.jpg" id="ogImage">
+  <meta property="og:locale"      content="en_PK">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="Product Details — ANRAF Studio" id="twTitle">
+  <meta name="twitter:description" content="Handcrafted luxury couture and embroidered pret from ANRAF Studio." id="twDesc">
+  <meta name="twitter:image"       content="https://anrafstudio.com/assets/og-cover.jpg" id="twImage">
+
+  <!-- JSON-LD Product Schema Placeholder -->
+  <script type="application/ld+json" id="productSchema"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@200;300;400;500;600&family=Dancing+Script:wght@400;500;600&display=swap" rel="stylesheet">
@@ -320,6 +339,52 @@
       currentProduct = p;
 
       document.title = `${p.name} — ANRAF Studio`;
+
+      // Update dynamic SEO tags & JSON-LD
+      const pageUrl = window.location.href;
+      const canEl = document.getElementById('canonicalLink');
+      if (canEl) canEl.href = pageUrl;
+      const ogTitle = document.getElementById('ogTitle');
+      if (ogTitle) ogTitle.content = `${p.name} — ANRAF Studio`;
+      const twTitle = document.getElementById('twTitle');
+      if (twTitle) twTitle.content = `${p.name} — ANRAF Studio`;
+      const ogUrl = document.getElementById('ogUrl');
+      if (ogUrl) ogUrl.content = pageUrl;
+
+      const firstImg = p.images?.[0]?.url || 'https://anrafstudio.com/assets/og-cover.jpg';
+      const ogImg = document.getElementById('ogImage');
+      if (ogImg) ogImg.content = firstImg;
+      const twImg = document.getElementById('twImage');
+      if (twImg) twImg.content = firstImg;
+
+      const descSnippet = (p.description || p.name).slice(0, 160);
+      const ogDesc = document.getElementById('ogDesc');
+      if (ogDesc) ogDesc.content = descSnippet;
+      const twDesc = document.getElementById('twDesc');
+      if (twDesc) twDesc.content = descSnippet;
+
+      const schemaEl = document.getElementById('productSchema');
+      if (schemaEl) {
+        schemaEl.textContent = JSON.stringify({
+          "@context": "https://schema.org/",
+          "@type": "Product",
+          "name": p.name,
+          "image": (p.images || []).map(i => i.url),
+          "description": p.description || p.name,
+          "sku": p.slug,
+          "brand": { "@type": "Brand", "name": "ANRAF Studio" },
+          "offers": {
+            "@type": "Offer",
+            "url": pageUrl,
+            "priceCurrency": "PKR",
+            "price": p.price,
+            "availability": p.in_stock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+            "itemCondition": "https://schema.org/NewCondition",
+            "seller": { "@type": "Organization", "name": "ANRAF Studio" }
+          }
+        });
+      }
+
       document.getElementById('bcCategory').textContent = p.category || 'Collection';
       document.getElementById('bcCategory').parentElement.querySelector('a:nth-child(2)').href = `./store.html?category=${encodeURIComponent(p.category || '')}`;
       document.getElementById('bcProduct').textContent = p.name;
@@ -449,16 +514,16 @@
       totalEl.textContent = formatPrice(cartTotal(items));
     }
 
-    // Initial render
-    const initialProduct = getProductBySlug(DEFAULT_CATALOG, slug) || DEFAULT_CATALOG.products[0];
-    renderProduct(initialProduct);
+    // Initial render with merged admin & cached products for instant display
+    const initialProduct = getProductBySlug(currentCatalog, slug) || currentCatalog.products[0];
+    if (initialProduct) renderProduct(initialProduct);
 
-    // Sync with live catalog if available
+    // Sync with live CDN catalog
     loadCatalog((data) => {
       if (data && data.products?.length) {
         currentCatalog = data;
-        const fresh = getProductBySlug(data, slug) || data.products[0];
-        renderProduct(fresh);
+        const fresh = getProductBySlug(data, slug);
+        if (fresh) renderProduct(fresh);
       }
     });
   </script>

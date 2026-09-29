@@ -166,7 +166,35 @@ async function getJson(url, ms) {
 }
 
 /**
- * Load catalog with 4 fallbacks.
+ * Merge any products created or updated in the Admin Dashboard (stored in localStorage)
+ * with the base catalog. Ensures new items appear immediately across the site.
+ */
+export function mergeAdminProducts(cat) {
+  if (!cat) return cat;
+  try {
+    const raw = localStorage.getItem('admin_local_products');
+    if (!raw) return cat;
+    const local = JSON.parse(raw);
+    if (!Array.isArray(local) || !local.length) return cat;
+
+    const localIds = new Set(local.map(p => p.id));
+    const localSlugs = new Set(local.map(p => p.slug));
+    const existing = (cat.products || []).filter(
+      p => !localIds.has(p.id) && !localSlugs.has(p.slug)
+    );
+
+    return {
+      ...cat,
+      count: local.length + existing.length,
+      products: [...local, ...existing]
+    };
+  } catch {
+    return cat;
+  }
+}
+
+/**
+ * Load catalog with 4 fallbacks + CDN caching.
  */
 export async function loadCatalog(render) {
   let cached = null;
@@ -174,8 +202,8 @@ export async function loadCatalog(render) {
     cached = JSON.parse(localStorage.getItem(LS_KEY))?.data;
   } catch {}
 
-  // 1. Instant paint from local cache
-  if (valid(cached)) render(cached, 'cache');
+  // 1. Instant paint from local cache (0ms latency)
+  if (valid(cached)) render(mergeAdminProducts(cached), 'cache');
 
   // 2. Network sources (CDN live, then JSON file)
   const sources = [];
@@ -188,36 +216,42 @@ export async function loadCatalog(render) {
       const data = await getJson(url, 3000);
       if (!valid(data)) continue;
       if (valid(cached) && Date.parse(data.generated_at) < Date.parse(cached.generated_at)) {
-        return cached;
+        return mergeAdminProducts(cached);
       }
       try {
         localStorage.setItem(LS_KEY, JSON.stringify({ data, ts: Date.now() }));
       } catch {}
-      render(data, label);
-      return data;
+      const merged = mergeAdminProducts(data);
+      render(merged, label);
+      return merged;
     } catch { /* proceed to next fallback */ }
   }
 
   // 3. If network fails or file://, render DEFAULT_CATALOG
   if (!valid(cached)) {
-    render(DEFAULT_CATALOG, 'default');
-    return DEFAULT_CATALOG;
+    const fallbackMerged = mergeAdminProducts(DEFAULT_CATALOG);
+    render(fallbackMerged, 'default');
+    return fallbackMerged;
   }
-  return cached;
+  return mergeAdminProducts(cached);
 }
 
 export function getProductBySlug(catalog, slug) {
-  const list = catalog?.products || DEFAULT_CATALOG.products;
+  const cat = mergeAdminProducts(catalog || DEFAULT_CATALOG);
+  const list = cat?.products || DEFAULT_CATALOG.products;
   return list.find((p) => p.slug === slug) ?? null;
 }
 
 export function getByCategory(catalog, category) {
-  const list = catalog?.products || DEFAULT_CATALOG.products;
+  const cat = mergeAdminProducts(catalog || DEFAULT_CATALOG);
+  const list = cat?.products || DEFAULT_CATALOG.products;
   if (!category) return list;
-  return list.filter((p) => p.category.toLowerCase() === category.toLowerCase());
+  return list.filter((p) => (p.category || '').toLowerCase() === category.toLowerCase());
 }
 
 export function getCategories(catalog) {
-  const list = catalog?.products || DEFAULT_CATALOG.products;
+  const cat = mergeAdminProducts(catalog || DEFAULT_CATALOG);
+  const list = cat?.products || DEFAULT_CATALOG.products;
   return [...new Set(list.map((p) => p.category).filter(Boolean))];
 }
+

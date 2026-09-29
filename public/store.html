@@ -3,8 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shop Collections — ANRAF</title>
-  <meta name="description" content="Discover the latest Pakistani luxury collections: Embroidered cambric, Swiss lawn, and festive heritage suits.">
+  <title>Shop Collections — ANRAF Studio | Luxury Pakistani Fashion</title>
+  <meta name="description" content="Browse ANRAF Studio's complete collection of luxury Pakistani fashion — embroidered suits, Swiss lawn, heritage formals, and ready-to-wear. Free delivery Pakistan-wide.">
+  <link rel="canonical" href="https://anrafstudio.com/store.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website">
+  <meta property="og:site_name"   content="ANRAF Studio">
+  <meta property="og:title"       content="Shop Collections — ANRAF Studio">
+  <meta property="og:description" content="Browse luxury Pakistani fashion: embroidered suits, Swiss lawn, heritage formals, and ready-to-wear. Cash on Delivery across Pakistan.">
+  <meta property="og:url"         content="https://anrafstudio.com/store.html">
+  <meta property="og:image"       content="https://anrafstudio.com/assets/og-cover.jpg">
+  <meta property="og:locale"      content="en_PK">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="Shop Collections — ANRAF Studio">
+  <meta name="twitter:description" content="Browse luxury Pakistani fashion. Free delivery Pakistan-wide.">
+  <meta name="twitter:image"       content="https://anrafstudio.com/assets/og-cover.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@200;300;400;500;600&family=Dancing+Script:wght@400;500;600&display=swap" rel="stylesheet">
@@ -165,7 +181,7 @@
   </footer>
 
   <script type="module">
-    import { loadCatalog, getByCategory, getCategories, DEFAULT_CATALOG } from './js/catalog.js';
+    import { loadCatalog, getByCategory, getCategories, DEFAULT_CATALOG, mergeAdminProducts } from './js/catalog.js';
     import { getCart, getCartCount, addToCart, enrichCart, cartTotal, updateQty, removeFromCart, formatPrice } from './js/cart.js';
 
     // ── Update Cart Counter in Header ────────────────────────
@@ -226,7 +242,7 @@
     srchClose.addEventListener('click', () => srchOverlay.classList.remove('open'));
 
     // ── Product Rendering & Filtering ───────────────────────
-    let catalogData = DEFAULT_CATALOG;
+    let catalogData = mergeAdminProducts(DEFAULT_CATALOG);
     const grid = document.getElementById('productsGrid');
     const pills = document.querySelectorAll('.pill-btn');
     const sortSelect = document.getElementById('sortSelect');

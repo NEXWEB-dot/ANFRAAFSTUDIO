@@ -4,7 +4,58 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#1a1a1a">
-  <title>ANRAF – New Collection</title>
+  <title>ANRAF Studio — Luxury Pakistani Fashion | New Collection</title>
+  <meta name="description" content="Discover ANRAF Studio's new collection of luxury Pakistani fashion — hand-crafted embroidered suits, premium lawn, and heritage formals. Free delivery nationwide.">
+  <link rel="canonical" href="https://anrafstudio.com/">
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website">
+  <meta property="og:site_name"   content="ANRAF Studio">
+  <meta property="og:title"       content="ANRAF Studio — Luxury Pakistani Fashion">
+  <meta property="og:description" content="New collection of luxury embroidered suits, Swiss lawn, and heritage formals. Cash on Delivery across Pakistan.">
+  <meta property="og:url"         content="https://anrafstudio.com/">
+  <meta property="og:image"       content="https://anrafstudio.com/assets/og-cover.jpg">
+  <meta property="og:locale"      content="en_PK">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="ANRAF Studio — Luxury Pakistani Fashion">
+  <meta name="twitter:description" content="New collection of luxury embroidered suits, Swiss lawn, and heritage formals.">
+  <meta name="twitter:image"       content="https://anrafstudio.com/assets/og-cover.jpg">
+
+  <!-- JSON-LD: Organization + WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://anrafstudio.com/#organization",
+        "name": "ANRAF Studio",
+        "url": "https://anrafstudio.com/",
+        "logo": "https://anrafstudio.com/assets/og-cover.jpg",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "Customer Service",
+          "availableLanguage": ["English", "Urdu"],
+          "url": "https://wa.me/923000000000"
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://anrafstudio.com/#website",
+        "url": "https://anrafstudio.com/",
+        "name": "ANRAF Studio",
+        "publisher": { "@id": "https://anrafstudio.com/#organization" },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://anrafstudio.com/store.html?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    ]
+  }
+  </script>
 
   <!-- Google Fonts: Cormorant Garamond for editorial serif, DM Sans for clean UI, Dancing Script for script logo/text -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,6 +63,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@200;300;400;500;600&family=Dancing+Script:wght@400;500;600&display=swap" rel="stylesheet">
 
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    /* Store config — cdnOrigin set by Cloudflare Pages env injection or left empty for local */
+    window.STORE_CONFIG = {
+      cdnOrigin: '',
+      whatsappUrl: 'https://wa.me/923000000000'
+    };
+  </script>
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -737,6 +795,21 @@
       transform: scale(1.1);
       box-shadow: 0 8px 24px rgba(37, 211, 102, 0.55);
     }
+    /* ── Skeleton shimmer for loading state ──── */
+    @keyframes skel-shimmer {
+      0%   { background-position: -400px 0; }
+      100% { background-position: 400px 0; }
+    }
+    .p-skeleton .p-img {
+      background: linear-gradient(90deg, #f0ede9 25%, #e8e4df 50%, #f0ede9 75%);
+      background-size: 800px 100%;
+      animation: skel-shimmer 1.4s infinite linear;
+    }
+    .p-skeleton .skel-line {
+      background: linear-gradient(90deg, #f0ede9 25%, #e8e4df 50%, #f0ede9 75%) !important;
+      background-size: 800px 100% !important;
+      animation: skel-shimmer 1.4s infinite linear;
+    }
   </style>
 </head>
 <body>
@@ -889,63 +962,11 @@
 
     <div class="p-track-outer">
       <div class="p-track stagger" id="newArrivalsTrack">
-
-        <!-- Card 1: Black Floral -->
-        <article class="p-card reveal">
-          <a href="./product.html?slug=noir-floral-embroidered-set" style="display:block;">
-            <div class="p-img">
-              <img class="ia" src="assets/WhatsApp Image 2026-09-28 at 2.54.30 PM.jpeg" alt="Noir Floral Embroidered Set — full" loading="lazy">
-              <img class="ib" src="assets/WhatsApp Image 2026-09-28 at 2.54.16 PM.jpeg" alt="Noir Floral Embroidered Set — detail" loading="lazy">
-            </div>
-            <div class="p-info">
-              <p class="p-name">Noir Floral Embroidered Set</p>
-              <p class="p-price">Rs. 6,950 PKR</p>
-            </div>
-          </a>
-        </article>
-
-        <!-- Card 2: Teal Lawn -->
-        <article class="p-card reveal">
-          <a href="./product.html?slug=teal-blossom-lawn-suit" style="display:block;">
-            <div class="p-img">
-              <img class="ia" src="assets/WhatsApp Image 2026-09-28 at 2.57.21 PM.jpeg" alt="Teal Blossom Lawn Suit — full" loading="lazy">
-              <img class="ib" src="assets/WhatsApp Image 2026-09-28 at 2.56.45 PM.jpeg" alt="Teal Blossom Lawn Suit — detail" loading="lazy">
-            </div>
-            <div class="p-info">
-              <p class="p-name">Teal Blossom Lawn Suit</p>
-              <p class="p-price">Rs. 6,450 PKR</p>
-            </div>
-          </a>
-        </article>
-
-        <!-- Card 3: Rust Heritage -->
-        <article class="p-card reveal">
-          <a href="./product.html?slug=rust-heritage-kurta-set" style="display:block;">
-            <div class="p-img">
-              <img class="ia" src="assets/WhatsApp Image 2026-09-28 at 2.58.08 PM.jpeg" alt="Rust Heritage Kurta Set — full" loading="lazy">
-              <img class="ib" src="assets/WhatsApp Image 2026-09-28 at 2.57.54 PM.jpeg" alt="Rust Heritage Kurta Set — detail" loading="lazy">
-            </div>
-            <div class="p-info">
-              <p class="p-name">Rust Heritage Kurta Set</p>
-              <p class="p-price">Rs. 7,250 PKR</p>
-            </div>
-          </a>
-        </article>
-
-        <!-- Card 4: Navy Sequin -->
-        <article class="p-card reveal">
-          <a href="./product.html?slug=midnight-baroque-ensemble" style="display:block;">
-            <div class="p-img">
-              <img class="ia" src="assets/WhatsApp Image 2026-09-28 at 2.58.51 PM.jpeg" alt="Midnight Baroque Ensemble — full" loading="lazy">
-              <img class="ib" src="assets/WhatsApp Image 2026-09-28 at 2.58.37 PM.jpeg" alt="Midnight Baroque Ensemble — detail" loading="lazy">
-            </div>
-            <div class="p-info">
-              <p class="p-name">Midnight Baroque Ensemble</p>
-              <p class="p-price">Rs. 7,850 PKR</p>
-            </div>
-          </a>
-        </article>
-
+        <!-- Populated dynamically from catalog by JS below -->
+        <article class="p-card p-skeleton" aria-hidden="true"><div class="p-img"></div><div class="p-info"><p class="p-name skel-line" style="width:70%;height:12px;background:#eee;margin:0 auto 6px;border-radius:2px;"></p><p class="p-price skel-line" style="width:40%;height:11px;background:#eee;margin:0 auto;border-radius:2px;"></p></div></article>
+        <article class="p-card p-skeleton" aria-hidden="true"><div class="p-img"></div><div class="p-info"><p class="p-name skel-line" style="width:70%;height:12px;background:#eee;margin:0 auto 6px;border-radius:2px;"></p><p class="p-price skel-line" style="width:40%;height:11px;background:#eee;margin:0 auto;border-radius:2px;"></p></div></article>
+        <article class="p-card p-skeleton" aria-hidden="true"><div class="p-img"></div><div class="p-info"><p class="p-name skel-line" style="width:70%;height:12px;background:#eee;margin:0 auto 6px;border-radius:2px;"></p><p class="p-price skel-line" style="width:40%;height:11px;background:#eee;margin:0 auto;border-radius:2px;"></p></div></article>
+        <article class="p-card p-skeleton" aria-hidden="true"><div class="p-img"></div><div class="p-info"><p class="p-name skel-line" style="width:70%;height:12px;background:#eee;margin:0 auto 6px;border-radius:2px;"></p><p class="p-price skel-line" style="width:40%;height:11px;background:#eee;margin:0 auto;border-radius:2px;"></p></div></article>
       </div>
     </div>
 
@@ -1007,73 +1028,11 @@
     <div class="p-track-outer">
       <div class="p-track stagger" id="featuredTrack">
 
-        <!-- Card 1: Navy Baroque -->
-        <article class="p-card reveal">
-          <a href="./product.html?slug=midnight-sequin-kurta" style="display:block;">
-            <div class="p-img">
-              <img class="ia" src="assets/WhatsApp Image 2026-09-28 at 2.58.51 PM.jpeg" alt="Midnight Sequin Kurta — full" loading="lazy">
-              <img class="ib" src="assets/WhatsApp Image 2026-09-28 at 2.58.37 PM.jpeg" alt="Midnight Sequin Kurta — detail" loading="lazy">
-            </div>
-            <div class="p-info">
-              <p class="p-name">Midnight Sequin Kurta</p>
-              <p class="p-price">Rs. 6,800 PKR</p>
-            </div>
-          </a>
-        </article>
-
-        <!-- Card 2: Black Floral (SALE) -->
-        <article class="p-card reveal">
-          <a href="./product.html?slug=embroidered-cambric-set" style="display:block;">
-            <div class="p-img">
-              <span class="sale-badge">SALE</span>
-              <img class="ia" src="assets/WhatsApp Image 2026-09-28 at 2.54.30 PM.jpeg" alt="Embroidered Cambric Set — full" loading="lazy">
-              <img class="ib" src="assets/WhatsApp Image 2026-09-28 at 2.54.16 PM.jpeg" alt="Embroidered Cambric Set — detail" loading="lazy">
-            </div>
-            <div class="p-info">
-              <p class="p-name">Embroidered Cambric Set</p>
-              <p class="p-price">
-                <span class="was">Rs. 8,500 PKR</span>
-                <span class="now-sale">Rs. 5,950 PKR</span>
-              </p>
-            </div>
-          </a>
-        </article>
-
-        <!-- Card 3: Teal Lawn (SALE) -->
-        <article class="p-card reveal">
-          <a href="./product.html?slug=floral-cambric-3-piece" style="display:block;">
-            <div class="p-img">
-              <span class="sale-badge">SALE</span>
-              <img class="ia" src="assets/WhatsApp Image 2026-09-28 at 2.57.21 PM.jpeg" alt="Floral Cambric 3-Piece — full" loading="lazy">
-              <img class="ib" src="assets/WhatsApp Image 2026-09-28 at 2.56.45 PM.jpeg" alt="Floral Cambric 3-Piece — detail" loading="lazy">
-            </div>
-            <div class="p-info">
-              <p class="p-name">Floral Cambric 3-Piece</p>
-              <p class="p-price">
-                <span class="was">Rs. 7,500 PKR</span>
-                <span class="now-sale">Rs. 4,950 PKR</span>
-              </p>
-            </div>
-          </a>
-        </article>
-
-        <!-- Card 4: Rust Heritage (SALE) -->
-        <article class="p-card reveal">
-          <a href="./product.html?slug=heritage-rust-ensemble" style="display:block;">
-            <div class="p-img">
-              <span class="sale-badge">SALE</span>
-              <img class="ia" src="assets/WhatsApp Image 2026-09-28 at 2.58.08 PM.jpeg" alt="Heritage Rust Ensemble — full" loading="lazy">
-              <img class="ib" src="assets/WhatsApp Image 2026-09-28 at 2.57.54 PM.jpeg" alt="Heritage Rust Ensemble — detail" loading="lazy">
-            </div>
-            <div class="p-info">
-              <p class="p-name">Heritage Rust Ensemble</p>
-              <p class="p-price">
-                <span class="was">Rs. 9,000 PKR</span>
-                <span class="now-sale">Rs. 5,400 PKR</span>
-              </p>
-            </div>
-          </a>
-        </article>
+        <!-- Populated dynamically from catalog by JS below -->
+        <article class="p-card p-skeleton" aria-hidden="true"><div class="p-img"></div><div class="p-info"><p class="p-name skel-line" style="width:70%;height:12px;background:#eee;margin:0 auto 6px;border-radius:2px;"></p><p class="p-price skel-line" style="width:40%;height:11px;background:#eee;margin:0 auto;border-radius:2px;"></p></div></article>
+        <article class="p-card p-skeleton" aria-hidden="true"><div class="p-img"></div><div class="p-info"><p class="p-name skel-line" style="width:70%;height:12px;background:#eee;margin:0 auto 6px;border-radius:2px;"></p><p class="p-price skel-line" style="width:40%;height:11px;background:#eee;margin:0 auto;border-radius:2px;"></p></div></article>
+        <article class="p-card p-skeleton" aria-hidden="true"><div class="p-img"></div><div class="p-info"><p class="p-name skel-line" style="width:70%;height:12px;background:#eee;margin:0 auto 6px;border-radius:2px;"></p><p class="p-price skel-line" style="width:40%;height:11px;background:#eee;margin:0 auto;border-radius:2px;"></p></div></article>
+        <article class="p-card p-skeleton" aria-hidden="true"><div class="p-img"></div><div class="p-info"><p class="p-name skel-line" style="width:70%;height:12px;background:#eee;margin:0 auto 6px;border-radius:2px;"></p><p class="p-price skel-line" style="width:40%;height:11px;background:#eee;margin:0 auto;border-radius:2px;"></p></div></article>
 
       </div>
     </div>
@@ -1363,7 +1322,7 @@ enableDragScroll(document.getElementById('featuredTrack'));
 
 // ── Scroll Reveal Fallback ────────────────────────
 if (!CSS.supports('(animation-timeline:view()) and (animation-range:entry)')) {
-  const obs = new IntersectionObserver(entries => {
+  window._revealObs = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting) {
         const p = e.target.parentElement;
@@ -1372,11 +1331,11 @@ if (!CSS.supports('(animation-timeline:view()) and (animation-range:entry)')) {
           e.target.style.transitionDelay = `${s.indexOf(e.target) * 0.08}s`;
         }
         e.target.classList.add('in');
-        obs.unobserve(e.target);
+        window._revealObs.unobserve(e.target);
       }
     });
   }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
-  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  document.querySelectorAll('.reveal').forEach(el => window._revealObs.observe(el));
 }
 
 // ── Newsletter Form ───────────────────────────────
@@ -1388,6 +1347,122 @@ function handleNL(e) {
   e.target.querySelector('input').value = '';
   setTimeout(() => { btn.textContent = orig; }, 3000);
 }
+</script>
+
+<!-- ── Dynamic Catalog Rendering ──────────────────────────── -->
+<script type="module">
+import { loadCatalog, DEFAULT_CATALOG } from './js/catalog.js';
+
+const fmt = (n) => 'Rs. ' + Number(n).toLocaleString('en-PK') + ' PKR';
+
+/**
+ * Build a product card DOM element safely (no innerHTML with untrusted data).
+ */
+function buildCard(p, isFirst) {
+  const imgA = p.images?.[0]?.url  || '';
+  const imgB = p.images?.[1]?.url || imgA;
+  const isSale = p.compare_at_price && p.compare_at_price > p.price;
+
+  const article = document.createElement('article');
+  article.className = 'p-card reveal';
+
+  const a = document.createElement('a');
+  a.href = `./product.html?slug=${encodeURIComponent(p.slug)}`;
+  a.style.display = 'block';
+
+  // Image container
+  const imgWrap = document.createElement('div');
+  imgWrap.className = 'p-img';
+
+  if (isSale) {
+    const badge = document.createElement('span');
+    badge.className = 'sale-badge';
+    badge.textContent = 'SALE';
+    imgWrap.appendChild(badge);
+  }
+
+  const ia = document.createElement('img');
+  ia.className = 'ia';
+  ia.src = imgA;
+  ia.alt = p.name + ' — front';
+  ia.loading = isFirst ? 'eager' : 'lazy';
+  if (isFirst) ia.fetchpriority = 'high';
+
+  const ib = document.createElement('img');
+  ib.className = 'ib';
+  ib.src = imgB;
+  ib.alt = p.name + ' — detail';
+  ib.loading = 'lazy';
+  ib.fetchpriority = 'low';
+
+  imgWrap.appendChild(ia);
+  imgWrap.appendChild(ib);
+
+  // Info
+  const info = document.createElement('div');
+  info.className = 'p-info';
+
+  const name = document.createElement('p');
+  name.className = 'p-name';
+  name.textContent = p.name;
+
+  const price = document.createElement('p');
+  price.className = 'p-price';
+  if (isSale) {
+    const was = document.createElement('span');
+    was.className = 'was';
+    was.textContent = fmt(p.compare_at_price);
+    const now = document.createElement('span');
+    now.className = 'now-sale';
+    now.textContent = fmt(p.price);
+    price.appendChild(was);
+    price.appendChild(now);
+  } else {
+    price.textContent = fmt(p.price);
+  }
+
+  info.appendChild(name);
+  info.appendChild(price);
+  a.appendChild(imgWrap);
+  a.appendChild(info);
+  article.appendChild(a);
+  return article;
+}
+
+/**
+ * Render up to `max` products into a track, replacing skeleton cards.
+ * Triggers scroll-reveal observer on the new elements.
+ */
+function renderTrack(track, products, max) {
+  if (!track || !products.length) return;
+  track.innerHTML = '';
+  const slice = products.slice(0, max);
+  slice.forEach((p, i) => {
+    track.appendChild(buildCard(p, i === 0));
+  });
+  // Re-observe for scroll reveal fallback
+  if (window._revealObs) {
+    track.querySelectorAll('.reveal').forEach(el => window._revealObs.observe(el));
+  }
+}
+
+// Load catalog and populate both tracks
+loadCatalog((catalog) => {
+  const active = (catalog?.products || DEFAULT_CATALOG.products).filter(p => p.in_stock !== false);
+  if (!active.length) return;
+
+  // New Arrivals: first 4 products (catalog is sorted by sort_order then newest first)
+  const newArrivalsTrack = document.getElementById('newArrivalsTrack');
+  renderTrack(newArrivalsTrack, active, 4);
+
+  // Featured: products with a sale price first, then fill up to 4 total
+  const saleProds = active.filter(p => p.compare_at_price && p.compare_at_price > p.price);
+  const nonSale   = active.filter(p => !p.compare_at_price || p.compare_at_price <= p.price);
+  const featured  = [...saleProds, ...nonSale].slice(0, 4);
+
+  const featuredTrack = document.getElementById('featuredTrack');
+  renderTrack(featuredTrack, featured, 4);
+});
 </script>
 </body>
 </html>
