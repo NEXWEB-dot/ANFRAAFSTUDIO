@@ -288,34 +288,6 @@
 
     sortSelect.addEventListener('change', filterAndRender);
 
-    // Search bar functionality
-    srchInput.addEventListener('input', () => {
-      const q = srchInput.value.toLowerCase().trim();
-      srchResults.innerHTML = '';
-      if (!q || q.length < 2) return;
-      const hits = (catalogData.products || []).filter(p =>
-        p.name.toLowerCase().includes(q) ||
-        (p.category || '').toLowerCase().includes(q) ||
-        (p.description || '').toLowerCase().includes(q)
-      );
-      if (!hits.length) {
-        srchResults.innerHTML = '<p style="color:var(--muted);text-align:center;padding:1rem;">No matching garments found.</p>';
-        return;
-      }
-      for (const h of hits) {
-        const item = document.createElement('a');
-        item.href = `./product.html?slug=${encodeURIComponent(h.slug)}`;
-        item.className = 'srch-item';
-        item.innerHTML = `
-          <img src="${h.images?.[0]?.thumb || h.images?.[0]?.url || './assets/WhatsApp Image 2026-09-28 at 2.54.16 PM.jpeg'}" alt="${h.name}">
-          <div>
-            <strong style="display:block;font-size:0.95rem;">${h.name}</strong>
-            <span style="font-size:0.85rem;color:var(--muted);">${formatPrice(h.price)}</span>
-          </div>
-        `;
-        srchResults.appendChild(item);
-      }
-    });
 
     // ── Mini Cart Drawer Renderer ───────────────────────────
     function renderCartDrawer() {
