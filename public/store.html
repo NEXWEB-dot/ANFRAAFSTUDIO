@@ -88,14 +88,6 @@
     </div>
   </div>
 
-  <!-- ── SHOP HERO ───────────────────────────────────────────── -->
-  <section class="shop-hero">
-    <div class="shop-hero-sub">The Ready-to-Wear & Festive Edit</div>
-    <h1 class="shop-hero-title" id="pageHeading">All Collections</h1>
-    <div class="breadcrumbs">
-      <a href="./index.html">Home</a> / <span id="breadcrumbCat">Shop All</span>
-    </div>
-  </section>
 
   <!-- ── STICKY FILTER BAR ───────────────────────────────────── -->
   <div class="filter-bar">
@@ -264,11 +256,11 @@
       countEl.textContent = `${items.length} Garment${items.length !== 1 ? 's' : ''}`;
       
       if (selectedCat) {
-        headingEl.textContent = selectedCat.toUpperCase();
-        breadcrumbCat.textContent = selectedCat;
+        if (headingEl) headingEl.textContent = selectedCat.toUpperCase();
+        if (breadcrumbCat) breadcrumbCat.textContent = selectedCat;
       } else {
-        headingEl.textContent = 'ALL COLLECTIONS';
-        breadcrumbCat.textContent = 'Shop All';
+        if (headingEl) headingEl.textContent = 'ALL COLLECTIONS';
+        if (breadcrumbCat) breadcrumbCat.textContent = 'Shop All';
       }
 
       grid.innerHTML = '';

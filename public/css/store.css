@@ -164,34 +164,6 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
 .srch-item { display: flex; align-items: center; gap: 1rem; padding: 8px 0; border-bottom: 1px solid var(--border); }
 .srch-item img { width: 50px; height: 65px; object-fit: cover; }
 
-/* ── SHOP HERO & BREADCRUMBS ────────────────────────────────────────── */
-.shop-hero {
-  background: var(--studio-bg);
-  padding: 3rem 1.5rem 2.5rem;
-  text-align: center;
-  position: relative;
-}
-.shop-hero-sub {
-  font-family: var(--font-script);
-  font-size: 1.8rem;
-  color: var(--ink);
-  margin-bottom: 0.25rem;
-}
-.shop-hero-title {
-  font-family: var(--font-serif);
-  font-size: clamp(2rem, 4vw, 3.2rem);
-  font-weight: 300;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-.breadcrumbs {
-  font-size: 0.78rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--muted);
-  margin-top: 0.75rem;
-}
-.breadcrumbs a:hover { color: var(--ink); }
 
 /* ── FILTER & SORT BAR ──────────────────────────────────────────────── */
 .filter-bar {
