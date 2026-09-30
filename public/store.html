@@ -173,16 +173,6 @@
       renderCartDrawer();
     });
 
-    // ── Smart Auto-Hiding Navbar ─────────────────────────────
-    let lastY = 0;
-    const header = document.getElementById('siteHeader');
-    window.addEventListener('scroll', () => {
-      const y = window.scrollY;
-      const delta = y - lastY;
-      if (delta > 6 && y > 80) header.classList.add('nav-hidden');
-      else if (delta < -4) header.classList.remove('nav-hidden');
-      lastY = y;
-    }, { passive: true });
 
     // ── Mobile Drawer ────────────────────────────────────────
     const drawer = document.getElementById('drawer');
