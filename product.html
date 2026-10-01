@@ -108,8 +108,7 @@
         <div>
           <span class="option-label">Select Option / Stitching</span>
           <div class="size-selector" id="sizeSelector">
-            <button type="button" class="size-pill active" data-size="Unstitched">Unstitched (Fabric Only)</button>
-            <button type="button" class="size-pill" data-size="Small">Stitched — Small (38")</button>
+            <button type="button" class="size-pill active" data-size="Small">Stitched — Small (38")</button>
             <button type="button" class="size-pill" data-size="Medium">Stitched — Medium (41")</button>
             <button type="button" class="size-pill" data-size="Large">Stitched — Large (44")</button>
             <button type="button" class="size-pill" data-size="XL">Stitched — XL (47")</button>
@@ -286,7 +285,7 @@
 
     // ── Quantity Stepper & Sizing ───────────────────────────
     let selectedQty = 1;
-    let selectedSize = 'Unstitched';
+    let selectedSize = 'Small';
 
     const qtyDisplay = document.getElementById('qtyDisplay');
     document.getElementById('qtyMinus').addEventListener('click', () => {
@@ -484,7 +483,7 @@
           <img class="summary-thumb" src="${it.product.images?.[0]?.thumb || it.product.images?.[0]?.url}" alt="${it.product.name}">
           <div class="summary-info">
             <p class="summary-name">${it.product.name}</p>
-            <p class="summary-sub">Size: ${it.size || 'Unstitched'}</p>
+            <p class="summary-sub">Size: ${it.size || 'Small'}</p>
             <div style="display:flex;align-items:center;gap:8px;margin-top:4px;">
               <span style="font-size:0.85rem;">Qty: ${it.qty}</span>
               <button class="remove-cart-item" style="background:none;border:none;font-size:0.75rem;color:var(--muted);text-decoration:underline;cursor:pointer;">Remove</button>
