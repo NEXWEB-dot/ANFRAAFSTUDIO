@@ -79,4 +79,5 @@ export function cartTotal(enrichedItems) {
 
 /** Format PKR price */
 export const formatPrice = (n) =>
-  'Rs. ' + Number(n || 0).toLocaleString('en-PK') + ' PKR';
+  'Rs. ' + Number(n || 0).toLocaleString('en-PK');
+
