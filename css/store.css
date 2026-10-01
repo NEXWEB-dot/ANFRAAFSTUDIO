@@ -52,9 +52,7 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(255, 255, 255, 0.96);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: #ffffff;
   border-bottom: 1px solid var(--border);
   height: var(--header-height);
   transition: transform 0.35s var(--ease);
@@ -164,43 +162,16 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
 .srch-item { display: flex; align-items: center; gap: 1rem; padding: 8px 0; border-bottom: 1px solid var(--border); }
 .srch-item img { width: 50px; height: 65px; object-fit: cover; }
 
-/* ── SHOP HERO & BREADCRUMBS ────────────────────────────────────────── */
-.shop-hero {
-  background: var(--studio-bg);
-  padding: 3rem 1.5rem 2.5rem;
-  text-align: center;
-  position: relative;
-}
-.shop-hero-sub {
-  font-family: var(--font-script);
-  font-size: 1.8rem;
-  color: var(--ink);
-  margin-bottom: 0.25rem;
-}
-.shop-hero-title {
-  font-family: var(--font-serif);
-  font-size: clamp(2rem, 4vw, 3.2rem);
-  font-weight: 300;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-.breadcrumbs {
-  font-size: 0.78rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--muted);
-  margin-top: 0.75rem;
-}
-.breadcrumbs a:hover { color: var(--ink); }
 
 /* ── FILTER & SORT BAR ──────────────────────────────────────────────── */
 .filter-bar {
   border-bottom: 1px solid var(--border);
-  background: var(--white);
+  background: #ffffff;
   position: sticky;
   top: var(--header-height);
   z-index: 90;
   padding: 0.9rem 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
 }
 .filter-bar-inner {
   max-width: var(--max-w);
@@ -363,23 +334,7 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
 }
 .p-now-sale { color: var(--sale-red); font-weight: 600; }
 
-.quick-add-btn {
-  margin-top: 0.75rem;
-  background: transparent;
-  border: 1px solid var(--ink);
-  color: var(--ink);
-  padding: 7px 14px;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-weight: 500;
-  transition: all 0.25s ease;
-  width: 100%;
-}
-.quick-add-btn:hover {
-  background: var(--ink);
-  color: var(--white);
-}
+
 
 /* ── PRODUCT DETAIL PAGE ────────────────────────────────────────────── */
 .product-page-container {
