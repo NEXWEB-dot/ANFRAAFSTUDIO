@@ -17,7 +17,6 @@ Official customer-facing website and luxury storefront for **ANRAF Studio**.
 ├── css/                     # Storefront styling (store.css)
 ├── js/                      # Frontend JavaScript modules (cart.js, catalog.js, checkout.js)
 ├── data/                    # Fallback catalog JSON (products.fallback.json)
-├── public/                  # Static production build files
 ├── index.html               # Main homepage
 ├── store.html               # Shop catalog
 ├── product.html             # Product view
@@ -31,6 +30,6 @@ Official customer-facing website and luxury storefront for **ANRAF Studio**.
 
 ## 🚀 Deployment
 This repository is optimized for zero-dependency static edge hosting:
-- **Cloudflare Pages** (Build output: `/` or `public`)
+- **Cloudflare Pages** (Build output: `/`)
 - **GitHub Pages**
 - **Netlify / Vercel**
