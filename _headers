@@ -4,16 +4,16 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
   Strict-Transport-Security: max-age=31536000; includeSubDomains
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com https://cdn.tailwindcss.com; frame-src 'self' https://challenges.cloudflare.com; img-src 'self' data: blob: https://cdn.anrafstudio.com; connect-src 'self' https://cdn.anrafstudio.com https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
+  Content-Security-Policy: default-src 'self'; object-src 'none'; script-src 'self' 'sha256-POn0e42a8Gw9jM20bZnV8ChaRIGGisrCbeaUwWjcR70=' 'sha256-+qeyEwInjF3phxqAeJW9NIo8oNUDSqX89YSItUFnqcQ=' 'sha256-NxHcda1s+64US9NQZuyk/2M9/ep51zFcQDJOOituWLw=' 'sha256-5qh6isKEs0COX/g7fTk/NiWT316HnZAivvLzEA/WGQ8=' 'sha256-6g5JO+Snud+7iG4GAYKN0FwG15I6DJPNHFasFeu+Ylw=' 'sha256-PJfRmz609wNTXkehPwOPK3dDzD90Z+R5UmfZ9R9p5SA=' 'sha256-opkg9K6DCKi4IYf4TFBJZXRVehKaE2Ff5OLMrW7zCkA=' 'sha256-5Dwd6uAkFucPYocZgxGkvvF9bkQ/1U6e0Qz11L7qj+w=' 'sha256-MXt7lkn8A4Gy6L7fxb2S3CSTMaK6xQNGSJM6psQGnSA=' 'sha256-ys0Y42Dj7ff1zWRjaAqXmrlWGCEDr22t4vi3kc33Dbw=' 'sha256-IAXgW8Q8NsLrmHzkVZ482fPBcnnyjV6o8R1OD/5m+pY=' 'sha256-/zlrK7SHKFnRY/SU5hO9GIlSonQ8NZnHV4IzvzfiuQk=' 'sha256-rTVkbgcs6AcNCuvlnd89saiJutwyufLToW9INuwzH2g=' 'sha256-4HPIZgeapi14kYcnqErfU7ZG7ZRMTE8ncRERFNq6yd0=' 'sha256-uguTY5/TADz9saV+9UCfS7dOD5SY9a3M7ct41kyF8EE=' 'sha256-JU1QOF69IWT1CjvOvcxRzjqqVRcoKA2q9aSO+3E8/+w=' https://challenges.cloudflare.com https://cdn.tailwindcss.com; frame-src 'self' https://challenges.cloudflare.com; img-src 'self' data: blob: https://cdn.anrafstudio.com; connect-src 'self' https://cdn.anrafstudio.com https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
 
 /assets/*
-  Cache-Control: public, max-age=31536000, s-maxage=31536000, immutable
+  Cache-Control: public, max-age=3600, must-revalidate
 
 /css/*
   Cache-Control: public, max-age=31536000, s-maxage=31536000, immutable
 
 /js/*
-  Cache-Control: public, max-age=86400, s-maxage=604800, stale-while-revalidate=604800
+  Cache-Control: public, max-age=0, must-revalidate
 
 /data/*
   Cache-Control: public, max-age=300, s-maxage=3600, stale-while-revalidate=86400

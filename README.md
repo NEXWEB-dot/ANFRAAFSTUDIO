@@ -29,7 +29,19 @@ Official customer-facing website and luxury storefront for **ANRAF Studio**.
 ```
 
 ## 🚀 Deployment
-This repository is optimized for zero-dependency static edge hosting:
-- **Cloudflare Pages** (Build output: `/`)
-- **GitHub Pages**
-- **Netlify / Vercel**
+Use Node.js 22+ and `npm ci`, then `npm test` and `npm run build`.
+The static build output is `dist/`. Do not publish the workspace root: local backend,
+administration, tooling and configuration folders are not public assets.
+
+Static hosting alone does not process orders. The complete local installation includes
+the separate `anraf backend` repository and the ignored `admin` folder. From the backend
+directory, `npm ci` and `npm run build` stage the storefront and admin assets into `public/`.
+Cloudflare Pages must deploy that directory together with the backend's `functions/`.
+Keep the storefront adjacent to the backend when using this local build arrangement.
+
+After editing inline scripts, run `npm run update:csp` (also run by both builds). The
+generated `_headers` uses hashes instead of permitting arbitrary inline JavaScript.
+Hosts that do not support `_headers`, including GitHub Pages, require equivalent headers
+configured separately.
+
+See [SECURITY_REVIEW.md](./SECURITY_REVIEW.md) for fixes, verification and rollout requirements.

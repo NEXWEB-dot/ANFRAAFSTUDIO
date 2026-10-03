@@ -469,6 +469,7 @@
 
             <div id="checkoutError" style="display:none;background:#fee2e2;color:#b91c1c;padding:12px;font-size:0.85rem;margin-bottom:1.5rem;border-left:3px solid #b91c1c;"></div>
 
+            <div id="checkoutChallenge" style="margin-bottom:12px;"></div>
             <button type="submit" class="btn-step-next" id="submitOrderBtn" style="background:var(--gold-dark);">
               Complete Order (Cash on Delivery)
             </button>
@@ -527,6 +528,8 @@
   </footer>
 
   <script type="module">
+    import { escapeHTML, safeImageURL, normalizePhone } from './js/safety.js';
+    import { submitOrder, finishOrder, orderErrorMessage } from './js/order.js';
     import { loadCatalog, DEFAULT_CATALOG } from './js/catalog.js';
     import { getCart, enrichCart, cartTotal, clearCart, formatPrice } from './js/cart.js';
 
@@ -549,6 +552,34 @@
     const step1Error = document.getElementById('step1Error');
     const checkoutError = document.getElementById('checkoutError');
     const submitBtn = document.getElementById('submitOrderBtn');
+    let submitting = false;
+    let widgetId;
+    let challengeToken = '';
+    async function setupChallenge() {
+      try {
+        const res = await fetch('/api/config', { signal: AbortSignal.timeout(8000) });
+        if (!res.ok) throw new Error('config');
+        const { turnstileSiteKey } = await res.json();
+        if (!turnstileSiteKey) throw new Error('config');
+        await new Promise((resolve, reject) => {
+          const script = document.createElement('script');
+          script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+          script.onload = resolve;
+          script.onerror = reject;
+          document.head.appendChild(script);
+        });
+        widgetId = window.turnstile.render('#checkoutChallenge', {
+          sitekey: turnstileSiteKey,
+          callback: token => { challengeToken = token; },
+          'expired-callback': () => { challengeToken = ''; },
+          'error-callback': () => { challengeToken = ''; },
+        });
+      } catch {
+        checkoutError.textContent = 'Secure checkout is currently unavailable. Your shopping bag is saved. Please try again later.';
+        checkoutError.style.display = 'block';
+      }
+    }
+    setupChallenge();
 
     // Radios
     const optCod = document.getElementById('optCod');
@@ -585,12 +616,12 @@
         row.style.cssText = 'display:flex;gap:14px;align-items:center;';
         row.innerHTML = `
           <div style="position:relative;width:58px;height:72px;background:#f0ebe3;flex-shrink:0;overflow:hidden;border:1px solid #e0d8cc;">
-            <img src="${it.product.images?.[0]?.thumb || it.product.images?.[0]?.url}" alt="${it.product.name}" style="width:100%;height:100%;object-fit:cover;">
+            <img src="${escapeHTML(safeImageURL(it.product.images?.[0]?.thumb || it.product.images?.[0]?.url))}" alt="${escapeHTML(it.product.name)}" style="width:100%;height:100%;object-fit:cover;">
             <span style="position:absolute;top:2px;right:2px;background:#1a1a1a;color:#fff;font-size:10px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;">${it.qty}</span>
           </div>
           <div style="flex:1;min-width:0;">
-            <p style="font-weight:600;font-size:0.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:0 0 2px;">${it.product.name}</p>
-            <p style="font-size:0.78rem;color:#777;margin:0;">Option: ${it.size || 'Small'}</p>
+            <p style="font-weight:600;font-size:0.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:0 0 2px;">${escapeHTML(it.product.name)}</p>
+            <p style="font-size:0.78rem;color:#777;margin:0;">Option: ${escapeHTML(it.size || 'Small')}</p>
           </div>
           <div style="font-weight:600;font-size:0.88rem;">${formatPrice(it.product.price * it.qty)}</div>
         `;
@@ -616,7 +647,7 @@
         showStep1Error('Please enter your full recipient name.');
         return;
       }
-      if (!phone || phone.replace(/\D/g, '').length < 7) {
+      if (!normalizePhone(phone)) {
         showStep1Error('Please enter a valid mobile number for delivery verification.');
         return;
       }
@@ -631,7 +662,7 @@
 
       // Populate Step 2 Review summary
       document.getElementById('revName').textContent = name;
-      document.getElementById('revPhone').textContent = '+92 ' + phone;
+      document.getElementById('revPhone').textContent = normalizePhone(phone);
       document.getElementById('revAddress').textContent = `${address}, ${city}, ${province}`;
 
       // Transition
@@ -661,16 +692,24 @@
     // Final Form Submission
     document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
       e.preventDefault();
+      if (submitting) return;
       checkoutError.style.display = 'none';
+      if (!challengeToken) {
+        checkoutError.textContent = 'Please complete the security check before placing your order.';
+        checkoutError.style.display = 'block';
+        return;
+      }
 
       const items = enrichCart(getCart(), catalog);
-      if (!items.length) {
+      if (!items.length || items.length !== getCart().length || items.some(i => !i.product.in_stock)) {
         renderSummary();
+        checkoutError.textContent = 'Please review your bag: one or more items are unavailable.';
+        checkoutError.style.display = 'block';
         return;
       }
 
       const name = document.getElementById('custName').value.trim();
-      const phone = '+92 ' + document.getElementById('custPhone').value.trim();
+      const phone = normalizePhone(document.getElementById('custPhone').value);
       const address = document.getElementById('custAddress').value.trim();
       const city = document.getElementById('custCity').value;
       const province = document.getElementById('custProvince').value;
@@ -678,6 +717,7 @@
       const hp = document.querySelector('[name="hp"]').value;
       const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value || 'cod';
 
+      submitting = true;
       submitBtn.disabled = true;
       submitBtn.textContent = 'Securing Your Order…';
 
@@ -689,32 +729,24 @@
         address: fullAddress,
         notes: (notes ? notes + ' | ' : '') + `Payment Choice: ${paymentMethod.toUpperCase()}`,
         hp,
-        items: items.map(i => ({ product_id: i.product_id, qty: i.qty }))
+        turnstile_token: challengeToken,
+        items: items.map(i => ({ product_id: i.product_id, qty: i.qty, size: i.size }))
       };
 
       try {
-        const res = await fetch('/api/checkout', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-
-        const data = await res.json().catch(() => ({}));
-        if (res.ok && data.ok) {
+        const data = await submitOrder(payload);
           clearCart();
-          const ref = data.order_number ? `#${data.order_number}` : clientRef.slice(0, 8);
-          window.location.href = `./order-confirmed.html?ref=${encodeURIComponent(ref)}&total=${encodeURIComponent(data.total || cartTotal(items))}&method=${encodeURIComponent(paymentMethod)}`;
+          finishOrder();
+          const ref = data.order_number ? `#${data.order_number}` : data.ref.slice(0, 8);
+          window.location.href = `./order-confirmed.html?ref=${encodeURIComponent(ref)}&total=${encodeURIComponent(data.total)}&offline=${data.offline ? '1' : '0'}&method=${encodeURIComponent(paymentMethod)}`;
           return;
-        }
-
-        throw new Error(data.error || 'OFFLINE_FALLBACK');
       } catch (err) {
-        // Infallible local fallback for preview/offline
-        const localOrderNumber = Math.floor(1000 + Math.random() * 9000);
-        const orderTotalVal = cartTotal(items);
-        clearCart();
-        window.location.href = `./order-confirmed.html?ref=%23${localOrderNumber}&total=${orderTotalVal}&offline=1&method=${encodeURIComponent(paymentMethod)}`;
+        checkoutError.textContent = orderErrorMessage(err.message);
+        checkoutError.style.display = 'block';
+        challengeToken = '';
+        if (widgetId !== undefined) window.turnstile?.reset(widgetId);
       } finally {
+        submitting = false;
         submitBtn.disabled = false;
         submitBtn.textContent = 'Complete Order';
       }
@@ -722,7 +754,7 @@
 
     // Load dynamic catalog
     loadCatalog((data) => {
-      if (data && data.products?.length) {
+      if (data && Array.isArray(data.products)) {
         catalog = data;
         renderSummary();
       }

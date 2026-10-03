@@ -5,6 +5,8 @@
 // 3. Committed fallback JSON (/data/products.fallback.json)
 // 4. Inlined default studio collection (ensures zero empty screen, even on file://)
 
+import { safeImageURL } from './safety.js';
+
 const LS_KEY = 'catalog:v1';
 const CDN = window.STORE_CONFIG?.cdnOrigin ?? '';
 
@@ -156,8 +158,29 @@ export const DEFAULT_CATALOG = {
   ]
 };
 
-const valid = (c) =>
-  c && Array.isArray(c.products) && c.products.length > 0 && typeof c.generated_at === 'string';
+export function normalizeCatalog(c) {
+  if (!c || !Array.isArray(c.products) || !Number.isFinite(Date.parse(c.generated_at))) return null;
+  const products = [];
+  const ids = new Set();
+  for (const p of c.products) {
+    if (!p || typeof p.id !== 'string' || typeof p.slug !== 'string' ||
+        typeof p.name !== 'string' || typeof p.price !== 'number' && typeof p.price !== 'string' ||
+        !Number.isFinite(Number(p.price)) || Number(p.price) < 0) return null;
+    if (ids.has(p.id) || p.is_active === false) continue;
+    ids.add(p.id);
+    products.push({ ...p, price: Number(p.price), name: p.name.slice(0, 200),
+      description: typeof p.description === 'string' ? p.description : '',
+      category: typeof p.category === 'string' ? p.category : '',
+      in_stock: p.in_stock === true && (!p.track_stock || Number(p.stock) > 0),
+      images: (Array.isArray(p.images) ? p.images : []).filter(Boolean).map((i) => ({
+        url: safeImageURL(i.url), thumb: safeImageURL(i.thumb || i.thumb_url),
+      })).filter((i) => i.url),
+    });
+  }
+  return { ...c, count: products.length, products };
+}
+
+const valid = (c) => !!normalizeCatalog(c);
 
 async function getJson(url, ms) {
   const r = await fetch(url, { signal: AbortSignal.timeout(ms) });
@@ -170,33 +193,14 @@ async function getJson(url, ms) {
  * with the base catalog. Ensures new items appear immediately across the site.
  */
 export function mergeAdminProducts(cat) {
-  if (!cat) return cat;
-  try {
-    const raw = localStorage.getItem('admin_local_products');
-    if (!raw) return cat;
-    const local = JSON.parse(raw);
-    if (!Array.isArray(local) || !local.length) return cat;
-
-    const localIds = new Set(local.map(p => p.id));
-    const localSlugs = new Set(local.map(p => p.slug));
-    const existing = (cat.products || []).filter(
-      p => !localIds.has(p.id) && !localSlugs.has(p.slug)
-    );
-
-    return {
-      ...cat,
-      count: local.length + existing.length,
-      products: [...local, ...existing]
-    };
-  } catch {
-    return cat;
-  }
+  // Browser preview edits are never a source of truth for the storefront.
+  return normalizeCatalog(cat);
 }
 
 /**
  * Load catalog with 4 fallbacks + CDN caching.
  */
-export async function loadCatalog(render) {
+export async function loadCatalog(render = () => {}) {
   let cached = null;
   try {
     cached = JSON.parse(localStorage.getItem(LS_KEY))?.data;
@@ -215,7 +219,7 @@ export async function loadCatalog(render) {
     try {
       const data = await getJson(url, 3000);
       if (!valid(data)) continue;
-      if (valid(cached) && Date.parse(data.generated_at) < Date.parse(cached.generated_at)) {
+      if (label !== 'live' && valid(cached) && Date.parse(data.generated_at) < Date.parse(cached.generated_at)) {
         return mergeAdminProducts(cached);
       }
       try {
@@ -246,7 +250,8 @@ export function getByCategory(catalog, category) {
   const cat = mergeAdminProducts(catalog || DEFAULT_CATALOG);
   const list = cat?.products || DEFAULT_CATALOG.products;
   if (!category) return list;
-  return list.filter((p) => (p.category || '').toLowerCase() === category.toLowerCase());
+  const key = (value) => value.toLowerCase().trim().replace(/[\s_]+/g, '-').replace(/^embroidery$/, 'embroidered');
+  return list.filter((p) => key(p.category || '') === key(category));
 }
 
 export function getCategories(catalog) {
@@ -254,4 +259,3 @@ export function getCategories(catalog) {
   const list = cat?.products || DEFAULT_CATALOG.products;
   return [...new Set(list.map((p) => p.category).filter(Boolean))];
 }
-

@@ -135,7 +135,7 @@
         <h3 class="footer-title">Collections</h3>
         <ul class="footer-links">
           <li><a href="./store.html?category=lawn">Summer Lawn</a></li>
-          <li><a href="./store.html?category=embroidery">Embroidered Cambric</a></li>
+          <li><a href="./store.html?category=embroidered">Embroidered Cambric</a></li>
           <li><a href="./store.html?category=heritage">Heritage Festive</a></li>
           <li><a href="./store.html?category=ready-to-wear">Ready to Wear</a></li>
         </ul>
@@ -156,6 +156,7 @@
   </footer>
 
   <script type="module">
+    import { escapeHTML, safeImageURL, normalizePhone } from './js/safety.js';
     import { loadCatalog, getByCategory, getCategories, DEFAULT_CATALOG, mergeAdminProducts } from './js/catalog.js';
     import { getCart, getCartCount, addToCart, enrichCart, cartTotal, updateQty, removeFromCart, formatPrice } from './js/cart.js';
 
@@ -243,12 +244,12 @@
           <a href="./product.html?slug=${encodeURIComponent(p.slug)}" class="p-img-wrap">
             ${isSale ? '<span class="badge-sale">SALE</span>' : ''}
             ${!p.in_stock ? '<span class="badge-sold">SOLD OUT</span>' : ''}
-            <img class="img-primary" src="${imgA}" alt="${p.name}" loading="lazy">
-            <img class="img-secondary" src="${imgB}" alt="${p.name} detail" loading="lazy">
+            <img class="img-primary" src="${escapeHTML(safeImageURL(imgA))}" alt="${escapeHTML(p.name)}" loading="lazy">
+            <img class="img-secondary" src="${escapeHTML(safeImageURL(imgB))}" alt="${escapeHTML(p.name)} detail" loading="lazy">
           </a>
           <div class="p-details">
-            <div class="p-category">${p.category || 'Couture'}</div>
-            <a href="./product.html?slug=${encodeURIComponent(p.slug)}" class="p-title">${p.name}</a>
+            <div class="p-category">${escapeHTML(p.category || 'Couture')}</div>
+            <a href="./product.html?slug=${encodeURIComponent(p.slug)}" class="p-title">${escapeHTML(p.name)}</a>
             <div class="p-price-row">
               ${isSale ? `<span class="p-was-price">${formatPrice(p.compare_at_price)}</span>` : ''}
               <span class="${isSale ? 'p-now-sale' : ''}">${formatPrice(p.price)}</span>
@@ -294,10 +295,10 @@
         const row = document.createElement('div');
         row.className = 'summary-item-row';
         row.innerHTML = `
-          <img class="summary-thumb" src="${it.product.images?.[0]?.thumb || it.product.images?.[0]?.url}" alt="${it.product.name}">
+          <img class="summary-thumb" src="${escapeHTML(safeImageURL(it.product.images?.[0]?.thumb || it.product.images?.[0]?.url))}" alt="${escapeHTML(it.product.name)}">
           <div class="summary-info">
-            <p class="summary-name">${it.product.name}</p>
-            <p class="summary-sub">Size: ${it.size || 'Small'}</p>
+            <p class="summary-name">${escapeHTML(it.product.name)}</p>
+            <p class="summary-sub">Size: ${escapeHTML(it.size || 'Small')}</p>
             <div style="display:flex;align-items:center;gap:8px;margin-top:4px;">
               <span style="font-size:0.85rem;">Qty: ${it.qty}</span>
               <button class="remove-cart-item" style="background:none;border:none;font-size:0.75rem;color:var(--muted);text-decoration:underline;cursor:pointer;">Remove</button>
@@ -318,7 +319,7 @@
 
     // Load dynamic catalog with fallback
     loadCatalog((data) => {
-      if (data && data.products?.length) {
+      if (data && Array.isArray(data.products)) {
         catalogData = data;
         filterAndRender();
         renderCartDrawer();

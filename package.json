@@ -1,0 +1,16 @@
+{
+  "name": "anraf-storefront",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node tools/build.mjs",
+    "update:csp": "node tools/update-csp.mjs",
+    "test": "node --experimental-vm-modules --test --test-isolation=none tests/*.test.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.8"
+  }
+}

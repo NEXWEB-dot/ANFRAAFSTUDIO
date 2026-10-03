@@ -4,6 +4,7 @@
 
 import { getCart, enrichCart, cartTotal, clearCart, formatPrice } from './cart.js';
 import { loadCatalog } from './catalog.js';
+import { submitOrder, finishOrder } from './order.js';
 
 const API = '/api/checkout';
 
@@ -105,23 +106,19 @@ async function handleSubmit(e) {
     phone: form.querySelector('[name="phone"]')?.value.trim() ?? '',
     address: form.querySelector('[name="address"]')?.value.trim() ?? '',
     notes: form.querySelector('[name="notes"]')?.value.trim() ?? '',
-    items: items.map((i) => ({ product_id: i.product_id, qty: i.qty })),
+    items: items.map((i) => ({ product_id: i.product_id, qty: i.qty, size: i.size })),
     turnstile_token: turnstileToken,
     hp: form.querySelector('[name="hp"]')?.value ?? '',
   };
 
   try {
-    const res = await fetch(API, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
-    const data = await res.json();
+    const data = await submitOrder(payload);
 
     if (data.ok) {
       clearCart();
+      finishOrder();
       const params = new URLSearchParams({
-        ref: data.order_number ? String(data.order_number) : clientRef.slice(0, 8),
+        ref: data.order_number ? String(data.order_number) : data.ref.slice(0, 8),
         total: String(data.total),
         offline: data.offline ? '1' : '0',
       });
@@ -130,8 +127,9 @@ async function handleSubmit(e) {
     }
 
     showError(data);
-  } catch {
-    showError({ error: 'NETWORK' });
+  } catch (err) {
+    showError({ error: err.message || 'NETWORK' });
+    window.turnstile?.reset();
   } finally {
     if (btn) { btn.disabled = false; btn.textContent = 'Place Order'; }
   }

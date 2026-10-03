@@ -856,11 +856,11 @@
 <body>
 
 <!-- Mobile Drawer Overlay -->
-<div class="d-overlay" id="dOverlay" onclick="closeDrawer()"></div>
+<div class="d-overlay" id="dOverlay"></div>
 <aside class="drawer" id="drawer" aria-label="Mobile Navigation">
   <div class="drawer-head">
     <span class="d-logo">ANRAF</span>
-    <button class="drawer-close" onclick="closeDrawer()" aria-label="Close menu">&#x2715;</button>
+    <button class="drawer-close" id="homeDrawerClose" aria-label="Close menu">&#x2715;</button>
   </div>
   <nav class="drawer-nav">
     <a href="./index.html">Home</a>
@@ -877,7 +877,7 @@
   <div class="header-inner">
     <!-- Left: Hamburger icon only -->
     <div class="header-left">
-      <button class="ham-btn" id="hamBtn" onclick="openDrawer()" aria-label="Open menu" aria-expanded="false">
+      <button class="ham-btn" id="hamBtn" aria-label="Open menu" aria-expanded="false">
         <div class="ham-lines"><span></span><span></span><span></span></div>
       </button>
     </div>
@@ -1123,7 +1123,7 @@
   <!-- Newsletter -->
   <div style="margin-bottom:34px;max-width:1200px;margin-inline:auto;">
     <p class="nl-label">Subscribe to our emails</p>
-    <form class="nl-form" onsubmit="handleNL(event)">
+    <form class="nl-form" id="newsletterForm">
       <input class="nl-input" type="email" placeholder="Email address" aria-label="Email address" required>
       <button class="nl-btn" type="submit">Subscribe</button>
     </form>
@@ -1165,6 +1165,9 @@
 const dOverlay = document.getElementById('dOverlay');
 const drawer   = document.getElementById('drawer');
 const hamBtn   = document.getElementById('hamBtn');
+hamBtn.addEventListener('click', openDrawer);
+dOverlay.addEventListener('click', closeDrawer);
+document.getElementById('homeDrawerClose').addEventListener('click', closeDrawer);
 
 function openDrawer() {
   dOverlay.classList.add('open');
@@ -1184,20 +1187,6 @@ function closeDrawer() {
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') { closeDrawer(); }
 });
-
-// ── Real-time Cart Count Synchronizer ──────────
-function updateCartCount() {
-  try {
-    const raw = localStorage.getItem('cart:v1');
-    const items = raw ? JSON.parse(raw) : [];
-    const count = items.reduce((sum, item) => sum + (Number(item.qty) || 1), 0);
-    const el = document.getElementById('navCartCount');
-    if (el) el.textContent = `(${count})`;
-  } catch {}
-}
-updateCartCount();
-window.addEventListener('storage', updateCartCount);
-window.addEventListener('cart:updated', updateCartCount);
 
 // ── Smart Navbar (Hide on scroll down, reveal on scroll up) ──
 let lastScrollY = window.scrollY;
@@ -1386,12 +1375,12 @@ if (!CSS.supports('(animation-timeline:view()) and (animation-range:entry)')) {
 }
 
 // ── Newsletter Form ───────────────────────────────
+document.getElementById('newsletterForm').addEventListener('submit', handleNL);
 function handleNL(e) {
   e.preventDefault();
   const btn = e.target.querySelector('button');
   const orig = btn.textContent;
-  btn.textContent = 'Subscribed!';
-  e.target.querySelector('input').value = '';
+  btn.textContent = 'Email signup is not available yet';
   setTimeout(() => { btn.textContent = orig; }, 3000);
 }
 </script>
@@ -1399,6 +1388,14 @@ function handleNL(e) {
 <!-- ── Dynamic Catalog Rendering ──────────────────────────── -->
 <script type="module">
 import { loadCatalog, DEFAULT_CATALOG } from './js/catalog.js';
+import { getCartCount } from './js/cart.js';
+function updateCartCount() {
+  const el = document.getElementById('navCartCount');
+  if (el) el.textContent = `(${getCartCount()})`;
+}
+updateCartCount();
+window.addEventListener('storage', updateCartCount);
+window.addEventListener('cart:updated', updateCartCount);
 
 const fmt = (n) => 'Rs. ' + Number(n).toLocaleString('en-PK') + ' PKR';
 
@@ -1481,7 +1478,7 @@ function buildCard(p, isFirst) {
  * Triggers scroll-reveal observer on the new elements.
  */
 function renderTrack(track, products, max) {
-  if (!track || !products.length) return;
+  if (!track) return;
   track.innerHTML = '';
   const slice = products.slice(0, max);
   slice.forEach((p, i) => {
@@ -1496,7 +1493,6 @@ function renderTrack(track, products, max) {
 // Load catalog and populate both tracks
 loadCatalog((catalog) => {
   const active = (catalog?.products || DEFAULT_CATALOG.products).filter(p => p.in_stock !== false);
-  if (!active.length) return;
 
   // New Arrivals: first 4 products (catalog is sorted by sort_order then newest first)
   const newArrivalsTrack = document.getElementById('newArrivalsTrack');

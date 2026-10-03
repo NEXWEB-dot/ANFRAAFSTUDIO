@@ -153,6 +153,9 @@
         name.className = 'cart-item-name';
         name.textContent = item.product.name;
         details.appendChild(name);
+        const sizeEl = document.createElement('p');
+        sizeEl.textContent = `Size: ${item.size}`;
+        details.appendChild(sizeEl);
 
         const priceEl = document.createElement('p');
         priceEl.className = 'cart-item-price';
@@ -167,7 +170,7 @@
         minus.className = 'qty-btn';
         minus.textContent = '−';
         minus.setAttribute('aria-label', 'Decrease quantity');
-        minus.addEventListener('click', () => { updateQty(item.product_id, item.qty - 1); renderCart(catalog); });
+        minus.addEventListener('click', () => { updateQty(item.product_id, item.qty - 1, item.size); renderCart(catalog); });
         qtyRow.appendChild(minus);
 
         const qtyDisplay = document.createElement('span');
@@ -180,7 +183,7 @@
         plus.className = 'qty-btn';
         plus.textContent = '+';
         plus.setAttribute('aria-label', 'Increase quantity');
-        plus.addEventListener('click', () => { updateQty(item.product_id, item.qty + 1); renderCart(catalog); });
+        plus.addEventListener('click', () => { updateQty(item.product_id, item.qty + 1, item.size); renderCart(catalog); });
         qtyRow.appendChild(plus);
 
         details.appendChild(qtyRow);
@@ -189,7 +192,7 @@
         removeBtn.type = 'button';
         removeBtn.className = 'remove-btn';
         removeBtn.textContent = 'Remove';
-        removeBtn.addEventListener('click', () => { removeFromCart(item.product_id); renderCart(catalog); });
+        removeBtn.addEventListener('click', () => { removeFromCart(item.product_id, item.size); renderCart(catalog); });
         details.appendChild(removeBtn);
 
         row.appendChild(details);
