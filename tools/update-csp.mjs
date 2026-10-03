@@ -2,9 +2,10 @@ import fs from 'node:fs';
 import { createHash } from 'node:crypto';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-const root = fileURLToPath(new URL('../',import.meta.url));
+export function updateCSP(directory, includeAdmin = true) {
+const root = directory instanceof URL ? fileURLToPath(directory) : directory;
 const files = fs.readdirSync(root).filter(f=>f.endsWith('.html'));
-if (fs.existsSync(path.join(root,'admin'))) files.push(...fs.readdirSync(path.join(root,'admin')).filter(f=>f.endsWith('.html')).map(f=>'admin/'+f));
+if (includeAdmin && fs.existsSync(path.join(root,'admin'))) files.push(...fs.readdirSync(path.join(root,'admin')).filter(f=>f.endsWith('.html')).map(f=>'admin/'+f));
 const hashes = new Set();
 for (const file of files) {
   const source = fs.readFileSync(path.join(root,file),'utf8');
@@ -19,3 +20,6 @@ let text = fs.readFileSync(headers,'utf8');
 text = text.replace(/script-src [^;]+;/, `script-src 'self' ${[...hashes].join(' ')} https://challenges.cloudflare.com https://cdn.tailwindcss.com;`);
 fs.writeFileSync(headers,text);
 console.log(`Updated CSP hashes for ${files.length} pages.`);
+}
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url))
+  updateCSP(new URL('../', import.meta.url));

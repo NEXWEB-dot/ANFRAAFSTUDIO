@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "node tools/build.mjs",
+    "check:launch": "node tools/check-launch.mjs",
     "update:csp": "node tools/update-csp.mjs",
     "test": "node --experimental-vm-modules --test --test-isolation=none tests/*.test.mjs"
   },

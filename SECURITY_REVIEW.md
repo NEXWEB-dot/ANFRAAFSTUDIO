@@ -1,5 +1,10 @@
 # Security and bug review — 2 October 2026
 
+**3 October deployment update:** the backend now builds independently to `dist/`, and
+the frontend has a same-origin API bridge. The old adjacent-checkout/public-directory
+build instructions below describe the original audit state; use LAUNCH_READINESS.md
+for the current deployment sequence. No live integration or production launch is implied.
+
 Reviewed the storefront, local admin dashboard, nested Cloudflare backend, SQL functions,
 maintenance worker and dependencies. These are local fixes, not a production deployment
 or a guarantee that every possible vulnerability has been eliminated.

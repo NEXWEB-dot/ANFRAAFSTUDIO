@@ -33,11 +33,16 @@ Use Node.js 22+ and `npm ci`, then `npm test` and `npm run build`.
 The static build output is `dist/`. Do not publish the workspace root: local backend,
 administration, tooling and configuration folders are not public assets.
 
-Static hosting alone does not process orders. The complete local installation includes
-the separate `anraf backend` repository and the ignored `admin` folder. From the backend
-directory, `npm ci` and `npm run build` stage the storefront and admin assets into `public/`.
-Cloudflare Pages must deploy that directory together with the backend's `functions/`.
-Keep the storefront adjacent to the backend when using this local build arrangement.
+Deploy this repository as a Cloudflare Pages project with build command `npm run build`
+and output `dist/`. Root `functions/` supplies the public API bridge; set its runtime
+`BACKEND_ORIGIN` to the separately deployed backend Pages URL. The backend now builds
+independently to its own `dist/`; no adjacent frontend or admin checkout is needed.
+The admin dashboard remains a separate deployment and is not included in either build.
+
+Set `LAUNCH_MODE=production` and the public settings in `.env.example` for a production
+build. `npm run check:launch` checks those settings without revealing secrets. Builds
+substitute the actual public domain, CDN and contact number, then regenerate CSP hashes.
+Preview builds deliberately work without credentials and do not imply launch readiness.
 
 After editing inline scripts, run `npm run update:csp` (also run by both builds). The
 generated `_headers` uses hashes instead of permitting arbitrary inline JavaScript.
@@ -45,3 +50,4 @@ Hosts that do not support `_headers`, including GitHub Pages, require equivalent
 configured separately.
 
 See [SECURITY_REVIEW.md](./SECURITY_REVIEW.md) for fixes, verification and rollout requirements.
+The current deployment sequence and remaining blockers are in [LAUNCH_READINESS.md](./LAUNCH_READINESS.md).

@@ -211,6 +211,7 @@ export async function loadCatalog(render = () => {}) {
 
   // 2. Network sources (CDN live, then JSON file)
   const sources = [];
+  sources.push(['/api/catalog', 'live']);
   if (CDN) sources.push([`${CDN}/catalog/products.json`, 'live']);
   sources.push(['./data/products.fallback.json', 'fallback']);
   sources.push(['/data/products.fallback.json', 'fallback-root']);

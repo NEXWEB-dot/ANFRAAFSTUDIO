@@ -1,0 +1,6 @@
+name = "anraf-storefront"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-01-01"
+
+# Runtime variable: BACKEND_ORIGIN=https://your-api.pages.dev
+# Public production build settings: see .env.example.
