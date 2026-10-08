@@ -31,3 +31,6 @@ The new backend validates Sanity prices and emails orders through Resend. Custom
 names, phones and delivery addresses are never written to the public Sanity dataset.
 The legacy database-backed dashboard and automatic stock counting are not used.
 See LAUNCH_READINESS.md for the remaining live configuration.
+
+A generated data/sanity.snapshot.json is available to first-time visitors if the CDN request fails. It expires 24 hours after generation, is never used to price checkout, and is refreshed by the sitemap sync tool.
+

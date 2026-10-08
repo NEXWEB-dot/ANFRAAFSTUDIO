@@ -5,6 +5,7 @@ if (base.protocol !== 'https:' || !base.pathname.endsWith('/')) throw new Error(
 const response=await fetch(sanityURL({}),{signal:AbortSignal.timeout(12000)});
 if (!response.ok) throw new Error(`Sanity ${response.status}`);
 const catalog=normalizeSanity((await response.json()).result,{});
+await writeFile(new URL('../data/sanity.snapshot.json',import.meta.url),JSON.stringify(catalog));
 const escape=value=>value.replace(/[<>&"']/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&apos;'}[c]));
 const paths=['','store.html',...catalog.products.map(p=>`product.html?slug=${encodeURIComponent(p.slug)}`)];
 await writeFile(new URL('../sitemap.xml',import.meta.url),`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${paths.map(p=>`  <url><loc>${escape(new URL(p,base).href)}</loc></url>`).join('\n')}\n</urlset>\n`);

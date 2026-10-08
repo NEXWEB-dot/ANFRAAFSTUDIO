@@ -168,6 +168,18 @@ test('revalidation renders price, stock and image changes when the slug is uncha
   assert.match(renders[1].products[0].images[0].url,/abc123/);
 });
 
+test('static Sanity outage snapshot is usable only while recent',async()=>{
+  let snapshot={...cat,generated_at:new Date().toISOString()};
+  globalThis.fetch=async url=>{
+    if (String(url).includes('apicdn.sanity.io')) throw new Error('CDN unavailable');
+    assert.match(String(url),/data\/sanity.snapshot.json$/);
+    return Response.json(snapshot);
+  };
+  assert.equal((await catalog.loadCatalog()).products.length,1);
+  snapshot={...snapshot,generated_at:new Date(Date.now()-86400001).toISOString()};
+  assert.equal((await catalog.loadCatalog()).unavailable,true);
+});
+
 test('cart accepts generated Sanity IDs and rejects draft IDs', () => {
   cart.addToCart('SanityAutoId123',2,'Large');
   cart.addToCart('drafts.hidden');
@@ -199,3 +211,4 @@ test('admin never reports failed saves or uploads as success', {skip: !adminPres
   await assert.rejects(api.status());
   assert.equal(localStorage.getItem('admin_local_products'),null);
 });
+
