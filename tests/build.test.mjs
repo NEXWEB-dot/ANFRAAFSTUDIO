@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile, mkdtemp, mkdir, copyFile } from 'node:fs/promises';
+import { readFile, mkdtemp, mkdir, copyFile, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
@@ -12,7 +12,10 @@ test('production build injects public settings and regenerates matching CSP hash
   const previous=Object.fromEntries(Object.keys(settings).map(k=>[k,process.env[k]]));
   try {
     Object.assign(process.env,settings);
+    await mkdir('dist',{recursive:true});
+    await writeFile('dist/obsolete-demo.json','{}');
     await import('../tools/build.mjs?production-test');
+    assert.equal(existsSync('dist/obsolete-demo.json'),false);
     const html=await readFile('dist/checkout.html','utf8');
     const headers=await readFile('dist/_headers','utf8');
     assert.ok(html.includes('923219876543'));

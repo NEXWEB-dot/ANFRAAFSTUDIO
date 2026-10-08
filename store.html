@@ -99,8 +99,12 @@
 
   <!-- ── PRODUCTS MAIN ───────────────────────────────────────── -->
   <main class="store-container">
-    <div class="products-grid" id="productsGrid">
-      <!-- Injected dynamically via catalog.js -->
+    <p id="catalogLoading" class="loading-status" role="status">Loading the collection…</p>
+    <div class="products-grid" id="productsGrid" aria-busy="true">
+      <div class="skeleton-card" aria-hidden="true"><div class="skeleton skeleton-photo"></div><div class="skeleton skeleton-line"></div><div class="skeleton skeleton-line short"></div></div>
+      <div class="skeleton-card" aria-hidden="true"><div class="skeleton skeleton-photo"></div><div class="skeleton skeleton-line"></div><div class="skeleton skeleton-line short"></div></div>
+      <div class="skeleton-card" aria-hidden="true"><div class="skeleton skeleton-photo"></div><div class="skeleton skeleton-line"></div><div class="skeleton skeleton-line short"></div></div>
+      <div class="skeleton-card" aria-hidden="true"><div class="skeleton skeleton-photo"></div><div class="skeleton skeleton-line"></div><div class="skeleton skeleton-line short"></div></div>
     </div>
   </main>
 
@@ -200,6 +204,7 @@
 
     // ── Product Rendering & Filtering ───────────────────────
     let catalogData = mergeAdminProducts(DEFAULT_CATALOG);
+    let catalogReady = false;
     const grid = document.getElementById('productsGrid');
     const pills = document.querySelectorAll('.pill-btn');
     const sortSelect = document.getElementById('sortSelect');
@@ -211,6 +216,7 @@
     let selectedCat = urlParams.get('category') || '';
 
     function filterAndRender() {
+      if (!catalogReady) return;
       let items = selectedCat ? getByCategory(catalogData, selectedCat) : (catalogData.products || []);
       
       const sort = sortSelect.value;
@@ -234,7 +240,7 @@
         return;
       }
 
-      for (const p of items) {
+      for (const [index, p] of items.entries()) {
         const card = document.createElement('article');
         card.className = 'p-card';
 
@@ -246,8 +252,8 @@
           <a href="./product.html?slug=${encodeURIComponent(p.slug)}" class="p-img-wrap">
             ${isSale ? '<span class="badge-sale">SALE</span>' : ''}
             ${!p.in_stock ? '<span class="badge-sold">SOLD OUT</span>' : ''}
-            <img class="img-primary" src="${escapeHTML(safeImageURL(imgA))}" alt="${escapeHTML(p.name)}" loading="lazy" decoding="async">
-            <img class="img-secondary" src="${escapeHTML(safeImageURL(imgB))}" alt="${escapeHTML(p.name)} detail" loading="lazy" decoding="async">
+            <img class="img-primary" src="${escapeHTML(safeImageURL(imgA))}" alt="${escapeHTML(p.name)}" width="480" height="640" loading="${index < 2 ? 'eager' : 'lazy'}" decoding="async">
+            <img class="img-secondary" src="${escapeHTML(safeImageURL(imgB))}" alt="${escapeHTML(p.name)} detail" width="480" height="640" loading="lazy" decoding="async">
           </a>
           <div class="p-details">
             <div class="p-category">${escapeHTML(p.category || 'Couture')}</div>
@@ -323,6 +329,9 @@
     loadCatalog((data) => {
       if (data && Array.isArray(data.products)) {
         catalogData = data;
+        catalogReady = true;
+        grid.setAttribute('aria-busy', 'false');
+        document.getElementById('catalogLoading').hidden = true;
         filterAndRender();
         renderCartDrawer();
       }

@@ -1,53 +1,36 @@
-# ANRAF Studio — Luxury E-Commerce Storefront
+# ANRAF Studio storefront
 
-Official customer-facing website and luxury storefront for **ANRAF Studio**.
+Products and images use Sanity's CDN. Checkout uses the separate Sanity + Resend
+backend; no Supabase or R2 is needed in the active flow.
 
-## 🛍️ Live Storefront Pages
-- **[`index.html`](./index.html)** — Luxury brand homepage featuring the curated hero carousel, new arrivals, and collection showcases.
-- **[`store.html`](./store.html)** — Interactive catalog page with responsive category filtering, sorting, and dynamic product grids.
-- **[`product.html`](./product.html)** — Product details page with high-resolution image gallery, color/size picker, and instant add-to-bag.
-- **[`cart.html`](./cart.html)** — Interactive shopping bag with quantity controls and real-time order pricing.
-- **[`checkout.html`](./checkout.html)** — High-converting checkout with Cash on Delivery (COD) and real-time validation.
-- **[`order-confirmed.html`](./order-confirmed.html)** — Post-checkout confirmation and invoice receipt.
+## Cloudflare Pages
 
-## 📁 Directory Structure
-```
-/
-├── assets/                  # Brand imagery, photography, and lookbooks
-├── css/                     # Storefront styling (store.css)
-├── js/                      # Frontend JavaScript modules (cart.js, catalog.js, checkout.js)
-├── data/                    # Fallback catalog JSON (products.fallback.json)
-├── index.html               # Main homepage
-├── store.html               # Shop catalog
-├── product.html             # Product view
-├── cart.html                # Cart page
-├── checkout.html            # Checkout page
-├── order-confirmed.html     # Order success screen
-├── robots.txt               # Search engine crawl directives
-├── sitemap.xml              # SEO sitemap
-└── _headers                 # Edge CDN caching & security headers
-```
+- Repository: NEXWEB-dot/ANFRAAFSTUDIO; branch: main.
+- Node: 22 or newer. Build: npm run build. Output: dist.
+- Runtime BACKEND_ORIGIN: the separately deployed backend's HTTPS origin.
+- Production build settings: see .env.example and LAUNCH_READINESS.md.
+- Homepage: index.html. Keep functions/ at the repository root for the API bridge.
 
-## 🚀 Deployment
-Use Node.js 22+ and `npm ci`, then `npm test` and `npm run build`.
-The static build output is `dist/`. Do not publish the workspace root: local backend,
-administration, tooling and configuration folders are not public assets.
+Run npm ci, npm test and npm run build. The build recreates dist from an allowlist;
+source documentation, tests, development tools and secrets are not public assets.
 
-Deploy this repository as a Cloudflare Pages project with build command `npm run build`
-and output `dist/`. Root `functions/` supplies the public API bridge; set its runtime
-`BACKEND_ORIGIN` to the separately deployed backend Pages URL. The backend now builds
-independently to its own `dist/`; no adjacent frontend or admin checkout is needed.
-The admin dashboard remains a separate deployment and is not included in either build.
+## Included files
 
-Set `LAUNCH_MODE=production` and the public settings in `.env.example` for a production
-build. `npm run check:launch` checks those settings without revealing secrets. Builds
-substitute the actual public domain, CDN and contact number, then regenerate CSP hashes.
-Preview builds deliberately work without credentials and do not imply launch readiness.
+- HTML pages, css/ and js/: storefront and checkout UI.
+- assets/: homepage photos and the product-image fallback still in use.
+- data/sanity.snapshot.json: verified Sanity outage snapshot, expires after 24 hours.
+- functions/: Cloudflare same-origin checkout/config bridge.
+- tools/, tests/, package files and wrangler.toml: build, validation and deployment.
+- SANITY_SETUP.md: CDN and caching behavior.
+- LAUNCH_READINESS.md: remaining live setup and acceptance checks.
 
-After editing inline scripts, run `npm run update:csp` (also run by both builds). The
-generated `_headers` uses hashes instead of permitting arbitrary inline JavaScript.
-Hosts that do not support `_headers`, including GitHub Pages, require equivalent headers
-configured separately.
+Run node tools/sync-sanity-seo.mjs after publishing/removing products to regenerate
+the sitemap and outage snapshot. Set SITE_URL to the live base URL, ending in /.
 
-See [SECURITY_REVIEW.md](./SECURITY_REVIEW.md) for fixes, verification and rollout requirements.
-The current deployment sequence and remaining blockers are in [LAUNCH_READINESS.md](./LAUNCH_READINESS.md).
+Skeletons are shown while product data loads. Gallery thumbnails, hover photos,
+related products and below-fold catalog images use native lazy loading; the main
+product photo and first two catalog photos load promptly. Reduced-motion settings
+turn off skeleton animation.
+
+Checkout is not launch-ready until the backend, Resend sender/recipient, Turnstile,
+real contact details and storefront domain are configured and tested end to end.
