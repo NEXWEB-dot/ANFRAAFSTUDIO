@@ -4,13 +4,13 @@
 
 const LS_KEY = 'anraf_cart:v2';
 const SIZES = new Set(['Small', 'Medium', 'Large', 'XL']);
-const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const PRODUCT_ID = /^(?!drafts\.)(?!versions\.)[a-zA-Z0-9_-][a-zA-Z0-9_.-]{0,127}$/;
 
 export function normalizeCart(value) {
   if (!Array.isArray(value)) return [];
   const items = [];
   for (const item of value.slice(0, 100)) {
-    if (!item || !UUID.test(item.product_id) || !Number.isInteger(item.qty) || item.qty < 1) continue;
+    if (!item || typeof item.product_id !== 'string' || !PRODUCT_ID.test(item.product_id) || !Number.isInteger(item.qty) || item.qty < 1) continue;
     const size = item.size ?? 'Small';
     if (!SIZES.has(size)) continue;
     const existing = items.find((i) => i.product_id === item.product_id && i.size === size);
@@ -44,7 +44,7 @@ export function getCartCount() {
 }
 
 export function addToCart(productId, qty = 1, size = 'Small') {
-  if (!UUID.test(productId) || !SIZES.has(size) || !Number.isInteger(qty) || qty < 1) return;
+  if (typeof productId !== 'string' || !PRODUCT_ID.test(productId) || !SIZES.has(size) || !Number.isInteger(qty) || qty < 1) return;
   const items = loadCart();
   const existing = items.find((i) => i.product_id === productId && (i.size || 'Small') === size);
   if (existing) {
@@ -88,6 +88,9 @@ export function enrichCart(cartItems, catalog) {
         price: 0, in_stock: false, images: [],
       }
     }))
+    .map(item => ({...item, product: {...item.product,
+      in_stock: item.product.in_stock && (!Array.isArray(item.product.sizes) || item.product.sizes.includes(item.size)),
+    }}))
     .filter((item) => item.product);
 }
 

@@ -47,6 +47,17 @@ test('API bridge rejects redirects and HTML login/error pages', async () => {
     }
   } finally {globalThis.fetch=previous;}
 });
+
+test('API bridge preserves catalog cache lifetime but never caches checkout/config/errors', async () => {
+  const previous = globalThis.fetch;
+  try {
+    globalThis.fetch = async () => Response.json({products:[]},{headers:{'Cache-Control':'public, max-age=30, s-maxage=30'}});
+    assert.equal((await onRequest({request:request('/api/catalog'),env})).headers.get('Cache-Control'),'public, max-age=30, s-maxage=30');
+    assert.equal((await onRequest({request:request('/api/config'),env})).headers.get('Cache-Control'),'no-store');
+    globalThis.fetch = async () => Response.json({error:'down'},{status:503,headers:{'Cache-Control':'public, max-age=60'}});
+    assert.equal((await onRequest({request:request('/api/catalog'),env})).headers.get('Cache-Control'),'no-store');
+  } finally {globalThis.fetch=previous;}
+});
 test('production build configuration rejects missing settings and placeholder contacts', () => {
   assert.throws(()=>productionConfig({}),/SITE_ORIGIN/);
   const settings={SITE_ORIGIN:'https://shop.test',BACKEND_ORIGIN:'https://api.shop.test',PUBLIC_CDN_ORIGIN:'https://cdn.shop.test',WHATSAPP_URL:'https://wa.me/923219876543'};

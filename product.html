@@ -298,8 +298,10 @@
 
     document.querySelectorAll('.size-pill').forEach(pill => {
       pill.addEventListener('click', () => {
-        document.querySelectorAll('.size-pill').forEach(p => p.classList.remove('active'));
+        if (pill.disabled || pill.hidden) return;
+        document.querySelectorAll('.size-pill').forEach(p => { p.classList.remove('active'); p.setAttribute('aria-pressed', 'false'); });
         pill.classList.add('active');
+        pill.setAttribute('aria-pressed', 'true');
         selectedSize = pill.dataset.size;
         updateWaLink();
       });
@@ -314,6 +316,14 @@
 
     function renderProduct(p) {
       currentProduct = p;
+      const sizes = p?.sizes ?? [];
+      if (!sizes.includes(selectedSize)) selectedSize = sizes[0] || '';
+      document.querySelectorAll('.size-pill').forEach(pill => {
+        pill.hidden = !sizes.includes(pill.dataset.size);
+        pill.disabled = !p?.in_stock || pill.hidden;
+        pill.classList.toggle('active', pill.dataset.size === selectedSize);
+        pill.setAttribute('aria-pressed', String(pill.dataset.size === selectedSize));
+      });
       const addButton = document.getElementById('addToCartBtn');
       addButton.disabled = !p || !p.in_stock;
       addButton.textContent = !p ? 'Product unavailable' : p.in_stock ? 'Add to Shopping Bag' : 'Sold out';
@@ -385,6 +395,7 @@
         compEl.textContent = formatPrice(p.compare_at_price);
         compEl.style.display = 'inline';
         badgeEl.style.display = 'inline-block';
+        badgeEl.textContent = p.discount_percent ? `${p.discount_percent}% OFF` : 'SALE';
       } else {
         compEl.style.display = 'none';
         badgeEl.style.display = 'none';
@@ -396,7 +407,7 @@
       const images = p.images?.length ? p.images : [{ url: './assets/WhatsApp Image 2026-09-28 at 2.54.30 PM.jpeg' }];
       const mainImg = document.getElementById('mainImage');
       mainImg.src = images[0].url;
-      mainImg.alt = p.name;
+      mainImg.alt = images[0].alt || p.name;
 
       const thumbsContainer = document.getElementById('galleryThumbs');
       thumbsContainer.innerHTML = '';
@@ -404,9 +415,11 @@
         const t = document.createElement('img');
         t.src = img.thumb || img.url;
         t.className = `thumb-img ${idx === 0 ? 'active' : ''}`;
-        t.alt = `${p.name} view ${idx + 1}`;
+        t.alt = img.alt || `${p.name} view ${idx + 1}`;
+        t.loading = 'lazy';
         t.addEventListener('click', () => {
           mainImg.src = img.url;
+          mainImg.alt = img.alt || p.name;
           thumbsContainer.querySelectorAll('.thumb-img').forEach(el => el.classList.remove('active'));
           t.classList.add('active');
         });
@@ -439,8 +452,8 @@
       for (const p of related) {
         const card = document.createElement('article');
         card.className = 'p-card';
-        const imgA = p.images?.[0]?.url || './assets/WhatsApp Image 2026-09-28 at 2.54.30 PM.jpeg';
-        const imgB = p.images?.[1]?.url || imgA;
+        const imgA = p.images?.[0]?.thumb || p.images?.[0]?.url || '';
+        const imgB = p.images?.[1]?.thumb || p.images?.[1]?.url || imgA;
         const isSale = p.compare_at_price && Number(p.compare_at_price) > Number(p.price);
         card.innerHTML = `
           <a href="./product.html?slug=${encodeURIComponent(p.slug)}" class="p-img-wrap">

@@ -1403,8 +1403,8 @@ const fmt = (n) => 'Rs. ' + Number(n).toLocaleString('en-PK') + ' PKR';
  * Build a product card DOM element safely (no innerHTML with untrusted data).
  */
 function buildCard(p, isFirst) {
-  const imgA = p.images?.[0]?.url  || '';
-  const imgB = p.images?.[1]?.url || imgA;
+  const imgA = p.images?.[0]?.thumb || p.images?.[0]?.url || '';
+  const imgB = p.images?.[1]?.thumb || p.images?.[1]?.url || imgA;
   const isSale = p.compare_at_price && p.compare_at_price > p.price;
 
   const article = document.createElement('article');

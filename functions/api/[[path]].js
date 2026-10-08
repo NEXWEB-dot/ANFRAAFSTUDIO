@@ -30,7 +30,8 @@ export async function onRequest({ request, env }) {
         !response.headers.get('Content-Type')?.includes('application/json'))
       return json({ error: 'ORDER_FAILED' }, 502);
     return new Response(response.body, { status: response.status, headers: {
-      'Content-Type': 'application/json', 'Cache-Control': 'no-store',
+      'Content-Type': 'application/json', 'Cache-Control': url.pathname === '/api/catalog' && response.ok
+        ? response.headers.get('Cache-Control') || 'no-store' : 'no-store',
       'X-Content-Type-Options': 'nosniff',
     } });
   } catch { return json({ error: 'ORDER_FAILED' }, 502); }

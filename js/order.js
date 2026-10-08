@@ -35,6 +35,8 @@ export function orderErrorMessage(code) {
     BOT_CHECK_FAILED: 'Please complete the security check again.',
     OUT_OF_STOCK: 'An item is out of stock. Please review your shopping bag.',
     PRODUCT_UNAVAILABLE: 'An item is no longer available. Please review your shopping bag.',
+    SIZE_UNAVAILABLE: 'A selected size is no longer available. Please choose another size from the product page.',
+    CATALOG_UNAVAILABLE: 'We cannot verify product availability right now. Your shopping bag is saved. Please try again shortly.',
     CHECKOUT_PAUSED: 'Checkout is temporarily unavailable. Your shopping bag is saved.',
   })[code] || 'We could not confirm your order. Your shopping bag is saved. Please retry or contact us before placing another order.';
 }

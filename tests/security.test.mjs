@@ -28,7 +28,7 @@ const cron = backendPresent ? (await import('../anraf backend/workers/cron/index
 const id = '11111111-1111-4111-8111-111111111111';
 const ref = '22222222-2222-4222-8222-222222222222';
 const product = { id, slug:'shirt', name:'Shirt', price:100, in_stock:true, images:[] };
-const cat = { generated_at:'2026-10-01T00:00:00Z', products:[product] };
+const cat = { source:'sanity', generated_at:'2026-10-01T00:00:00Z', products:[product] };
 beforeEach(() => { localStorage.clear(); sessionStorage.clear(); order.finishOrder(); });
 
 test('all application scripts and inline scripts parse', () => {
@@ -100,7 +100,7 @@ test('Pakistani phone forms normalize to one valid number', () => {
 });
 test('empty live catalog replaces cached inventory', async () => {
   localStorage.setItem('catalog:v1',JSON.stringify({data:cat}));
-  globalThis.fetch = async () => Response.json({generated_at:'2026-09-01T00:00:00Z', products:[]});
+  globalThis.fetch = async () => Response.json({source:'sanity',generated_at:'2026-09-01T00:00:00Z', products:[]});
   let latest;
   const result = await catalog.loadCatalog(c => { latest = c; });
   assert.deepEqual(result.products,[]); assert.deepEqual(latest.products,[]);
@@ -117,6 +117,48 @@ test('catalog validates malformed products and excludes inactive products', () =
 test('category URLs handle spaces and hyphens', () => {
   const c = {...cat,products:[{...product,category:'Ready to Wear'}]};
   assert.equal(catalog.getByCategory(c,'ready-to-wear').length,1);
+});
+
+test('products appear under each selected filter and unavailable sizes remain removable', () => {
+  const p={...product,category:'Heritage',filters:['Lawn','Ready to Wear'],sizes:['Medium']};
+  const c={...cat,products:[p]};
+  assert.equal(catalog.getByCategory(c,'lawn').length,1);
+  assert.equal(catalog.getByCategory(c,'ready-to-wear').length,1);
+  assert.equal(catalog.getByCategory(c,'heritage').length,0);
+  assert.deepEqual(catalog.getCategories(c),['Lawn','Ready to Wear']);
+  cart.addToCart(id,1,'Small'); cart.addToCart(id,1,'Medium');
+  const lines=cart.enrichCart(cart.getCart(),c);
+  assert.equal(lines[0].product.in_stock,false); assert.equal(lines[1].product.in_stock,true);
+  cart.removeFromCart(id,'Small'); assert.equal(cart.getCart().length,1);
+});
+
+test('Sanity browser cache skips requests while fresh and coalesces concurrent loads', async () => {
+  let calls = 0;
+  const current = {...cat,generated_at:new Date().toISOString()};
+  globalThis.fetch = async () => {calls++; return Response.json(current);};
+  await Promise.all([catalog.loadCatalog(),catalog.loadCatalog(),catalog.loadCatalog()]);
+  assert.equal(calls,1);
+  await catalog.loadCatalog(); assert.equal(calls,1);
+  localStorage.setItem('catalog:sanity:v3',JSON.stringify({data:current,ts:Date.now()-901000}));
+  await catalog.loadCatalog(); assert.equal(calls,2);
+});
+
+test('browser cache expires and cannot resurrect the legacy demo catalog', async () => {
+  globalThis.fetch = async () => {throw new Error('offline');};
+  localStorage.setItem('catalog:v1',JSON.stringify({data:cat,ts:Date.now()}));
+  assert.equal((await catalog.loadCatalog()).unavailable,true);
+  localStorage.setItem('catalog:sanity:v3',JSON.stringify({data:cat,ts:Date.now()-901000}));
+  assert.equal((await catalog.loadCatalog()).products.length,1);
+  localStorage.setItem('catalog:sanity:v3',JSON.stringify({data:cat,ts:Date.now()-86400001}));
+  assert.equal((await catalog.loadCatalog()).products.length,0);
+});
+
+test('cart accepts generated Sanity IDs and rejects draft IDs', () => {
+  cart.addToCart('SanityAutoId123',2,'Large');
+  cart.addToCart('drafts.hidden');
+  cart.addToCart(undefined); cart.addToCart(null); cart.addToCart(123);
+  assert.deepEqual(cart.normalizeCart([{qty:1},{product_id:null,qty:1}]),[]);
+  assert.deepEqual(cart.getCart(),[{product_id:'SanityAutoId123',qty:2,size:'Large'}]);
 });
 
 const payload = () => ({client_ref:ref,name:'Test Customer',phone:'+923001234567',address:'Test street, Karachi',notes:'',items:[{product_id:id,qty:1,size:'Medium'}],turnstile_token:'token'});
@@ -139,7 +181,8 @@ async function call(body, env = environment(), origin = env.SITE_ORIGIN) {
 function mockBackend(capture = () => {}) {
   globalThis.fetch = async (url,options) => {
     if (String(url).includes('siteverify')) return Response.json({success:true,hostname:'shop.example.test'});
-    if (String(url).includes('place_order')) { capture(JSON.parse(options.body)); return Response.json({total:100,order_number:1001}); }
+    if (String(url).includes('apicdn.sanity.io')) return Response.json({result:[product]});
+    if (String(url).includes('place_sanity_order')) { capture(JSON.parse(options.body)); return Response.json({total:100,order_number:1001}); }
     return Response.json({});
   };
 }
@@ -164,9 +207,10 @@ backendTest('checkout rejects null lines, fractions, excessive lines and invalid
 backendTest('successful checkout uses Pages waitUntil and forwards sizes without client prices', async () => {
   let args;
   mockBackend(a => { args = a; });
-  const response = await call(payload());
+  const body = payload(); body.items[0].price = 1; body.items[0].name = 'Forged';
+  const response = await call(body);
   assert.equal(response.status,200); assert.equal((await response.json()).total,100);
-  assert.deepEqual(args.p_items,[{product_id:id,qty:1,size:'Medium'}]);
+  assert.deepEqual(args.p_items,[{product_id:id,qty:1,size:'Medium',name:'Shirt',price:100}]);
   assert.equal(args.p_force,false);
 });
 backendTest('offline order capture is durable and idempotent', async () => {
@@ -176,7 +220,35 @@ backendTest('offline order capture is durable and idempotent', async () => {
   assert.equal((await call(payload(),env)).status,200);
   const saved=JSON.parse(env.objects.get(`orders-pending/${ref}.json`));
   assert.equal(saved.items[0].size,'Medium'); assert.equal(saved.total,100);
+  assert.equal(saved.catalog_source,'sanity');
   assert.equal((await (await call(payload(),env)).json()).total,100);
+});
+
+backendTest('checkout accepts Sanity IDs and fails closed for sold-out, removed or unavailable products', async () => {
+  let saved;
+  let result = [{...product,id:'SanityAutoId123'}];
+  let fail = false;
+  globalThis.fetch = async (url, options) => {
+    if (String(url).includes('siteverify')) return Response.json({success:true,hostname:'shop.example.test'});
+    if (String(url).includes('apicdn.sanity.io')) return fail ? Response.json({}, {status:503}) : Response.json({result});
+    if (String(url).includes('place_sanity_order')) {saved=JSON.parse(options.body);return Response.json({total:100,order_number:1001});}
+    return Response.json({});
+  };
+  const body={...payload(),items:[{product_id:'SanityAutoId123',qty:1,size:'Small',price:1}]};
+  assert.equal((await call(body)).status,200);
+  assert.equal(saved.p_items[0].price,100);
+  result[0].discountPercent=20;
+  result[0].sizes=['Small'];
+  assert.equal((await call(body)).status,200);
+  assert.equal(saved.p_items[0].price,80);
+  const wrongSize={...body,items:[{...body.items[0],size:'Medium'}]};
+  assert.equal((await (await call(wrongSize)).json()).error,'SIZE_UNAVAILABLE');
+  result[0].in_stock=false;
+  assert.equal((await (await call(body)).json()).error,'OUT_OF_STOCK');
+  result=[];
+  assert.equal((await (await call(body)).json()).error,'PRODUCT_UNAVAILABLE');
+  fail=true;
+  assert.equal((await call(body)).status,503);
 });
 test('checkout client rejects HTTP failures, malformed and fake successes', async () => {
   cart.addToCart(id);
