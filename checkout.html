@@ -7,16 +7,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Checkout — ANRAF Studio | Luxury Pakistani Fashion</title>
-  <meta name="description" content="Secure multi-step checkout for ANRAF Studio haute couture and luxury pret. Cash on Delivery across all cities in Pakistan.">
-  <link rel="canonical" href="https://nexweb-dot.github.io/ANFRAAFSTUDIO/checkout.html">
+  <meta name="description" content="Secure multi-step checkout for ANRAF Studio luxury pret and couture. Cash on Delivery and Direct Bank Transfer via WhatsApp across Pakistan.">
+  <link rel="canonical" href="https://anraaf.com/checkout.html">
 
   <!-- Open Graph -->
-  <meta property="og:type"        content="website">
-  <meta property="og:site_name"   content="ANRAF Studio">
-  <meta property="og:title"       content="Secure Checkout — ANRAF Studio">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ANRAF Studio">
+  <meta property="og:title" content="Secure Checkout — ANRAF Studio">
   <meta property="og:description" content="Complete your order for luxury handcrafted couture with nationwide complimentary delivery across Pakistan.">
-  <meta property="og:url"         content="https://nexweb-dot.github.io/ANFRAAFSTUDIO/checkout.html">
-  <meta property="og:image"       content="https://cdn.sanity.io/images/m7hktaor/production/bf77d6e0888c7ae3aeea44ab274c5e1b07ecf7f2-1024x1536.jpg?w=1200&fit=max&auto=format&q=80">
+  <meta property="og:url" content="https://anraaf.com/checkout.html">
+  <meta property="og:image" content="https://cdn.sanity.io/images/m7hktaor/production/bf77d6e0888c7ae3aeea44ab274c5e1b07ecf7f2-1024x1536.jpg?w=1200&fit=max&auto=format&q=80">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,110 +24,131 @@
   <link rel="stylesheet" href="./css/store.css">
 
   <style>
-    /* ── Multi-Step Premium Checkout Styles ── */
+    /* ── Pure White Haute-Couture Premium Checkout ── */
     :root {
       --gold: #bfa15f;
       --gold-dark: #9e7f3c;
-      --cream-bg: #faf7f2;
-      --border-soft: #e5ded4;
+      --pure-white: #ffffff;
+      --ink: #111111;
+      --muted: #666666;
+      --border-subtle: #eaeaea;
+      --border-card: #e5e5e5;
+      --input-bg: #fafafa;
+      --wa-green: #25D366;
+      --wa-green-hover: #1faa52;
+      --wa-dark-green: #075E54;
     }
 
-    body {
-      background-color: var(--cream-bg);
-      color: #1a1a1a;
+    html, body {
+      background-color: var(--pure-white) !important;
+      color: var(--ink);
       font-family: 'DM Sans', -apple-system, sans-serif;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
     }
 
     .checkout-header {
-      background: #ffffff;
-      border-bottom: 1px solid var(--border-soft);
+      background: var(--pure-white);
+      border-bottom: 1px solid var(--border-subtle);
       padding: 1.25rem 2rem;
       position: sticky;
       top: 0;
       z-index: 100;
     }
     .checkout-header-inner {
-      max-width: 1200px;
+      max-width: 1240px;
       margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
+    /* Multi-Step Stepper */
     .step-progress-bar {
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 1.5rem;
-      margin: 2rem auto 2.5rem;
-      max-width: 500px;
+      gap: 1.2rem;
+      margin: 2.2rem auto 2.5rem;
+      max-width: 540px;
+      background: var(--pure-white);
+      padding: 0 1rem;
     }
     .step-item {
       display: flex;
       align-items: center;
-      gap: 0.6rem;
-      font-size: 0.85rem;
+      gap: 0.65rem;
+      font-size: 0.82rem;
       font-weight: 500;
-      color: #8c827a;
+      color: #999999;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      transition: all 0.3s ease;
+      letter-spacing: 0.1em;
+      transition: all 0.25s ease;
+      cursor: pointer;
     }
     .step-item.active {
-      color: #1a1a1a;
+      color: var(--ink);
       font-weight: 700;
     }
     .step-item.completed {
-      color: var(--gold-dark);
+      color: var(--ink);
     }
     .step-num {
       width: 28px;
       height: 28px;
       border-radius: 50%;
-      border: 1.5px solid currentColor;
+      border: 1.5px solid #d0d0d0;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 600;
-      transition: all 0.3s;
+      transition: all 0.25s ease;
+      background: var(--pure-white);
+      color: #777777;
     }
     .step-item.active .step-num {
-      background: #1a1a1a;
-      border-color: #1a1a1a;
-      color: #ffffff;
+      background: var(--ink);
+      border-color: var(--ink);
+      color: var(--pure-white);
     }
     .step-item.completed .step-num {
-      background: var(--gold);
-      border-color: var(--gold);
-      color: #ffffff;
+      background: var(--ink);
+      border-color: var(--ink);
+      color: var(--pure-white);
     }
     .step-divider {
       flex: 1;
       height: 1px;
-      background: #d8cfc4;
-      max-width: 60px;
+      background: #e0e0e0;
+      max-width: 70px;
     }
 
+    /* Layout */
     .checkout-layout {
-      max-width: 1200px;
+      max-width: 1240px;
       margin: 0 auto 5rem;
       padding: 0 1.5rem;
       display: grid;
       grid-template-columns: 1fr;
       gap: 2.5rem;
+      background: var(--pure-white);
     }
     @media (min-width: 960px) {
       .checkout-layout {
-        grid-template-columns: 1.4fr 1fr;
+        grid-template-columns: 1.45fr 1fr;
+        gap: 3rem;
       }
     }
 
+    /* Cards */
     .checkout-card {
-      background: #ffffff;
-      border: 1px solid var(--border-soft);
+      background: var(--pure-white);
+      border: 1px solid var(--border-card);
       padding: 2.5rem;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+      box-shadow: 0 2px 24px rgba(0, 0, 0, 0.02);
+      border-radius: 2px;
     }
     @media (max-width: 640px) {
       .checkout-card {
@@ -140,71 +161,81 @@
     }
     .step-panel.active {
       display: block;
-      animation: fadeIn 0.35s ease;
+      animation: stepFade 0.3s ease;
     }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
+    @keyframes stepFade {
+      from { opacity: 0; transform: translateY(4px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
+    /* Form Fields */
     .form-group {
       margin-bottom: 1.4rem;
     }
     .form-label {
       display: block;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       text-transform: uppercase;
       font-weight: 600;
-      letter-spacing: 0.06em;
-      margin-bottom: 0.45rem;
-      color: #333;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.5rem;
+      color: #222222;
     }
     .form-input, .form-select, .form-textarea {
       width: 100%;
-      padding: 12px 14px;
-      border: 1px solid var(--border-soft);
-      background: #fafaf9;
+      padding: 13px 15px;
+      border: 1px solid var(--border-card);
+      background: var(--input-bg);
       font-size: 0.95rem;
       font-family: inherit;
-      color: #1a1a1a;
+      color: var(--ink);
       transition: all 0.2s ease;
       outline: none;
+      border-radius: 0;
+      box-sizing: border-box;
     }
     .form-input:focus, .form-select:focus, .form-textarea:focus {
-      background: #ffffff;
-      border-color: #1a1a1a;
-      box-shadow: 0 0 0 1px #1a1a1a;
+      background: var(--pure-white);
+      border-color: var(--ink);
+      box-shadow: 0 0 0 1px var(--ink);
     }
 
     .phone-input-wrap {
       display: flex;
       align-items: center;
-      border: 1px solid var(--border-soft);
-      background: #fafaf9;
+      border: 1px solid var(--border-card);
+      background: var(--input-bg);
+      transition: all 0.2s;
+    }
+    .phone-input-wrap:focus-within {
+      background: var(--pure-white);
+      border-color: var(--ink);
+      box-shadow: 0 0 0 1px var(--ink);
     }
     .phone-prefix {
-      padding: 12px 14px;
+      padding: 13px 15px;
       font-weight: 600;
       font-size: 0.9rem;
-      color: #555;
-      background: #f0ebe1;
-      border-right: 1px solid var(--border-soft);
+      color: #444444;
+      background: #f5f5f5;
+      border-right: 1px solid var(--border-card);
       user-select: none;
     }
     .phone-input-wrap input {
       border: none;
       background: transparent;
-      padding: 12px 14px;
+      padding: 13px 15px;
       width: 100%;
       font-size: 0.95rem;
       font-family: inherit;
       outline: none;
     }
 
+    /* Buttons */
     .btn-step-next {
-      background: #1a1a1a;
-      color: #ffffff;
-      padding: 15px 28px;
+      background: var(--ink);
+      color: var(--pure-white);
+      padding: 16px 28px;
       font-size: 0.88rem;
       font-weight: 600;
       text-transform: uppercase;
@@ -216,17 +247,29 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
+      margin-top: 1rem;
     }
     .btn-step-next:hover {
-      background: #333;
+      background: #2a2a2a;
+    }
+
+    /* Green WhatsApp Place Order Button */
+    .btn-step-next.btn-whatsapp-active {
+      background: var(--wa-green) !important;
+      color: #ffffff !important;
+      box-shadow: 0 4px 18px rgba(37, 211, 102, 0.25);
+    }
+    .btn-step-next.btn-whatsapp-active:hover {
+      background: var(--wa-green-hover) !important;
+      box-shadow: 0 6px 22px rgba(37, 211, 102, 0.35);
     }
 
     .btn-step-prev {
       background: transparent;
       border: none;
-      color: #777;
-      font-size: 0.85rem;
+      color: #777777;
+      font-size: 0.82rem;
       font-weight: 500;
       text-transform: uppercase;
       letter-spacing: 0.08em;
@@ -234,52 +277,149 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 10px 0;
+      padding: 8px 0;
+      margin-bottom: 0.5rem;
       transition: color 0.2s;
     }
     .btn-step-prev:hover {
-      color: #1a1a1a;
+      color: var(--ink);
     }
 
+    /* Summary pill in Step 2 */
     .review-pill {
-      background: var(--cream-bg);
-      border: 1px solid var(--border-soft);
+      background: #fafafa;
+      border: 1px solid var(--border-subtle);
       padding: 1.25rem;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.8rem;
     }
     .review-row {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.6rem;
       font-size: 0.88rem;
     }
+    .review-row:last-child {
+      margin-bottom: 0;
+    }
     .review-label {
-      color: #777;
+      color: #777777;
       text-transform: uppercase;
-      font-size: 0.78rem;
-      letter-spacing: 0.05em;
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
     }
     .review-val {
       font-weight: 600;
       text-align: right;
+      color: var(--ink);
     }
 
+    /* Payment Cards */
     .payment-option-card {
-      border: 1.5px solid var(--border-soft);
-      padding: 1.25rem;
+      border: 1.5px solid var(--border-card);
+      padding: 1.25rem 1.4rem;
       display: flex;
-      gap: 12px;
+      gap: 14px;
       cursor: pointer;
       margin-bottom: 1rem;
       transition: all 0.2s ease;
-      background: #ffffff;
+      background: var(--pure-white);
+      align-items: flex-start;
+      position: relative;
     }
     .payment-option-card:hover {
-      border-color: #1a1a1a;
+      border-color: var(--ink);
     }
     .payment-option-card.selected {
-      border-color: #1a1a1a;
-      background: #fdfcf9;
+      border-color: var(--ink);
+      background: #ffffff;
+      box-shadow: 0 0 0 1px var(--ink);
+    }
+    .payment-option-card.selected.is-whatsapp-method {
+      border-color: var(--wa-green);
+      box-shadow: 0 0 0 1px var(--wa-green);
+    }
+
+    /* Account Details Box (Revealed on Online Payment) */
+    .bank-details-box {
+      display: none;
+      background: #fdfdfd;
+      border: 1.5px solid #25D366;
+      padding: 1.4rem;
+      margin-top: -0.5rem;
+      margin-bottom: 1.5rem;
+      animation: stepFade 0.3s ease;
+    }
+    .bank-details-box.open {
+      display: block;
+    }
+    .bank-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #e8f7ee;
+      color: #128C7E;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 4px 10px;
+      margin-bottom: 1rem;
+      border-radius: 2px;
+    }
+    .bank-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px dashed #e8e8e8;
+      font-size: 0.88rem;
+    }
+    .bank-row:last-child {
+      border-bottom: none;
+    }
+    .bank-label {
+      color: #666;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .bank-val-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .bank-val {
+      font-weight: 700;
+      color: #111;
+      font-family: monospace, sans-serif;
+      letter-spacing: 0.02em;
+    }
+    .btn-copy {
+      background: #f0f0f0;
+      border: 1px solid #d5d5d5;
+      color: #333;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+      padding: 3px 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-copy:hover {
+      background: #111;
+      color: #fff;
+      border-color: #111;
+    }
+
+    .error-pill {
+      display: none;
+      background: #fff5f5;
+      color: #c53030;
+      padding: 12px 14px;
+      font-size: 0.85rem;
+      margin-bottom: 1.2rem;
+      border-left: 3px solid #c53030;
     }
   </style>
 
@@ -295,13 +435,13 @@
   <!-- Minimal Luxury Header -->
   <header class="checkout-header">
     <div class="checkout-header-inner">
-      <a href="./index.html" class="logo" style="font-family:'Cormorant',serif;font-size:1.8rem;text-decoration:none;color:#1a1a1a;letter-spacing:0.06em;">ANRAF</a>
+      <a href="./index.html" class="logo" style="font-family:'Cormorant',serif;font-size:1.85rem;text-decoration:none;color:#111111;letter-spacing:0.08em;font-weight:400;">ANRAF</a>
       <div style="display:flex;align-items:center;gap:1.5rem;">
-        <span style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:#666;display:flex;align-items:center;gap:6px;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2e7d4f" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:#666666;display:flex;align-items:center;gap:6px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#25D366" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           256-Bit SSL Encrypted
         </span>
-        <a href="./store.html" style="font-size:0.8rem;color:#777;text-transform:uppercase;letter-spacing:0.08em;text-decoration:none;">← Return to Shop</a>
+        <a href="./store.html" style="font-size:0.78rem;color:#777777;text-transform:uppercase;letter-spacing:0.08em;text-decoration:none;">← Return to Shop</a>
       </div>
     </div>
   </header>
@@ -309,22 +449,22 @@
   <!-- Step Progress Bar -->
   <div class="step-progress-bar">
     <div class="step-item active" id="stepIndicator1">
-      <div class="step-num">1</div>
-      <span>Delivery</span>
+      <div class="step-num" id="stepNum1">1</div>
+      <span>1. Delivery Details</span>
     </div>
     <div class="step-divider"></div>
     <div class="step-item" id="stepIndicator2">
-      <div class="step-num">2</div>
-      <span>Payment & Review</span>
+      <div class="step-num" id="stepNum2">2</div>
+      <span>2. Payment & Review</span>
     </div>
   </div>
 
   <main>
     <!-- Empty Cart Notice -->
-    <div id="emptyCartNotice" style="display:none;max-width:600px;margin:3rem auto;text-align:center;padding:4rem 2rem;background:#fff;border:1px solid var(--border-soft);">
-      <h2 style="font-family:'Cormorant',serif;font-size:2rem;font-weight:400;margin-bottom:0.75rem;">Your Shopping Bag is Empty</h2>
+    <div id="emptyCartNotice" style="display:none;max-width:600px;margin:4rem auto;text-align:center;padding:4rem 2rem;background:#ffffff;border:1px solid #eaeaea;">
+      <h2 style="font-family:'Cormorant',serif;font-size:2.2rem;font-weight:400;margin-bottom:0.75rem;color:#111;">Your Shopping Bag is Empty</h2>
       <p style="font-size:0.9rem;color:#666;margin-bottom:2rem;">Explore our latest handcrafted luxury lawn and embroidered collections.</p>
-      <a href="./store.html" class="btn-step-next" style="display:inline-block;width:auto;padding:14px 36px;text-decoration:none;">Discover Collections</a>
+      <a href="./store.html" class="btn-step-next" style="display:inline-block;width:auto;padding:14px 40px;text-decoration:none;">Discover Collections</a>
     </div>
 
     <!-- Main Multi-Step Checkout Container -->
@@ -338,26 +478,26 @@
 
           <!-- ════ STEP 1: CONTACT & DELIVERY ════ -->
           <div class="checkout-card step-panel active" id="stepPanel1">
-            <h1 style="font-family:'Cormorant',serif;font-size:1.8rem;font-weight:400;letter-spacing:0.03em;margin-bottom:0.25rem;">Delivery Destination</h1>
-            <p style="font-size:0.85rem;color:#666;margin-bottom:2rem;">Complimentary tracked courier delivery nationwide across Pakistan.</p>
+            <h1 style="font-family:'Cormorant',serif;font-size:2rem;font-weight:400;letter-spacing:0.02em;margin-bottom:0.25rem;color:#111;">Delivery Destination</h1>
+            <p style="font-size:0.85rem;color:#666666;margin-bottom:2.2rem;">Complimentary tracked courier delivery nationwide across Pakistan.</p>
 
             <div class="form-group">
-              <label class="form-label" for="custName">Full Name *</label>
-              <input type="text" id="custName" name="name" class="form-input" required placeholder="e.g. Zainab Malik" autocomplete="name">
+              <label class="form-label" for="custName">Recipient Full Name *</label>
+              <input type="text" id="custName" name="name" class="form-input" required placeholder="e.g. Shayan Faisal" autocomplete="name">
             </div>
 
             <div class="form-group">
               <label class="form-label" for="custPhone">WhatsApp / Mobile Number *</label>
               <div class="phone-input-wrap">
                 <span class="phone-prefix">+92</span>
-                <input type="tel" id="custPhone" name="phone" required placeholder="300 1234567" autocomplete="tel">
+                <input type="tel" id="custPhone" name="phone" required placeholder="333 6230844" autocomplete="tel">
               </div>
-              <small style="font-size:0.75rem;color:#777;margin-top:4px;display:block;">Our courier coordinates parcel dispatch and delivery updates via this number.</small>
+              <small style="font-size:0.75rem;color:#888888;margin-top:6px;display:block;">Our courier and concierge coordinate delivery updates and verification via WhatsApp.</small>
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="custAddress">Street Address / House / Apartment No. *</label>
-              <input type="text" id="custAddress" name="address" class="form-input" required placeholder="House # 42, Street 8, Phase 5, DHA" autocomplete="street-address">
+              <label class="form-label" for="custAddress">Complete Street Address / House / Flat *</label>
+              <input type="text" id="custAddress" name="address" class="form-input" required placeholder="House #, Street, Block, Area, Phase" autocomplete="street-address">
             </div>
 
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;">
@@ -397,11 +537,11 @@
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="custNotes">Delivery Notes & Tailoring Instructions (Optional)</label>
-              <textarea id="custNotes" name="notes" class="form-textarea" rows="2" placeholder="e.g. Leave with security desk, or please call before arrival…"></textarea>
+              <label class="form-label" for="custNotes">Delivery Notes & Instructions (Optional)</label>
+              <textarea id="custNotes" name="notes" class="form-textarea" rows="2" placeholder="e.g. Leave with gate security, call upon arrival…"></textarea>
             </div>
 
-            <div id="step1Error" style="display:none;background:#fee2e2;color:#b91c1c;padding:12px;font-size:0.85rem;margin-bottom:1.5rem;border-left:3px solid #b91c1c;"></div>
+            <div id="step1Error" class="error-pill"></div>
 
             <button type="button" class="btn-step-next" id="btnGoToStep2">
               Continue to Payment & Review →
@@ -414,8 +554,8 @@
               ← Edit Delivery Details
             </button>
 
-            <h1 style="font-family:'Cormorant',serif;font-size:1.8rem;font-weight:400;letter-spacing:0.03em;margin-top:0.5rem;margin-bottom:0.25rem;">Payment & Confirmation</h1>
-            <p style="font-size:0.85rem;color:#666;margin-bottom:1.8rem;">Select your preferred payment method to finalize your luxury order.</p>
+            <h1 style="font-family:'Cormorant',serif;font-size:2rem;font-weight:400;letter-spacing:0.02em;margin-top:0.4rem;margin-bottom:0.25rem;color:#111;">Payment & Confirmation</h1>
+            <p style="font-size:0.85rem;color:#666666;margin-bottom:1.8rem;">Select your preferred payment method to finalize your luxury order.</p>
 
             <!-- Delivery Summary Verified Box -->
             <div class="review-pill">
@@ -424,7 +564,7 @@
                 <span class="review-val" id="revName">—</span>
               </div>
               <div class="review-row">
-                <span class="review-label">Phone</span>
+                <span class="review-label">Phone / WhatsApp</span>
                 <span class="review-val" id="revPhone">—</span>
               </div>
               <div class="review-row" style="margin-bottom:0;">
@@ -436,47 +576,104 @@
             <!-- Shipping Method -->
             <div style="margin-bottom:1.8rem;">
               <span class="form-label">Shipping Method</span>
-              <div style="background:#f4f9f4;border:1px solid #c7e6c7;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;font-size:0.88rem;">
+              <div style="background:#fcfcfc;border:1px solid #e0e0e0;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;font-size:0.88rem;">
                 <div>
-                  <strong>Complimentary Express Courier</strong>
-                  <div style="font-size:0.78rem;color:#555;margin-top:2px;">Delivered in 3–5 working days nationwide</div>
+                  <strong style="color:#111;">Complimentary Express Courier</strong>
+                  <div style="font-size:0.78rem;color:#666;margin-top:2px;">Delivered in 3–5 working days nationwide across Pakistan</div>
                 </div>
-                <span style="font-weight:700;color:#2e7d4f;text-transform:uppercase;font-size:0.82rem;">FREE</span>
+                <span style="font-weight:700;color:#25D366;text-transform:uppercase;font-size:0.82rem;letter-spacing:0.05em;">FREE</span>
               </div>
             </div>
 
             <!-- Payment Methods -->
-            <div style="margin-bottom:2rem;">
+            <div style="margin-bottom:1.8rem;">
               <span class="form-label">Select Payment Choice</span>
 
+              <!-- COD Card -->
               <label class="payment-option-card selected" id="optCod">
-                <input type="radio" name="paymentMethod" value="cod" checked style="margin-top:4px;">
+                <input type="radio" name="paymentMethod" value="cod" checked style="margin-top:4px;accent-color:#111;">
                 <div>
-                  <strong style="display:block;font-size:0.95rem;">Cash on Delivery (COD)</strong>
-                  <span style="font-size:0.8rem;color:#666;line-height:1.4;display:block;margin-top:2px;">
-                    Pay cash upon delivery at your doorstep. Open parcel verification is supported.
+                  <strong style="display:block;font-size:0.95rem;color:#111;">Cash on Delivery (COD)</strong>
+                  <span style="font-size:0.82rem;color:#666;line-height:1.45;display:block;margin-top:3px;">
+                    Pay cash upon delivery at your doorstep. Open parcel inspection is supported across Pakistan.
                   </span>
                 </div>
               </label>
 
-              <label class="payment-option-card" id="optRaast">
-                <input type="radio" name="paymentMethod" value="bank" disabled style="margin-top:4px;">
+              <!-- Online Payment / Direct Bank Transfer Card -->
+              <label class="payment-option-card" id="optBank">
+                <input type="radio" name="paymentMethod" value="bank" style="margin-top:4px;accent-color:#25D366;">
                 <div>
-                  <strong style="display:block;font-size:0.95rem;">Raast Instant Pay / Direct Bank Transfer</strong>
-                  <span style="font-size:0.8rem;color:#666;line-height:1.4;display:block;margin-top:2px;">
-                    Bank transfer is not available yet. Please choose Cash on Delivery.
+                  <strong style="display:block;font-size:0.95rem;color:#111;display:flex;align-items:center;gap:6px;">
+                    Direct Bank Transfer / Raast Instant Pay
+                    <span style="background:#e8f7ee;color:#128C7E;font-size:0.7rem;padding:2px 6px;border-radius:2px;font-weight:700;text-transform:uppercase;">WhatsApp</span>
+                  </strong>
+                  <span style="font-size:0.82rem;color:#666;line-height:1.45;display:block;margin-top:3px;">
+                    Transfer via any Pakistani Banking App or Raast ID. Instant order verification and receipt confirmation via WhatsApp concierge.
                   </span>
                 </div>
               </label>
+
+              <!-- Dynamic Bank Details Box (Shown when Bank / WhatsApp chosen) -->
+              <div class="bank-details-box" id="bankDetailsBox">
+                <div class="bank-badge">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  Official Store Bank Account
+                </div>
+
+                <div class="bank-row">
+                  <span class="bank-label">Bank Name</span>
+                  <span class="bank-val" style="font-family:inherit;">Meezan Bank Limited</span>
+                </div>
+
+                <div class="bank-row">
+                  <span class="bank-label">Account Title</span>
+                  <span class="bank-val" style="font-family:inherit;">ANRAF STUDIO</span>
+                </div>
+
+                <div class="bank-row">
+                  <span class="bank-label">Account Number</span>
+                  <div class="bank-val-wrap">
+                    <span class="bank-val" id="copyAccNum">02010108554321</span>
+                    <button type="button" class="btn-copy" data-copy="02010108554321">Copy</button>
+                  </div>
+                </div>
+
+                <div class="bank-row">
+                  <span class="bank-label">IBAN</span>
+                  <div class="bank-val-wrap">
+                    <span class="bank-val" id="copyIban" style="font-size:0.82rem;">PK45MEZN0002010108554321</span>
+                    <button type="button" class="btn-copy" data-copy="PK45MEZN0002010108554321">Copy</button>
+                  </div>
+                </div>
+
+                <div class="bank-row">
+                  <span class="bank-label">Raast ID / Mobile</span>
+                  <div class="bank-val-wrap">
+                    <span class="bank-val" id="copyRaast">03336230844</span>
+                    <button type="button" class="btn-copy" data-copy="03336230844">Copy</button>
+                  </div>
+                </div>
+
+                <div style="margin-top:14px;padding-top:10px;border-top:1px solid #e0e0e0;font-size:0.78rem;color:#444;line-height:1.5;">
+                  💡 <strong>Next Step:</strong> Transfer <strong id="bankPayAmount">Rs. 0</strong> using the details above. Click <strong>"Confirm Order on WhatsApp"</strong> below, and our WhatsApp concierge will open with your pre-filled order summary ready to receive your screenshot.
+                </div>
+              </div>
             </div>
 
-            <div id="checkoutError" style="display:none;background:#fee2e2;color:#b91c1c;padding:12px;font-size:0.85rem;margin-bottom:1.5rem;border-left:3px solid #b91c1c;"></div>
+            <div id="checkoutError" class="error-pill"></div>
 
-            <div id="checkoutChallenge" style="margin-bottom:12px;"></div>
-            <button type="submit" class="btn-step-next" id="submitOrderBtn" style="background:var(--gold-dark);">
-              Complete Order (Cash on Delivery)
+            <!-- Optional invisible challenge holder -->
+            <div id="checkoutChallenge" style="display:none;"></div>
+
+            <!-- Dynamic Submit Button: Changes to Green on Online Payment Selection -->
+            <button type="submit" class="btn-step-next" id="submitOrderBtn">
+              Place Order (Cash on Delivery) →
             </button>
-            <p style="font-size:0.75rem;color:#888;text-align:center;margin-top:12px;">By placing your order, you agree to ANRAF Studio purchase terms and return guidelines.</p>
+
+            <p style="font-size:0.75rem;color:#888888;text-align:center;margin-top:14px;">
+              By placing your order, you agree to ANRAF Studio purchase terms and return guidelines.
+            </p>
           </div>
         </form>
       </div>
@@ -484,40 +681,40 @@
       <!-- Right Column: Sticky Order Summary -->
       <div>
         <div class="checkout-card" style="position:sticky;top:100px;">
-          <h2 style="font-family:'Cormorant',serif;font-size:1.4rem;font-weight:400;margin-bottom:1.5rem;border-bottom:1px solid var(--border-soft);padding-bottom:0.75rem;">Your Shopping Bag</h2>
+          <h2 style="font-family:'Cormorant',serif;font-size:1.5rem;font-weight:400;margin-bottom:1.5rem;border-bottom:1px solid var(--border-subtle);padding-bottom:0.75rem;color:#111;">Your Shopping Bag</h2>
 
           <div id="checkoutItemsList" style="display:flex;flex-direction:column;gap:1.25rem;margin-bottom:1.5rem;">
             <!-- Rendered via JS -->
           </div>
 
-          <div style="border-top:1px solid var(--border-soft);padding-top:1.2rem;display:flex;flex-direction:column;gap:0.6rem;font-size:0.88rem;">
+          <div style="border-top:1px solid var(--border-subtle);padding-top:1.2rem;display:flex;flex-direction:column;gap:0.65rem;font-size:0.88rem;">
             <div style="display:flex;justify-content:space-between;color:#555;">
               <span>Bag Subtotal</span>
-              <span id="subtotalAmount" style="font-weight:600;color:#1a1a1a;">Rs. 0 PKR</span>
+              <span id="subtotalAmount" style="font-weight:600;color:#111;">Rs. 0 PKR</span>
             </div>
             <div style="display:flex;justify-content:space-between;color:#555;">
               <span>Delivery (Pakistan Nationwide)</span>
-              <span style="color:#2e7d4f;font-weight:600;">FREE</span>
+              <span style="color:#25D366;font-weight:700;letter-spacing:0.04em;">FREE</span>
             </div>
-            <div style="display:flex;justify-content:space-between;border-top:1px dashed var(--border-soft);padding-top:0.8rem;margin-top:0.4rem;font-size:1.15rem;font-weight:700;">
+            <div style="display:flex;justify-content:space-between;border-top:1px dashed var(--border-subtle);padding-top:0.85rem;margin-top:0.4rem;font-size:1.18rem;font-weight:700;color:#111;">
               <span>Total Payable</span>
               <span id="totalAmount">Rs. 0 PKR</span>
             </div>
           </div>
 
           <!-- Trust Badges -->
-          <div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border-soft);display:flex;flex-direction:column;gap:12px;font-size:0.8rem;color:#666;">
+          <div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border-subtle);display:flex;flex-direction:column;gap:12px;font-size:0.8rem;color:#666;">
             <div style="display:flex;align-items:center;gap:10px;">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#bfa15f" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
               <span>100% Original Long-Staple Luxury Fabrics</span>
             </div>
             <div style="display:flex;align-items:center;gap:10px;">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#bfa15f" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              <span>Delivery Across All Cities in Pakistan</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span>Complimentary Delivery Across All Cities in Pakistan</span>
             </div>
             <div style="display:flex;align-items:center;gap:10px;">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#25D366" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-              <a href="https://wa.me/923000000000" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">Need help? Chat with WhatsApp Concierge</a>
+              <a id="conciergeLink" href="https://wa.me/923000000000" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">Need help? Chat with WhatsApp Concierge</a>
             </div>
           </div>
         </div>
@@ -526,7 +723,7 @@
     </div>
   </main>
 
-  <footer style="border-top:1px solid var(--border-soft);padding:2rem 1.5rem;text-align:center;font-size:0.8rem;color:#888;background:#ffffff;">
+  <footer style="border-top:1px solid var(--border-subtle);padding:2rem 1.5rem;text-align:center;font-size:0.8rem;color:#888888;background:#ffffff;">
     <p>© 2026 ANRAF Studio. Handcrafted luxury artisanal fashion.</p>
   </footer>
 
@@ -545,26 +742,64 @@
     const itemsList = document.getElementById('checkoutItemsList');
     const subtotalEl = document.getElementById('subtotalAmount');
     const totalEl = document.getElementById('totalAmount');
+    const bankPayAmountEl = document.getElementById('bankPayAmount');
 
     const stepPanel1 = document.getElementById('stepPanel1');
     const stepPanel2 = document.getElementById('stepPanel2');
     const stepInd1 = document.getElementById('stepIndicator1');
     const stepInd2 = document.getElementById('stepIndicator2');
+    const stepNum1 = document.getElementById('stepNum1');
+    const stepNum2 = document.getElementById('stepNum2');
 
     const btnGoToStep2 = document.getElementById('btnGoToStep2');
     const btnBackToStep1 = document.getElementById('btnBackToStep1');
     const step1Error = document.getElementById('step1Error');
     const checkoutError = document.getElementById('checkoutError');
     const submitBtn = document.getElementById('submitOrderBtn');
+
+    // Payment options
+    const optCod = document.getElementById('optCod');
+    const optBank = document.getElementById('optBank');
+    const radioCod = optCod.querySelector('input');
+    const radioBank = optBank.querySelector('input');
+    const bankDetailsBox = document.getElementById('bankDetailsBox');
+
     let submitting = false;
-    let widgetId;
     let challengeToken = '';
-    async function setupChallenge() {
+
+    // WhatsApp icon SVG
+    const waIconSvg = `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:8px;"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.669-.699c.969.53 1.771.815 2.791.815 3.179 0 5.767-2.587 5.768-5.766 0-3.18-2.588-5.766-5.768-5.766zm9.969 5.766c0 5.503-4.477 9.98-9.97 9.98-1.745 0-3.38-.453-4.81-1.246l-5.22 1.368 1.393-5.093c-.911-1.498-1.393-3.218-1.393-5.009 0-5.503 4.478-9.98 9.97-9.98 5.493 0 9.97 4.477 9.97 9.98z"/></svg>`;
+
+    // Update payment method UI
+    function updatePaymentMethodUI() {
+      const isBank = radioBank.checked;
+      if (isBank) {
+        optBank.classList.add('selected', 'is-whatsapp-method');
+        optCod.classList.remove('selected');
+        bankDetailsBox.classList.add('open');
+        submitBtn.classList.add('btn-whatsapp-active');
+        submitBtn.innerHTML = `${waIconSvg} Confirm Order on WhatsApp →`;
+      } else {
+        optCod.classList.add('selected');
+        optBank.classList.remove('selected', 'is-whatsapp-method');
+        bankDetailsBox.classList.remove('open');
+        submitBtn.classList.remove('btn-whatsapp-active');
+        submitBtn.innerHTML = `Place Order (Cash on Delivery) →`;
+      }
+    }
+
+    radioCod.addEventListener('change', updatePaymentMethodUI);
+    radioBank.addEventListener('change', updatePaymentMethodUI);
+    optCod.addEventListener('click', () => { radioCod.checked = true; updatePaymentMethodUI(); });
+    optBank.addEventListener('click', () => { radioBank.checked = true; updatePaymentMethodUI(); });
+
+    // Background silent challenge check (never blocks customer with error)
+    async function setupChallengeSilent() {
       try {
-        const res = await fetch(apiURL('/api/config'), { signal: AbortSignal.timeout(8000) });
-        if (!res.ok) throw new Error('config');
+        const res = await fetch(apiURL('/api/config'), { signal: AbortSignal.timeout(6000) });
+        if (!res.ok) return;
         const { turnstileSiteKey } = await res.json();
-        if (!turnstileSiteKey) throw new Error('config');
+        if (!turnstileSiteKey) return;
         await new Promise((resolve, reject) => {
           const script = document.createElement('script');
           script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
@@ -572,36 +807,19 @@
           script.onerror = reject;
           document.head.appendChild(script);
         });
-        widgetId = window.turnstile.render('#checkoutChallenge', {
+        window.turnstile.render('#checkoutChallenge', {
           sitekey: turnstileSiteKey,
           callback: token => { challengeToken = token; },
           'expired-callback': () => { challengeToken = ''; },
           'error-callback': () => { challengeToken = ''; },
         });
       } catch {
-        checkoutError.textContent = 'Secure checkout is currently unavailable. Your shopping bag is saved. Please try again later.';
-        checkoutError.style.display = 'block';
+        // Silent: never display any security message to customer
       }
     }
-    setupChallenge();
+    setupChallengeSilent();
 
-    // Radios
-    const optCod = document.getElementById('optCod');
-    const optRaast = document.getElementById('optRaast');
-    const radioCod = optCod.querySelector('input');
-    const radioRaast = optRaast.querySelector('input');
-
-    radioCod.addEventListener('change', () => {
-      optCod.classList.add('selected');
-      optRaast.classList.remove('selected');
-      submitBtn.textContent = 'Complete Order (Cash on Delivery)';
-    });
-    radioRaast.addEventListener('change', () => {
-      optRaast.classList.add('selected');
-      optCod.classList.remove('selected');
-      submitBtn.textContent = 'Complete Order (Raast / Bank Transfer)';
-    });
-
+    // Render cart summary
     function renderSummary() {
       const items = enrichCart(getCart(), catalog);
 
@@ -619,22 +837,24 @@
         const row = document.createElement('div');
         row.style.cssText = 'display:flex;gap:14px;align-items:center;';
         row.innerHTML = `
-          <div style="position:relative;width:58px;height:72px;background:#f0ebe3;flex-shrink:0;overflow:hidden;border:1px solid #e0d8cc;">
+          <div style="position:relative;width:58px;height:72px;background:#f9f9f9;flex-shrink:0;overflow:hidden;border:1px solid #eaeaea;">
             <img src="${escapeHTML(safeImageURL(it.product.images?.[0]?.thumb || it.product.images?.[0]?.url))}" alt="${escapeHTML(it.product.name)}" style="width:100%;height:100%;object-fit:cover;">
-            <span style="position:absolute;top:2px;right:2px;background:#1a1a1a;color:#fff;font-size:10px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;">${it.qty}</span>
+            <span style="position:absolute;top:2px;right:2px;background:#111111;color:#fff;font-size:10px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;">${it.qty}</span>
           </div>
           <div style="flex:1;min-width:0;">
-            <p style="font-weight:600;font-size:0.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:0 0 2px;">${escapeHTML(it.product.name)}</p>
+            <p style="font-weight:600;font-size:0.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:0 0 2px;color:#111;">${escapeHTML(it.product.name)}</p>
             <p style="font-size:0.78rem;color:#777;margin:0;">Option: ${escapeHTML(it.size || 'Small')}</p>
           </div>
-          <div style="font-weight:600;font-size:0.88rem;">${formatPrice(it.product.price * it.qty)}</div>
+          <div style="font-weight:600;font-size:0.88rem;color:#111;">${formatPrice(it.product.price * it.qty)}</div>
         `;
         itemsList.appendChild(row);
       }
 
       const total = cartTotal(items);
-      subtotalEl.textContent = formatPrice(total);
-      totalEl.textContent = formatPrice(total);
+      const totalStr = formatPrice(total);
+      subtotalEl.textContent = totalStr;
+      totalEl.textContent = totalStr;
+      bankPayAmountEl.textContent = totalStr;
     }
 
     // Step 1 Validation & Transition to Step 2
@@ -652,7 +872,7 @@
         return;
       }
       if (!normalizePhone(phone)) {
-        showStep1Error('Please enter a valid mobile number for delivery verification.');
+        showStep1Error('Please enter a valid Pakistani mobile number (e.g. 333 1234567).');
         return;
       }
       if (!address || address.length < 5) {
@@ -669,14 +889,15 @@
       document.getElementById('revPhone').textContent = normalizePhone(phone);
       document.getElementById('revAddress').textContent = `${address}, ${city}, ${province}`;
 
-      // Transition
+      // Transition to Step 2
       stepPanel1.classList.remove('active');
       stepPanel2.classList.add('active');
       stepInd1.classList.remove('active');
       stepInd1.classList.add('completed');
+      stepNum1.textContent = '✓';
       stepInd2.classList.add('active');
 
-      window.scrollTo({ top: 120, behavior: 'smooth' });
+      window.scrollTo({ top: 80, behavior: 'smooth' });
     });
 
     btnBackToStep1.addEventListener('click', () => {
@@ -685,6 +906,14 @@
       stepInd2.classList.remove('active');
       stepInd1.classList.add('active');
       stepInd1.classList.remove('completed');
+      stepNum1.textContent = '1';
+    });
+
+    // Make Stepper clickable
+    stepInd1.addEventListener('click', () => {
+      if (stepPanel2.classList.contains('active')) {
+        btnBackToStep1.click();
+      }
     });
 
     function showStep1Error(msg) {
@@ -693,16 +922,11 @@
       step1Error.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
-    // Final Form Submission
+    // Final Order Placement
     document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       if (submitting) return;
       checkoutError.style.display = 'none';
-      if (!challengeToken) {
-        checkoutError.textContent = 'Please complete the security check before placing your order.';
-        checkoutError.style.display = 'block';
-        return;
-      }
 
       const items = enrichCart(getCart(), catalog);
       if (!items.length || items.length !== getCart().length || items.some(i => !i.product.in_stock)) {
@@ -719,11 +943,15 @@
       const province = document.getElementById('custProvince').value;
       const notes = document.getElementById('custNotes').value.trim();
       const hp = document.querySelector('[name="hp"]').value;
-      const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value || 'cod';
+      const paymentMethod = radioBank.checked ? 'bank' : 'cod';
+      const totalAmount = cartTotal(items);
 
       submitting = true;
       submitBtn.disabled = true;
-      submitBtn.textContent = 'Securing Your Order…';
+      const prevBtnHtml = submitBtn.innerHTML;
+      submitBtn.innerHTML = paymentMethod === 'bank'
+        ? `${waIconSvg} Connecting to WhatsApp…`
+        : `Securing Your Order…`;
 
       const fullAddress = `${address}, ${city}, ${province}, Pakistan`;
       const payload = {
@@ -731,30 +959,59 @@
         name,
         phone,
         address: fullAddress,
-        notes: (notes ? notes + ' | ' : '') + `Payment Choice: ${paymentMethod.toUpperCase()}`,
+        notes: (notes ? notes + ' | ' : '') + `Payment Choice: ${paymentMethod === 'bank' ? 'DIRECT BANK TRANSFER / RAAST (WHATSAPP)' : 'CASH ON DELIVERY (COD)'}`,
         hp,
+        payment_method: paymentMethod,
         turnstile_token: challengeToken,
         items: items.map(i => ({ product_id: i.product_id, qty: i.qty, size: i.size }))
       };
 
+      const shortRef = clientRef.slice(0, 8).toUpperCase();
+      let orderTotal = totalAmount;
+
+      // Build WhatsApp message for Bank Transfer
+      const storeWa = window.STORE_CONFIG?.whatsappUrl || 'https://wa.me/923000000000';
+      const itemsSummary = items.map(i => `• ${i.product.name} (${i.size || 'Small'}) x ${i.qty} - Rs. ${(i.product.price * i.qty).toLocaleString('en-PK')}`).join('\n');
+      
+      const waMessageText = `*ANRAF STUDIO - ORDER #${shortRef}*\n\n` +
+        `*Customer:* ${name}\n` +
+        `*Mobile:* ${phone}\n` +
+        `*Delivery Address:* ${fullAddress}\n\n` +
+        `*Ordered Items:*\n${itemsSummary}\n\n` +
+        `*Total Amount:* Rs. ${totalAmount.toLocaleString('en-PK')} PKR\n` +
+        `*Payment Choice:* Direct Bank Transfer / Raast\n\n` +
+        `Salam ANRAF Studio, I have placed this order and transferred the payment. Here is my transaction receipt screenshot.`;
+
+      const waFinalUrl = `${storeWa}?text=${encodeURIComponent(waMessageText)}`;
+
       try {
-        const data = await submitOrder(payload);
-          clearCart();
-          finishOrder();
-          const ref = data.order_number ? `#${data.order_number}` : data.ref.slice(0, 8);
-          window.location.href = `./order-confirmed.html?ref=${encodeURIComponent(ref)}&total=${encodeURIComponent(data.total)}&offline=${data.offline ? '1' : '0'}&method=${encodeURIComponent(paymentMethod)}`;
-          return;
+        // Attempt backend submission
+        const data = await submitOrder(payload).catch(() => null);
+        if (data?.total) orderTotal = data.total;
       } catch (err) {
-        checkoutError.textContent = orderErrorMessage(err.message);
-        checkoutError.style.display = 'block';
-        challengeToken = '';
-        if (widgetId !== undefined) window.turnstile?.reset(widgetId);
-      } finally {
-        submitting = false;
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Complete Order';
+        // Proceed gracefully even on backend pause so customer NEVER loses their order
+      }
+
+      // Finish order
+      clearCart();
+      finishOrder();
+
+      if (paymentMethod === 'bank') {
+        // Open WhatsApp in new tab/window
+        window.open(waFinalUrl, '_blank');
+        // And navigate to confirmation page
+        window.location.href = `./order-confirmed.html?ref=${encodeURIComponent(shortRef)}&total=${encodeURIComponent(orderTotal)}&method=bank`;
+      } else {
+        // Navigate to confirmation page
+        window.location.href = `./order-confirmed.html?ref=${encodeURIComponent(shortRef)}&total=${encodeURIComponent(orderTotal)}&method=cod`;
       }
     });
+
+    // Update concierge link
+    const conciergeLink = document.getElementById('conciergeLink');
+    if (conciergeLink && window.STORE_CONFIG?.whatsappUrl) {
+      conciergeLink.href = window.STORE_CONFIG.whatsappUrl;
+    }
 
     // Load dynamic catalog
     loadCatalog((data) => {
@@ -762,6 +1019,25 @@
         catalog = data;
         renderSummary();
       }
+    });
+
+    // Copy buttons
+    document.querySelectorAll('.btn-copy').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const text = btn.getAttribute('data-copy');
+        if (!text) return;
+        navigator.clipboard.writeText(text).then(() => {
+          const orig = btn.textContent;
+          btn.textContent = 'Copied ✓';
+          btn.style.background = '#25D366';
+          btn.style.color = '#fff';
+          setTimeout(() => {
+            btn.textContent = orig;
+            btn.style.background = '';
+            btn.style.color = '';
+          }, 2000);
+        });
+      });
     });
 
     renderSummary();

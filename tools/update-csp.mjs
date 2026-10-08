@@ -17,7 +17,7 @@ for (const file of files) {
 }
 const headers = path.join(root,'_headers');
 let text = fs.readFileSync(headers,'utf8');
-text = text.replace(/script-src [^;]+;/, `script-src 'self' ${[...hashes].join(' ')} https://challenges.cloudflare.com https://cdn.tailwindcss.com;`);
+text = text.replace(/script-src [^;]+;/, `script-src 'self' ${[...hashes].join(' ')} https://challenges.cloudflare.com https://cdn.tailwindcss.com https://static.cloudflareinsights.com;`);
 fs.writeFileSync(headers,text);
 console.log(`Updated CSP hashes for ${files.length} pages.`);
 }
