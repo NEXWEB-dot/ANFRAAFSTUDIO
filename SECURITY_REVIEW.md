@@ -1,3 +1,7 @@
+# Current architecture — 9 October 2026
+
+The audit below is historical. Active checkout now uses Sanity + Resend; old Supabase/R2 code is archived outside the deployment. See LAUNCH_READINESS.md for current blockers. No claim of complete production security is made.
+
 # Security and bug review — 2 October 2026
 
 **3 October deployment update:** the backend now builds independently to `dist/`, and

@@ -20,11 +20,8 @@ const order = await import('../js/order.js');
 const backendPresent = fs.existsSync('anraf backend/functions/api/checkout.js');
 const backendTest = backendPresent ? test : test.skip;
 const { onRequestPost: checkout } = backendPresent ? await import('../anraf backend/functions/api/checkout.js') : {};
-const { validateProduct } = backendPresent ? await import('../anraf backend/shared/validate.js') : {};
-const { mustUseEmergency } = backendPresent ? await import('../anraf backend/shared/mode.js') : {};
 const adminPresent = fs.existsSync('admin/js/api.js');
 const { api } = adminPresent ? await import('../admin/js/api.js') : {};
-const cron = backendPresent ? (await import('../anraf backend/workers/cron/index.js')).default : null;
 const id = '11111111-1111-4111-8111-111111111111';
 const ref = '22222222-2222-4222-8222-222222222222';
 const product = { id, slug:'shirt', name:'Shirt', price:100, in_stock:true, images:[] };
@@ -100,14 +97,14 @@ test('Pakistani phone forms normalize to one valid number', () => {
 });
 test('empty live catalog replaces cached inventory', async () => {
   localStorage.setItem('catalog:v1',JSON.stringify({data:cat}));
-  globalThis.fetch = async () => Response.json({source:'sanity',generated_at:'2026-09-01T00:00:00Z', products:[]});
+  globalThis.fetch = async () => Response.json({result:[]});
   let latest;
   const result = await catalog.loadCatalog(c => { latest = c; });
   assert.deepEqual(result.products,[]); assert.deepEqual(latest.products,[]);
 });
 test('catalog callback is optional and local admin data never overrides live data', async () => {
   localStorage.setItem('admin_local_products',JSON.stringify([{...product,price:1}]));
-  globalThis.fetch = async () => Response.json(cat);
+  globalThis.fetch = async () => Response.json({result:cat.products});
   assert.equal((await catalog.loadCatalog()).products[0].price,100);
 });
 test('catalog validates malformed products and excludes inactive products', () => {
@@ -135,11 +132,16 @@ test('products appear under each selected filter and unavailable sizes remain re
 test('Sanity browser cache skips requests while fresh and coalesces concurrent loads', async () => {
   let calls = 0;
   const current = {...cat,generated_at:new Date().toISOString()};
-  globalThis.fetch = async () => {calls++; return Response.json(current);};
+  globalThis.fetch = async (url, options) => {
+    calls++;
+    assert.equal(new URL(url).hostname, 'm7hktaor.apicdn.sanity.io');
+    assert.equal(options.credentials, 'omit');
+    return Response.json({result:current.products});
+  };
   await Promise.all([catalog.loadCatalog(),catalog.loadCatalog(),catalog.loadCatalog()]);
   assert.equal(calls,1);
   await catalog.loadCatalog(); assert.equal(calls,1);
-  localStorage.setItem('catalog:sanity:v3',JSON.stringify({data:current,ts:Date.now()-901000}));
+  localStorage.setItem('catalog:sanity:v5',JSON.stringify({data:current,ts:Date.now()-301000}));
   await catalog.loadCatalog(); assert.equal(calls,2);
 });
 
@@ -147,10 +149,23 @@ test('browser cache expires and cannot resurrect the legacy demo catalog', async
   globalThis.fetch = async () => {throw new Error('offline');};
   localStorage.setItem('catalog:v1',JSON.stringify({data:cat,ts:Date.now()}));
   assert.equal((await catalog.loadCatalog()).unavailable,true);
-  localStorage.setItem('catalog:sanity:v3',JSON.stringify({data:cat,ts:Date.now()-901000}));
+  const recent = {...cat,generated_at:new Date(Date.now()-301000).toISOString()};
+  localStorage.setItem('catalog:sanity:v5',JSON.stringify({data:recent,ts:Date.now()-301000}));
   assert.equal((await catalog.loadCatalog()).products.length,1);
-  localStorage.setItem('catalog:sanity:v3',JSON.stringify({data:cat,ts:Date.now()-86400001}));
+  localStorage.setItem('catalog:sanity:v5',JSON.stringify({data:recent,ts:Date.now()-86400001}));
   assert.equal((await catalog.loadCatalog()).products.length,0);
+});
+
+test('revalidation renders price, stock and image changes when the slug is unchanged', async () => {
+  const old = {...cat,generated_at:new Date(Date.now()-301000).toISOString()};
+  localStorage.setItem('catalog:sanity:v5',JSON.stringify({data:old,ts:Date.now()-301000}));
+  globalThis.fetch=async()=>Response.json({result:[{...product,price:250,in_stock:false,images:[{asset:'image-abc123-800x1200-jpg',alt:'New photo'}]}]});
+  const renders=[];
+  await catalog.loadCatalog(value=>renders.push(value));
+  assert.equal(renders.length,2);
+  assert.equal(renders[1].products[0].price,250);
+  assert.equal(renders[1].products[0].in_stock,false);
+  assert.match(renders[1].products[0].images[0].url,/abc123/);
 });
 
 test('cart accepts generated Sanity IDs and rejects draft IDs', () => {
@@ -162,94 +177,6 @@ test('cart accepts generated Sanity IDs and rejects draft IDs', () => {
 });
 
 const payload = () => ({client_ref:ref,name:'Test Customer',phone:'+923001234567',address:'Test street, Karachi',notes:'',items:[{product_id:id,qty:1,size:'Medium'}],turnstile_token:'token'});
-function environment() {
-  const objects = new Map();
-  const bucket = {
-    head: async k => objects.has(k) ? {} : null,
-    get: async k => objects.has(k) ? {json:async()=>JSON.parse(objects.get(k))} : null,
-    put: async (k,v,opts) => { if (opts?.onlyIf && objects.has(k)) return null; objects.set(k,v); return {}; },
-    list: async () => ({objects:[]}),
-  };
-  return {SITE_ORIGIN:'https://shop.example.test',TURNSTILE_SECRET:'test',SUPABASE_SERVICE_KEY:'test',SUPABASE_URL:'https://db.example.test',PRIVATE:bucket,PUBLIC:{get:async()=>({json:async()=>cat})},objects};
-}
-async function call(body, env = environment(), origin = env.SITE_ORIGIN) {
-  const tasks = [];
-  const response = await checkout({request:new Request(env.SITE_ORIGIN+'/api/checkout',{method:'POST',headers:{Origin:origin,'Content-Type':'application/json'},body:JSON.stringify(body)}),env,waitUntil:p=>tasks.push(p)});
-  await Promise.allSettled(tasks);
-  return response;
-}
-function mockBackend(capture = () => {}) {
-  globalThis.fetch = async (url,options) => {
-    if (String(url).includes('siteverify')) return Response.json({success:true,hostname:'shop.example.test'});
-    if (String(url).includes('apicdn.sanity.io')) return Response.json({result:[product]});
-    if (String(url).includes('place_sanity_order')) { capture(JSON.parse(options.body)); return Response.json({total:100,order_number:1001}); }
-    return Response.json({});
-  };
-}
-backendTest('checkout rejects wrong origin before any bot or database request', async () => {
-  globalThis.fetch=()=>assert.fail('must not fetch');
-  assert.equal((await call(payload(),environment(),'https://evil.test')).status,403);
-});
-backendTest('checkout rejects JSON null, arrays and oversized bodies', async () => {
-  for (const p of [null,[], 'x'.repeat(21000)]) assert.ok([400,413].includes((await call(p)).status));
-});
-backendTest('checkout rejects missing bot token and wrong verification hostname', async () => {
-  mockBackend(); assert.equal((await call({...payload(),turnstile_token:''})).status,403);
-  globalThis.fetch=async()=>Response.json({success:true,hostname:'evil.test'});
-  assert.equal((await call(payload())).status,403);
-});
-backendTest('checkout rejects null lines, fractions, excessive lines and invalid sizes', async () => {
-  mockBackend();
-  for (const items of [[null],[{product_id:id,qty:1.1}],Array(31).fill({product_id:id,qty:1}),[{product_id:id,qty:1,size:'invalid'}]]) {
-    assert.equal((await call({...payload(),items})).status,400);
-  }
-});
-backendTest('successful checkout uses Pages waitUntil and forwards sizes without client prices', async () => {
-  let args;
-  mockBackend(a => { args = a; });
-  const body = payload(); body.items[0].price = 1; body.items[0].name = 'Forged';
-  const response = await call(body);
-  assert.equal(response.status,200); assert.equal((await response.json()).total,100);
-  assert.deepEqual(args.p_items,[{product_id:id,qty:1,size:'Medium',name:'Shirt',price:100}]);
-  assert.equal(args.p_force,false);
-});
-backendTest('offline order capture is durable and idempotent', async () => {
-  mockBackend(); const env=environment();
-  env.objects.set('state/mode.json',JSON.stringify({mode:'emergency',until:0}));
-  assert.equal(await mustUseEmergency(env),true);
-  assert.equal((await call(payload(),env)).status,200);
-  const saved=JSON.parse(env.objects.get(`orders-pending/${ref}.json`));
-  assert.equal(saved.items[0].size,'Medium'); assert.equal(saved.total,100);
-  assert.equal(saved.catalog_source,'sanity');
-  assert.equal((await (await call(payload(),env)).json()).total,100);
-});
-
-backendTest('checkout accepts Sanity IDs and fails closed for sold-out, removed or unavailable products', async () => {
-  let saved;
-  let result = [{...product,id:'SanityAutoId123'}];
-  let fail = false;
-  globalThis.fetch = async (url, options) => {
-    if (String(url).includes('siteverify')) return Response.json({success:true,hostname:'shop.example.test'});
-    if (String(url).includes('apicdn.sanity.io')) return fail ? Response.json({}, {status:503}) : Response.json({result});
-    if (String(url).includes('place_sanity_order')) {saved=JSON.parse(options.body);return Response.json({total:100,order_number:1001});}
-    return Response.json({});
-  };
-  const body={...payload(),items:[{product_id:'SanityAutoId123',qty:1,size:'Small',price:1}]};
-  assert.equal((await call(body)).status,200);
-  assert.equal(saved.p_items[0].price,100);
-  result[0].discountPercent=20;
-  result[0].sizes=['Small'];
-  assert.equal((await call(body)).status,200);
-  assert.equal(saved.p_items[0].price,80);
-  const wrongSize={...body,items:[{...body.items[0],size:'Medium'}]};
-  assert.equal((await (await call(wrongSize)).json()).error,'SIZE_UNAVAILABLE');
-  result[0].in_stock=false;
-  assert.equal((await (await call(body)).json()).error,'OUT_OF_STOCK');
-  result=[];
-  assert.equal((await (await call(body)).json()).error,'PRODUCT_UNAVAILABLE');
-  fail=true;
-  assert.equal((await call(body)).status,503);
-});
 test('checkout client rejects HTTP failures, malformed and fake successes', async () => {
   cart.addToCart(id);
   for (const [status,data] of [[503,{ok:true}],[200,{ok:true}],[200,{ok:true,total:100,ref:'wrong'}]]) {
@@ -264,36 +191,6 @@ test('checkout client reuses refs on retry and rotates them for changed orders',
   await order.submitOrder(payload()); await order.submitOrder({...payload(),turnstile_token:'new token'});
   await order.submitOrder({...payload(),address:'Changed street'});
   assert.equal(refs[0],refs[1]); assert.notEqual(refs[1],refs[2]);
-});
-backendTest('image validation rejects CDN prefix spoofing and unsafe thumbnails', () => {
-  const p={...product,images:[{r2_key:'img/test.jpg',url:'https://cdn.example.test/img/test.jpg'}]};
-  assert.equal(validateProduct(p,'https://cdn.example.test').images.length,1);
-  for (const url of ['https://cdn.example.test.evil.test/img/test.jpg','javascript:alert(1)']) {
-    assert.throws(()=>validateProduct({...p,images:[{...p.images[0],url}]},'https://cdn.example.test'));
-  }
-  assert.throws(()=>validateProduct({...p,images:[{...p.images[0],thumb_r2_key:'catalog/products.json',thumb_url:'https://cdn.example.test/catalog/products.json'}]},'https://cdn.example.test'));
-});
-backendTest('nightly backups use stable cursors and never overwrite earlier order batches', async () => {
-  const env=environment();
-  const queries=[];
-  let run=0;
-  env.PRIVATE.delete=async()=>{};
-  env.PUBLIC.get=async()=>null;
-  globalThis.fetch=async url=> {
-    queries.push(String(url));
-    if (String(url).includes('updated_at=lte')) return Response.json([{id,updated_at:'2026-10-01T00:00:00Z',total:100,run}]);
-    return Response.json([], {headers:{'Content-Range':'0-0/0'}});
-  };
-  for (run=0;run<2;run++) {
-    const tasks=[];
-    cron.scheduled({cron:'0 3 * * *'},env,{waitUntil:p=>tasks.push(p)});
-    await Promise.all(tasks);
-  }
-  const backups=[...env.objects.keys()].filter(k=>k.startsWith('backups/db/orders-'));
-  assert.equal(backups.length,2);
-  assert.equal(JSON.parse(env.objects.get('state/backup-cursor.json')).id,id);
-  assert.ok(queries.some(q=>q.includes(`id.gt.${id}`)));
-  assert.ok(queries.every(q=>!q.includes('offset=')));
 });
 test('admin never reports failed saves or uploads as success', {skip: !adminPresent}, async () => {
   globalThis.fetch=async()=>Response.json({error:'Unauthorized'},{status:401});

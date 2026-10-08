@@ -15,7 +15,7 @@ if (config) {
     if (!/\.(html|xml|txt)$/.test(file) && file !== '_headers') continue;
     const target = new URL(file,output);
     let text = await readFile(target,'utf8');
-    text = text.replaceAll('https://cdn.anrafstudio.com', config.PUBLIC_CDN_ORIGIN)
+    text = text.replaceAll('https://nexweb-dot.github.io/ANFRAAFSTUDIO', config.SITE_ORIGIN).replaceAll('https://cdn.anrafstudio.com', config.PUBLIC_CDN_ORIGIN)
       .replaceAll('https://anrafstudio.com', config.SITE_ORIGIN)
       .replaceAll('https://anraafstudio.com', config.SITE_ORIGIN)
       .replaceAll('923000000000', config.WHATSAPP_URL.split('/').pop())

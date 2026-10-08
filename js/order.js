@@ -1,3 +1,4 @@
+import {apiURL} from './api-config.js';
 // Keep one reference for retries/reloads of the same order, without storing customer data.
 let pendingMemory;
 export async function submitOrder(payload) {
@@ -11,7 +12,7 @@ export async function submitOrder(payload) {
     try { sessionStorage.setItem('anraf_pending_order', JSON.stringify(pending)); } catch {}
   }
   pendingMemory = pending;
-  const response = await fetch('/api/checkout', {
+  const response = await fetch(apiURL('/api/checkout'), {
     method: 'POST', headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ ...payload, client_ref: pending.ref }),
     signal: AbortSignal.timeout(20000),

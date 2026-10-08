@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="preconnect" href="https://m7hktaor.apicdn.sanity.io" crossorigin>
+  <link rel="preconnect" href="https://cdn.sanity.io" crossorigin>
+  <meta name="robots" content="noindex, follow">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Checkout — ANRAF Studio | Luxury Pakistani Fashion</title>
   <meta name="description" content="Secure multi-step checkout for ANRAF Studio haute couture and luxury pret. Cash on Delivery across all cities in Pakistan.">
-  <link rel="canonical" href="https://anrafstudio.com/checkout.html">
+  <link rel="canonical" href="https://nexweb-dot.github.io/ANFRAAFSTUDIO/checkout.html">
 
   <!-- Open Graph -->
   <meta property="og:type"        content="website">
   <meta property="og:site_name"   content="ANRAF Studio">
   <meta property="og:title"       content="Secure Checkout — ANRAF Studio">
   <meta property="og:description" content="Complete your order for luxury handcrafted couture with nationwide complimentary delivery across Pakistan.">
-  <meta property="og:url"         content="https://anrafstudio.com/checkout.html">
-  <meta property="og:image"       content="https://anrafstudio.com/assets/og-cover.jpg">
+  <meta property="og:url"         content="https://nexweb-dot.github.io/ANFRAAFSTUDIO/checkout.html">
+  <meta property="og:image"       content="https://cdn.sanity.io/images/m7hktaor/production/bf77d6e0888c7ae3aeea44ab274c5e1b07ecf7f2-1024x1536.jpg?w=1200&fit=max&auto=format&q=80">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -530,6 +533,7 @@
   <script type="module">
     import { escapeHTML, safeImageURL, normalizePhone } from './js/safety.js';
     import { submitOrder, finishOrder, orderErrorMessage } from './js/order.js';
+    import { apiURL } from './js/api-config.js';
     import { loadCatalog, DEFAULT_CATALOG } from './js/catalog.js';
     import { getCart, enrichCart, cartTotal, clearCart, formatPrice } from './js/cart.js';
 
@@ -557,7 +561,7 @@
     let challengeToken = '';
     async function setupChallenge() {
       try {
-        const res = await fetch('/api/config', { signal: AbortSignal.timeout(8000) });
+        const res = await fetch(apiURL('/api/config'), { signal: AbortSignal.timeout(8000) });
         if (!res.ok) throw new Error('config');
         const { turnstileSiteKey } = await res.json();
         if (!turnstileSiteKey) throw new Error('config');

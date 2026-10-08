@@ -1,0 +1,11 @@
+import {writeFile} from 'node:fs/promises';
+import {sanityURL,normalizeSanity} from '../js/sanity-source.js';
+const base=new URL(process.env.SITE_URL || 'https://nexweb-dot.github.io/ANFRAAFSTUDIO/');
+if (base.protocol !== 'https:' || !base.pathname.endsWith('/')) throw new Error('SITE_URL must be an HTTPS base URL ending in /');
+const response=await fetch(sanityURL({}),{signal:AbortSignal.timeout(12000)});
+if (!response.ok) throw new Error(`Sanity ${response.status}`);
+const catalog=normalizeSanity((await response.json()).result,{});
+const escape=value=>value.replace(/[<>&"']/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&apos;'}[c]));
+const paths=['','store.html',...catalog.products.map(p=>`product.html?slug=${encodeURIComponent(p.slug)}`)];
+await writeFile(new URL('../sitemap.xml',import.meta.url),`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${paths.map(p=>`  <url><loc>${escape(new URL(p,base).href)}</loc></url>`).join('\n')}\n</urlset>\n`);
+console.log(`Sitemap refreshed with ${catalog.products.length} published products.`);

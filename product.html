@@ -1,26 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="preconnect" href="https://m7hktaor.apicdn.sanity.io" crossorigin>
+  <link rel="preconnect" href="https://cdn.sanity.io" crossorigin>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Product Details — ANRAF Studio | Luxury Pakistani Fashion</title>
   <meta name="description" content="View fabric specifications, high-definition embroidery closeups, and sizing for this ANRAF Studio luxury garment.">
-  <link rel="canonical" id="canonicalLink" href="https://anrafstudio.com/product.html">
+  <link rel="canonical" id="canonicalLink" href="https://nexweb-dot.github.io/ANFRAAFSTUDIO/product.html">
 
   <!-- Open Graph -->
   <meta property="og:type"        content="product" id="ogType">
   <meta property="og:site_name"   content="ANRAF Studio">
   <meta property="og:title"       content="Product Details — ANRAF Studio" id="ogTitle">
   <meta property="og:description" content="Handcrafted luxury couture and embroidered pret from ANRAF Studio." id="ogDesc">
-  <meta property="og:url"         content="https://anrafstudio.com/product.html" id="ogUrl">
-  <meta property="og:image"       content="https://anrafstudio.com/assets/og-cover.jpg" id="ogImage">
+  <meta property="og:url"         content="https://nexweb-dot.github.io/ANFRAAFSTUDIO/product.html" id="ogUrl">
+  <meta property="og:image"       content="https://cdn.sanity.io/images/m7hktaor/production/bf77d6e0888c7ae3aeea44ab274c5e1b07ecf7f2-1024x1536.jpg?w=1200&fit=max&auto=format&q=80" id="ogImage">
   <meta property="og:locale"      content="en_PK">
 
   <!-- Twitter Card -->
   <meta name="twitter:card"        content="summary_large_image">
   <meta name="twitter:title"       content="Product Details — ANRAF Studio" id="twTitle">
   <meta name="twitter:description" content="Handcrafted luxury couture and embroidered pret from ANRAF Studio." id="twDesc">
-  <meta name="twitter:image"       content="https://anrafstudio.com/assets/og-cover.jpg" id="twImage">
+  <meta name="twitter:image"       content="https://cdn.sanity.io/images/m7hktaor/production/bf77d6e0888c7ae3aeea44ab274c5e1b07ecf7f2-1024x1536.jpg?w=1200&fit=max&auto=format&q=80" id="twImage">
 
   <!-- JSON-LD Product Schema Placeholder -->
   <script type="application/ld+json" id="productSchema"></script>
@@ -336,7 +338,9 @@
       document.title = `${p.name} — ANRAF Studio`;
 
       // Update dynamic SEO tags & JSON-LD
-      const pageUrl = window.location.href;
+      const canonical = new URL('./product.html', window.location.href);
+      canonical.searchParams.set('slug', p.slug);
+      const pageUrl = canonical.href;
       const canEl = document.getElementById('canonicalLink');
       if (canEl) canEl.href = pageUrl;
       const ogTitle = document.getElementById('ogTitle');
@@ -346,13 +350,14 @@
       const ogUrl = document.getElementById('ogUrl');
       if (ogUrl) ogUrl.content = pageUrl;
 
-      const firstImg = p.images?.[0]?.url || 'https://anrafstudio.com/assets/og-cover.jpg';
+      const firstImg = p.images?.[0]?.url || 'https://cdn.sanity.io/images/m7hktaor/production/bf77d6e0888c7ae3aeea44ab274c5e1b07ecf7f2-1024x1536.jpg?w=1200&fit=max&auto=format&q=80';
       const ogImg = document.getElementById('ogImage');
       if (ogImg) ogImg.content = firstImg;
       const twImg = document.getElementById('twImage');
       if (twImg) twImg.content = firstImg;
 
       const descSnippet = (p.description || p.name).slice(0, 160);
+      document.querySelector('meta[name="description"]').content = descSnippet;
       const ogDesc = document.getElementById('ogDesc');
       if (ogDesc) ogDesc.content = descSnippet;
       const twDesc = document.getElementById('twDesc');

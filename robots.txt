@@ -1,6 +1,4 @@
 User-agent: *
-Disallow: /admin
-Disallow: /api
+Allow: /
 
-# Real protection is WAF rules + Cloudflare Access — this is for polite bots only.
-Sitemap: https://anrafstudio.com/sitemap.xml
+Sitemap: https://nexweb-dot.github.io/ANFRAAFSTUDIO/sitemap.xml

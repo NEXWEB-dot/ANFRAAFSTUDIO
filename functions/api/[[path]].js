@@ -18,6 +18,8 @@ export async function onRequest({ request, env }) {
   } catch { return json({ error: 'CHECKOUT_PAUSED' }, 503); }
   try {
     const headers = new Headers();
+    if (url.pathname === '/api/catalog' && request.headers.has('If-None-Match'))
+      headers.set('If-None-Match', request.headers.get('If-None-Match'));
     if (method === 'POST') {
       headers.set('Origin', url.origin);
       headers.set('Content-Type', request.headers.get('Content-Type') || '');
@@ -26,6 +28,13 @@ export async function onRequest({ request, env }) {
       method, headers, body: method === 'POST' ? request.body : undefined,
       redirect: 'manual', signal: AbortSignal.timeout(18000),
     });
+    if (url.pathname === '/api/catalog' && response.status === 304) {
+      return new Response(null, {status: 304, headers: {
+        'ETag': response.headers.get('ETag') || '',
+        'Cache-Control': response.headers.get('Cache-Control') || 'no-store',
+        'X-Content-Type-Options': 'nosniff',
+      }});
+    }
     if ((response.status >= 300 && response.status < 400) ||
         !response.headers.get('Content-Type')?.includes('application/json'))
       return json({ error: 'ORDER_FAILED' }, 502);
@@ -33,6 +42,8 @@ export async function onRequest({ request, env }) {
       'Content-Type': 'application/json', 'Cache-Control': url.pathname === '/api/catalog' && response.ok
         ? response.headers.get('Cache-Control') || 'no-store' : 'no-store',
       'X-Content-Type-Options': 'nosniff',
+      ...(url.pathname === '/api/catalog' && response.ok && response.headers.has('ETag')
+        ? {'ETag': response.headers.get('ETag')} : {}),
     } });
   } catch { return json({ error: 'ORDER_FAILED' }, 502); }
 }
