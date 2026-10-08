@@ -18,14 +18,14 @@ source documentation, tests, development tools and secrets are not public assets
 
 - HTML pages, css/ and js/: storefront and checkout UI.
 - assets/: homepage photos and the product-image fallback still in use.
-- data/sanity.snapshot.json: verified Sanity outage snapshot, expires after 24 hours.
+- Product JSON and image backups live only in the backend repository.
 - functions/: Cloudflare same-origin checkout/config bridge.
 - tools/, tests/, package files and wrangler.toml: build, validation and deployment.
 - SANITY_SETUP.md: CDN and caching behavior.
 - LAUNCH_READINESS.md: remaining live setup and acceptance checks.
 
 Run node tools/sync-sanity-seo.mjs after publishing/removing products to regenerate
-the sitemap and outage snapshot. Set SITE_URL to the live base URL, ending in /.
+the sitemap. Set SITE_URL to the live base URL, ending in /.
 
 Skeletons are shown while product data loads. Gallery thumbnails, hover photos,
 related products and below-fold catalog images use native lazy loading; the main

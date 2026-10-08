@@ -91,18 +91,6 @@ export async function loadCatalog(render = () => {}) {
   } catch (error) {
     console.warn('Catalog refresh failed:', error?.message || 'Request failed');
     if (cached) return cached;
-    // A build-time Sanity snapshot helps first-time visitors during CDN outages.
-    // It has the same strict 24-hour limit as the browser outage cache.
-    try {
-      const response = await fetch(new URL('../data/sanity.snapshot.json', import.meta.url), {signal: AbortSignal.timeout(5000)});
-      if (!response.ok) throw new Error('Snapshot unavailable');
-      const snapshot = normalizeCatalog(await response.json());
-      const snapshotAge = Date.now() - Date.parse(snapshot?.generated_at);
-      if (!snapshot || snapshot.source !== 'sanity' || snapshotAge < 0 || snapshotAge >= STALE_MS)
-        throw new Error('Snapshot expired');
-      render(snapshot, 'snapshot');
-      return snapshot;
-    } catch {}
     const empty = {
       source: 'sanity', count: 0, products: [],
       generated_at: new Date().toISOString(), unavailable: true,

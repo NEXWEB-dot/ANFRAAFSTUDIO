@@ -32,5 +32,4 @@ names, phones and delivery addresses are never written to the public Sanity data
 The legacy database-backed dashboard and automatic stock counting are not used.
 See LAUNCH_READINESS.md for the remaining live configuration.
 
-A generated data/sanity.snapshot.json is available to first-time visitors if the CDN request fails. It expires 24 hours after generation, is never used to price checkout, and is refreshed by the sitemap sync tool.
-
+The product JSON backup lives only in the backend repository under backups/. It is not a storefront fallback. During a CDN outage, only an existing browser snapshot (maximum age 24 hours) can keep products visible; first-time visitors see the unavailable message.

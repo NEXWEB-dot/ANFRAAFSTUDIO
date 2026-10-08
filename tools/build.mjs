@@ -14,7 +14,7 @@ const outputInfo = await lstat(output).catch(error => {
 if (outputInfo?.isSymbolicLink()) throw new Error('Build output must not be a symlink');
 await rm(output,{recursive:true,force:true});
 await mkdir(output,{recursive:true});
-for (const item of ['index.html','store.html','product.html','cart.html','checkout.html','order-confirmed.html','_headers','robots.txt','sitemap.xml','js','css','assets','data']) {
+for (const item of ['index.html','store.html','product.html','cart.html','checkout.html','order-confirmed.html','_headers','robots.txt','sitemap.xml','js','css','assets']) {
   await cp(new URL(item,source),new URL(item,output),{recursive:true});
 }
 await writeFile(new URL('_routes.json',output), JSON.stringify({version:1,include:['/api/*'],exclude:[]}));

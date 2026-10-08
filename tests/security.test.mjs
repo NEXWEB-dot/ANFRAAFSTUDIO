@@ -168,16 +168,15 @@ test('revalidation renders price, stock and image changes when the slug is uncha
   assert.match(renders[1].products[0].images[0].url,/abc123/);
 });
 
-test('static Sanity outage snapshot is usable only while recent',async()=>{
-  let snapshot={...cat,generated_at:new Date().toISOString()};
+test('a first visit during a CDN outage does not request a frontend product backup',async()=>{
+  let calls=0;
   globalThis.fetch=async url=>{
-    if (String(url).includes('apicdn.sanity.io')) throw new Error('CDN unavailable');
-    assert.match(String(url),/data\/sanity.snapshot.json$/);
-    return Response.json(snapshot);
+    calls++;
+    assert.equal(new URL(url).hostname,'m7hktaor.apicdn.sanity.io');
+    throw new Error('CDN unavailable');
   };
-  assert.equal((await catalog.loadCatalog()).products.length,1);
-  snapshot={...snapshot,generated_at:new Date(Date.now()-86400001).toISOString()};
   assert.equal((await catalog.loadCatalog()).unavailable,true);
+  assert.equal(calls,1);
 });
 
 test('cart accepts generated Sanity IDs and rejects draft IDs', () => {
