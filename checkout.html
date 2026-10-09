@@ -796,10 +796,15 @@
     // Background silent challenge check (never blocks customer with error)
     async function setupChallengeSilent() {
       try {
-        const res = await fetch(apiURL('/api/config'), { signal: AbortSignal.timeout(6000) });
-        if (!res.ok) return;
-        const { turnstileSiteKey } = await res.json();
-        if (!turnstileSiteKey) return;
+        let siteKey = '0x4AAAAAAFRsQ5VSe_CG8TtY';
+        try {
+          const res = await fetch(apiURL('/api/config'), { signal: AbortSignal.timeout(4000) });
+          if (res.ok) {
+            const cfg = await res.json();
+            if (cfg?.turnstileSiteKey) siteKey = cfg.turnstileSiteKey;
+          }
+        } catch {}
+        if (!siteKey) return;
         await new Promise((resolve, reject) => {
           const script = document.createElement('script');
           script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
@@ -808,7 +813,7 @@
           document.head.appendChild(script);
         });
         window.turnstile.render('#checkoutChallenge', {
-          sitekey: turnstileSiteKey,
+          sitekey: siteKey,
           callback: token => { challengeToken = token; },
           'expired-callback': () => { challengeToken = ''; },
           'error-callback': () => { challengeToken = ''; },
