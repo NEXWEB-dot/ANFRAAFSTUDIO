@@ -1001,14 +1001,23 @@
       clearCart();
       finishOrder();
 
+      // Store verified order details securely in sessionStorage
+      try {
+        sessionStorage.setItem('last_order', JSON.stringify({
+          ref: shortRef,
+          total: orderTotal,
+          method: paymentMethod
+        }));
+      } catch {}
+
       if (paymentMethod === 'bank') {
         // Open WhatsApp in new tab/window
         window.open(waFinalUrl, '_blank');
-        // And navigate to confirmation page
-        window.location.href = `./order-confirmed.html?ref=${encodeURIComponent(shortRef)}&total=${encodeURIComponent(orderTotal)}&method=bank`;
+        // And navigate to confirmation page without total in URL
+        window.location.href = `./order-confirmed.html?ref=${encodeURIComponent(shortRef)}&method=bank`;
       } else {
-        // Navigate to confirmation page
-        window.location.href = `./order-confirmed.html?ref=${encodeURIComponent(shortRef)}&total=${encodeURIComponent(orderTotal)}&method=cod`;
+        // Navigate to confirmation page without total in URL
+        window.location.href = `./order-confirmed.html?ref=${encodeURIComponent(shortRef)}&method=cod`;
       }
     });
 

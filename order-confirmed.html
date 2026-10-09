@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta name="robots" content="noindex, follow">
@@ -65,12 +65,12 @@
       </div>
 
       <p style="font-size:0.85rem;color:var(--mid);line-height:1.6;margin-bottom:2rem;">
-        Our concierge will contact you via mobile / WhatsApp to verify your delivery address before parcel dispatch.
+        Our team will contact you via mobile / WhatsApp to verify your delivery address before parcel dispatch.
       </p>
 
       <a id="waConfirmLink" href="#" target="_blank" rel="noopener" class="btn-whatsapp-order" style="display:flex;margin-bottom:1rem;text-decoration:none;">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.669-.699c.969.53 1.771.815 2.791.815 3.179 0 5.767-2.587 5.768-5.766 0-3.18-2.588-5.766-5.768-5.766zm9.969 5.766c0 5.503-4.477 9.98-9.97 9.98-1.745 0-3.38-.453-4.81-1.246l-5.22 1.368 1.393-5.093c-.911-1.498-1.393-3.218-1.393-5.009 0-5.503 4.478-9.98 9.97-9.98 5.493 0 9.97 4.477 9.97 9.98z"/></svg>
-        Confirm Faster via WhatsApp Concierge
+        Confirm Faster via WhatsApp
       </a>
 
       <a href="./store.html" class="btn-place-order" style="display:block;text-align:center;text-decoration:none;background:transparent;color:var(--ink);border:1px solid var(--ink);">
@@ -85,19 +85,37 @@
 
   <script>
     const p = new URLSearchParams(window.location.search);
-    const ref = p.get('ref') || '';
-    const total = p.get('total');
-    if (!ref || total === null || !Number.isFinite(Number(total)) || Number(total) < 0) {
+    let orderData = null;
+    try {
+      orderData = JSON.parse(sessionStorage.getItem('last_order'));
+    } catch {}
+
+    const ref = p.get('ref') || orderData?.ref || '';
+    if (!ref) {
       window.location.replace('./store.html');
     }
-    document.getElementById('paymentMethod').textContent = p.get('method') === 'bank'
+
+    const method = p.get('method') || orderData?.method || 'cod';
+    const total = orderData?.total ?? (p.has('total') && Number.isFinite(Number(p.get('total'))) ? Number(p.get('total')) : null);
+
+    document.getElementById('paymentMethod').textContent = method === 'bank'
       ? 'Raast / Bank Transfer (awaiting payment)' : 'Cash on Delivery (COD)';
 
     document.getElementById('orderRef').textContent = ref;
-    document.getElementById('orderTotal').textContent = 'Rs. ' + Number(total).toLocaleString('en-PK') + ' PKR';
+    document.getElementById('orderTotal').textContent = total !== null && total > 0
+      ? 'Rs. ' + Number(total).toLocaleString('en-PK') + ' PKR'
+      : 'Confirmed';
 
-    const waMsg = encodeURIComponent(`Salam ANRAF Studio, I just placed order ${ref} with a total of Rs. ${Number(total).toLocaleString('en-PK')} PKR. Please confirm dispatch.`);
-    document.getElementById('waConfirmLink').href = `https://wa.me/923000000000?text=${waMsg}`;
+    // Strip total from URL in browser address bar so it never shows
+    if (window.history && window.history.replaceState) {
+      const cleanUrl = window.location.pathname + (ref ? '?ref=' + encodeURIComponent(ref) : '');
+      window.history.replaceState(null, '', cleanUrl);
+    }
+
+    const totalText = total && total > 0 ? ` with a total of Rs. ${Number(total).toLocaleString('en-PK')} PKR` : '';
+    const waMsg = encodeURIComponent(`Salam ANRAF Studio, I just placed order #${ref}${totalText}. Please confirm dispatch.`);
+    const storeWa = window.STORE_CONFIG?.whatsappUrl || 'https://wa.me/923000000000';
+    document.getElementById('waConfirmLink').href = `${storeWa}?text=${waMsg}`;
   </script>
 </body>
 </html>
