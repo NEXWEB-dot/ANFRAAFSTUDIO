@@ -353,86 +353,71 @@
       transform: scale(1.02);
     }
 
-    /* Left cursive script text */
-    .hero-left-script {
+    /* Centered Hero Editorial Typography */
+    .hero-center-caption {
       position: absolute;
-      left: clamp(20px, 5.5vw, 84px);
-      top: 50%;
-      transform: translateY(-50%);
+      bottom: clamp(34px, 5.5vw, 56px);
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      z-index: 3;
+      pointer-events: none;
+      width: 92%;
+      max-width: 860px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+    .hero-script-title {
       font-family: 'Dancing Script', cursive;
-      font-size: clamp(28px, 4.5vw, 54px);
+      font-size: clamp(26px, 4.2vw, 48px);
       font-weight: 700;
       color: #ffffff !important;
-      z-index: 3;
-      pointer-events: none;
-      letter-spacing: 0.03em;
+      letter-spacing: 0.04em;
       line-height: 1.15;
-      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.85), 0 1px 3px rgba(0, 0, 0, 0.95);
-    }
-
-    /* Right RTW editorial typography */
-    .hero-right-rtw {
-      position: absolute;
-      right: clamp(20px, 5.5vw, 84px);
-      top: 50%;
-      transform: translateY(-50%);
-      text-align: right;
-      z-index: 3;
-      pointer-events: none;
+      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.95), 0 1px 3px rgba(0, 0, 0, 0.95);
     }
     .rtw-title {
       font-family: 'Cormorant', Georgia, serif;
-      font-size: clamp(38px, 7vw, 78px);
+      font-size: clamp(32px, 6.5vw, 76px);
       font-weight: 500;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.14em;
       color: #ffffff !important;
       line-height: 1;
-      text-shadow: 0 2px 20px rgba(0, 0, 0, 0.9), 0 1px 4px rgba(0, 0, 0, 0.95);
+      text-shadow: 0 2px 20px rgba(0, 0, 0, 0.95), 0 1px 4px rgba(0, 0, 0, 0.95);
     }
     .rtw-sub {
       font-family: 'DM Sans', sans-serif;
-      font-size: clamp(9px, 1.2vw, 12px);
+      font-size: clamp(8.5px, 1.1vw, 12px);
       font-weight: 500;
       letter-spacing: 0.22em;
       text-transform: uppercase;
       color: #f7eedb !important;
-      margin-top: 8px;
+      margin-top: 4px;
       line-height: 1.4;
-      white-space: nowrap;
       text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
+      text-align: center;
     }
 
     @media (max-width: 768px) {
-      .hero-left-script {
-        top: auto;
-        bottom: 56px;
-        left: 20px;
-        transform: none;
-        font-size: clamp(24px, 6.5vw, 34px);
-        color: #ffffff !important;
-        text-shadow: 0 2px 14px rgba(0, 0, 0, 0.9), 0 1px 4px rgba(0, 0, 0, 0.95);
+      .hero-center-caption {
+        bottom: 38px;
+        width: 95%;
+        gap: 2px;
       }
-      .hero-right-rtw {
-        top: auto;
-        bottom: 50px;
-        right: 20px;
-        transform: none;
+      .hero-script-title {
+        font-size: clamp(22px, 6.2vw, 34px);
       }
       .rtw-title {
-        font-size: clamp(30px, 8.5vw, 42px);
-        color: #ffffff !important;
-        text-shadow: 0 2px 16px rgba(0, 0, 0, 0.9);
+        font-size: clamp(28px, 7.8vw, 42px);
       }
       .rtw-sub {
-        font-size: 9px;
+        font-size: 8.5px;
         letter-spacing: 0.16em;
-        max-width: 180px;
-        white-space: normal;
+        max-width: 290px;
         line-height: 1.35;
-        text-align: right;
-        margin-top: 4px;
-        color: #f7eedb !important;
-        text-shadow: 0 1px 8px rgba(0, 0, 0, 0.95);
       }
     }
 
@@ -653,7 +638,97 @@
       transform: translateY(-1px);
     }
 
-    /* ── 3-BLOCK EDITORIAL (Embroidered, Lawn, Heritage) ── */
+    /* ── FEATURED COLLECTION SPLIT CAROUSEL ── */
+    .fc-carousel-wrap {
+      position: relative;
+      max-width: 1240px;
+      margin: 32px auto 0;
+      padding: 0 clamp(14px, 3.5vw, 48px);
+    }
+    .fc-track-outer {
+      overflow: hidden;
+    }
+    .fc-track {
+      display: flex;
+      transition: transform 0.55s cubic-bezier(0.77, 0, 0.18, 1);
+      will-change: transform;
+    }
+    .fc-slide {
+      display: flex;
+      flex: 0 0 100%;
+      gap: 12px;
+    }
+    .fc-img-wrap {
+      flex: 1 1 50%;
+      overflow: hidden;
+      border-radius: 3px;
+      aspect-ratio: 3 / 4;
+      display: block;
+      position: relative;
+    }
+    .fc-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      transition: transform 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      display: block;
+    }
+    .fc-img-wrap:hover img {
+      transform: scale(1.04);
+    }
+    /* Arrows */
+    .fc-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.92);
+      border: none;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.13);
+      transition: background 0.2s, transform 0.2s;
+      color: #111;
+    }
+    .fc-arrow:hover {
+      background: #fff;
+      transform: translateY(-50%) scale(1.07);
+    }
+    .fc-prev { left: 0; }
+    .fc-next { right: 0; }
+    @media (max-width: 600px) {
+      .fc-arrow { width: 32px; height: 32px; }
+      .fc-slide { gap: 6px; }
+    }
+    /* Dots */
+    .fc-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 20px;
+    }
+    .fc-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      border: 1.5px solid #aaa;
+      background: transparent;
+      cursor: pointer;
+      padding: 0;
+      transition: background 0.25s, border-color 0.25s;
+    }
+    .fc-dot.active {
+      background: #111;
+      border-color: #111;
+    }
+
+
     .edit-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -984,10 +1059,8 @@
           class="hero-169-img"
           fetchpriority="high"
         />
-        <div class="hero-left-script">
-          Maroon Black
-        </div>
-        <div class="hero-right-rtw">
+        <div class="hero-center-caption">
+          <div class="hero-script-title">Maroon Black</div>
           <div class="rtw-title">EMBROIDERY</div>
           <div class="rtw-sub">HAND-CRAFTED LUXURY WITH SOUL !</div>
         </div>
@@ -1001,10 +1074,8 @@
           class="hero-169-img"
           loading="lazy" decoding="async"
         />
-        <div class="hero-left-script">
-          Summer Lawn
-        </div>
-        <div class="hero-right-rtw">
+        <div class="hero-center-caption">
+          <div class="hero-script-title">Summer Lawn</div>
           <div class="rtw-title">LAWN</div>
           <div class="rtw-sub">ARTFUL CRAFT FOR EFFORTLESS DAYS !</div>
         </div>
@@ -1018,10 +1089,8 @@
           class="hero-169-img"
           loading="lazy" decoding="async"
         />
-        <div class="hero-left-script">
-          Heritage Edit
-        </div>
-        <div class="hero-right-rtw">
+        <div class="hero-center-caption">
+          <div class="hero-script-title">Heritage Edit</div>
           <div class="rtw-title">HERITAGE</div>
           <div class="rtw-sub">TIMELESS MOTIFS EMBROIDERED WITH SOUL !</div>
         </div>
@@ -1063,10 +1132,10 @@
   <section aria-label="Collections Editorial Showcase" class="reveal">
     <div class="edit-grid">
 
-      <!-- Left: Embroidered (Navy Blue Embroidery Closeup) -->
+      <!-- Left: Embroidered (Maroon Black) -->
       <a href="./store.html?category=embroidered" class="edit-block">
         <img
-          src="assets/WhatsApp Image 2026-09-28 at 2.58.37 PM.jpeg"
+          src="assets/maroon_black.jpg"
           alt="Embroidered Collection"
           loading="lazy" decoding="async"
         />
@@ -1102,21 +1171,61 @@
     </div>
   </section>
 
-  <!-- ── FEATURED COLLECTION (ONE LINE SWIPABLE TRACK) ── -->
+  <!-- ── FEATURED COLLECTION (2-IMAGE SPLIT CAROUSEL) ── -->
   <section class="sec-pad" aria-label="Featured Collection">
     <div class="container">
       <p class="sec-label reveal">FEATURED COLLECTION</p>
     </div>
 
-    <div class="p-track-outer">
-      <div class="p-track stagger" id="featuredTrack">
+    <div class="fc-carousel-wrap reveal">
+      <!-- Prev arrow -->
+      <button class="fc-arrow fc-prev" id="fcPrev" aria-label="Previous">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
 
-        <!-- Populated dynamically from catalog by JS below -->
-        <article class="p-card p-skeleton" aria-hidden="true"><div class="p-img"></div><div class="p-info"><p class="p-name skel-line" style="width:70%;height:12px;background:#eee;margin:0 auto 6px;border-radius:2px;"></p><p class="p-price skel-line" style="width:40%;height:11px;background:#eee;margin:0 auto;border-radius:2px;"></p></div></article>
-        <article class="p-card p-skeleton" aria-hidden="true"><div class="p-img"></div><div class="p-info"><p class="p-name skel-line" style="width:70%;height:12px;background:#eee;margin:0 auto 6px;border-radius:2px;"></p><p class="p-price skel-line" style="width:40%;height:11px;background:#eee;margin:0 auto;border-radius:2px;"></p></div></article>
-        <article class="p-card p-skeleton" aria-hidden="true"><div class="p-img"></div><div class="p-info"><p class="p-name skel-line" style="width:70%;height:12px;background:#eee;margin:0 auto 6px;border-radius:2px;"></p><p class="p-price skel-line" style="width:40%;height:11px;background:#eee;margin:0 auto;border-radius:2px;"></p></div></article>
-        <article class="p-card p-skeleton" aria-hidden="true"><div class="p-img"></div><div class="p-info"><p class="p-name skel-line" style="width:70%;height:12px;background:#eee;margin:0 auto 6px;border-radius:2px;"></p><p class="p-price skel-line" style="width:40%;height:11px;background:#eee;margin:0 auto;border-radius:2px;"></p></div></article>
+      <!-- Track: each slide = 2 images side-by-side -->
+      <div class="fc-track-outer">
+        <div class="fc-track" id="fcTrack">
+          <!-- Slide 1: black + blue -->
+          <div class="fc-slide">
+            <a href="./store.html" class="fc-img-wrap">
+              <img src="assets/black.jpg" alt="Featured piece 1" loading="lazy" decoding="async">
+            </a>
+            <a href="./store.html" class="fc-img-wrap">
+              <img src="assets/blue.jpg" alt="Featured piece 2" loading="lazy" decoding="async">
+            </a>
+          </div>
+          <!-- Slide 2: gold + green -->
+          <div class="fc-slide">
+            <a href="./store.html" class="fc-img-wrap">
+              <img src="assets/gold.jpg" alt="Featured piece 3" loading="lazy" decoding="async">
+            </a>
+            <a href="./store.html" class="fc-img-wrap">
+              <img src="assets/green.jpg" alt="Featured piece 4" loading="lazy" decoding="async">
+            </a>
+          </div>
+          <!-- Slide 3: white + maroon (extra) -->
+          <div class="fc-slide">
+            <a href="./store.html" class="fc-img-wrap">
+              <img src="assets/white(2).jpg" alt="Featured piece 5" loading="lazy" decoding="async">
+            </a>
+            <a href="./store.html" class="fc-img-wrap">
+              <img src="assets/maroon_black.jpg" alt="Featured piece 6" loading="lazy" decoding="async">
+            </a>
+          </div>
+        </div>
+      </div>
 
+      <!-- Next arrow -->
+      <button class="fc-arrow fc-next" id="fcNext" aria-label="Next">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+
+      <!-- Dots -->
+      <div class="fc-dots" id="fcDots">
+        <button class="fc-dot active" aria-label="Slide 1"></button>
+        <button class="fc-dot" aria-label="Slide 2"></button>
+        <button class="fc-dot" aria-label="Slide 3"></button>
       </div>
     </div>
   </section>
@@ -1413,7 +1522,35 @@ function enableDragScroll(track) {
   });
 }
 enableDragScroll(document.getElementById('newArrivalsTrack'));
-enableDragScroll(document.getElementById('featuredTrack'));
+
+// ── Featured Collection Split Carousel ──
+(function() {
+  const track = document.getElementById('fcTrack');
+  const dots = document.querySelectorAll('#fcDots .fc-dot');
+  const slides = document.querySelectorAll('#fcTrack .fc-slide');
+  let cur = 0;
+
+  function goTo(n) {
+    cur = (n + slides.length) % slides.length;
+    track.style.transform = `translateX(-${cur * 100}%)`;
+    dots.forEach((d, i) => d.classList.toggle('active', i === cur));
+  }
+
+  document.getElementById('fcPrev').addEventListener('click', () => goTo(cur - 1));
+  document.getElementById('fcNext').addEventListener('click', () => goTo(cur + 1));
+  dots.forEach((d, i) => d.addEventListener('click', () => goTo(i)));
+
+  // Swipe support
+  let tx = 0, moved = false;
+  track.addEventListener('touchstart', e => { tx = e.touches[0].clientX; moved = false; }, { passive: true });
+  track.addEventListener('touchmove', e => { if (Math.abs(e.touches[0].clientX - tx) > 8) moved = true; }, { passive: true });
+  track.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - tx;
+    if (moved && Math.abs(dx) > 40) dx < 0 ? goTo(cur + 1) : goTo(cur - 1);
+  });
+})();
+
+
 
 // ── Scroll Reveal Fallback ────────────────────────
 if (!CSS.supports('(animation-timeline:view()) and (animation-range:entry)')) {
@@ -1549,62 +1686,6 @@ function renderTrack(track, products, max) {
     track.querySelectorAll('.reveal').forEach(el => window._revealObs.observe(el));
   }
 }
-
-// ── FEATURED COLLECTION (Loaded directly from image assets) ──
-const FEATURED_ASSETS = [
-  {
-    id: 'asset-noir-floral',
-    slug: 'noir-floral-embroidered-set',
-    name: 'Noir Floral Embroidered Set',
-    category: 'Embroidered',
-    price: 6950,
-    compare_at_price: 8500,
-    images: [
-      { thumb: 'assets/WhatsApp Image 2026-09-28 at 2.54.30 PM.jpeg', url: 'assets/WhatsApp Image 2026-09-28 at 2.54.30 PM.jpeg' },
-      { thumb: 'assets/WhatsApp_Image_2026-09-28_at_2.54.30_20260928155729 (1).jpg', url: 'assets/WhatsApp_Image_2026-09-28_at_2.54.30_20260928155729 (1).jpg' }
-    ]
-  },
-  {
-    id: 'asset-teal-blossom',
-    slug: 'teal-blossom-lawn-suit',
-    name: 'Teal Blossom Lawn Suit',
-    category: 'Lawn',
-    price: 6450,
-    compare_at_price: 7500,
-    images: [
-      { thumb: 'assets/WhatsApp Image 2026-09-28 at 2.57.21 PM.jpeg', url: 'assets/WhatsApp Image 2026-09-28 at 2.57.21 PM.jpeg' },
-      { thumb: 'assets/WhatsApp_Image_2026-09-28_at_2.57.21_20260928161102 (1).jpg', url: 'assets/WhatsApp_Image_2026-09-28_at_2.57.21_20260928161102 (1).jpg' }
-    ]
-  },
-  {
-    id: 'asset-rust-heritage',
-    slug: 'rust-heritage-kurta-set',
-    name: 'Rust Heritage Kurta Set',
-    category: 'Heritage',
-    price: 7250,
-    compare_at_price: 9000,
-    images: [
-      { thumb: 'assets/WhatsApp Image 2026-09-28 at 2.58.08 PM.jpeg', url: 'assets/WhatsApp Image 2026-09-28 at 2.58.08 PM.jpeg' },
-      { thumb: 'assets/WhatsApp_Image_2026-09-28_at_2.58.08_20260928160928 (1).jpg', url: 'assets/WhatsApp_Image_2026-09-28_at_2.58.08_20260928160928 (1).jpg' }
-    ]
-  },
-  {
-    id: 'asset-midnight-couture',
-    slug: 'midnight-luxe-couture-set',
-    name: 'Midnight Luxe Couture Set',
-    category: 'Couture',
-    price: 8950,
-    compare_at_price: 10500,
-    images: [
-      { thumb: 'assets/WhatsApp Image 2026-09-28 at 2.58.37 PM.jpeg', url: 'assets/WhatsApp Image 2026-09-28 at 2.58.37 PM.jpeg' },
-      { thumb: 'assets/WhatsApp_Image_2026-09-28_at_2.58.51_20260928155847 (1).jpg', url: 'assets/WhatsApp_Image_2026-09-28_at_2.58.51_20260928155847 (1).jpg' }
-    ]
-  }
-];
-
-// Immediately populate Featured Collection from local image assets
-const featuredTrack = document.getElementById('featuredTrack');
-renderTrack(featuredTrack, FEATURED_ASSETS, 4);
 
 // Populate New Arrivals ONLY from Sanity live products
 loadCatalog((catalog) => {
