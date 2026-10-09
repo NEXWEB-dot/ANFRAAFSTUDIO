@@ -487,6 +487,11 @@
             </div>
 
             <div class="form-group">
+              <label class="form-label" for="custEmail">Email Address (for order confirmation receipt) *</label>
+              <input type="email" id="custEmail" name="email" class="form-input" required placeholder="name@example.com" autocomplete="email">
+            </div>
+
+            <div class="form-group">
               <label class="form-label" for="custPhone">WhatsApp / Mobile Number *</label>
               <div class="phone-input-wrap">
                 <span class="phone-prefix">+92</span>
@@ -562,6 +567,10 @@
               <div class="review-row">
                 <span class="review-label">Recipient</span>
                 <span class="review-val" id="revName">—</span>
+              </div>
+              <div class="review-row">
+                <span class="review-label">Email</span>
+                <span class="review-val" id="revEmail">—</span>
               </div>
               <div class="review-row">
                 <span class="review-label">Phone / WhatsApp</span>
@@ -867,6 +876,7 @@
       step1Error.style.display = 'none';
 
       const name = document.getElementById('custName').value.trim();
+      const email = document.getElementById('custEmail').value.trim();
       const phone = document.getElementById('custPhone').value.trim();
       const address = document.getElementById('custAddress').value.trim();
       const city = document.getElementById('custCity').value;
@@ -874,6 +884,10 @@
 
       if (!name || name.length < 2) {
         showStep1Error('Please enter your full recipient name.');
+        return;
+      }
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showStep1Error('Please enter a valid email address for your order confirmation receipt.');
         return;
       }
       if (!normalizePhone(phone)) {
@@ -891,6 +905,7 @@
 
       // Populate Step 2 Review summary
       document.getElementById('revName').textContent = name;
+      document.getElementById('revEmail').textContent = email;
       document.getElementById('revPhone').textContent = normalizePhone(phone);
       document.getElementById('revAddress').textContent = `${address}, ${city}, ${province}`;
 
@@ -942,6 +957,7 @@
       }
 
       const name = document.getElementById('custName').value.trim();
+      const email = document.getElementById('custEmail').value.trim();
       const phone = normalizePhone(document.getElementById('custPhone').value);
       const address = document.getElementById('custAddress').value.trim();
       const city = document.getElementById('custCity').value;
@@ -962,6 +978,7 @@
       const payload = {
         client_ref: clientRef,
         name,
+        email,
         phone,
         address: fullAddress,
         notes: (notes ? notes + ' | ' : '') + `Payment Choice: ${paymentMethod === 'bank' ? 'DIRECT BANK TRANSFER / RAAST (WHATSAPP)' : 'CASH ON DELIVERY (COD)'}`,
