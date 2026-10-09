@@ -479,7 +479,7 @@
           <!-- ════ STEP 1: CONTACT & DELIVERY ════ -->
           <div class="checkout-card step-panel active" id="stepPanel1">
             <h1 style="font-family:'Cormorant',serif;font-size:2rem;font-weight:400;letter-spacing:0.02em;margin-bottom:0.25rem;color:#111;">Delivery Destination</h1>
-            <p style="font-size:0.85rem;color:#666666;margin-bottom:2.2rem;">Complimentary tracked courier delivery nationwide across Pakistan.</p>
+            <p style="font-size:0.85rem;color:#666666;margin-bottom:2.2rem;">Tracked courier delivery nationwide across Pakistan (Rs. 260 delivery fee).</p>
 
             <div class="form-group">
               <label class="form-label" for="custName">Recipient Full Name *</label>
@@ -587,10 +587,10 @@
               <span class="form-label">Shipping Method</span>
               <div style="background:#fcfcfc;border:1px solid #e0e0e0;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;font-size:0.88rem;">
                 <div>
-                  <strong style="color:#111;">Complimentary Express Courier</strong>
+                  <strong style="color:#111;">Standard Tracked Courier</strong>
                   <div style="font-size:0.78rem;color:#666;margin-top:2px;">Delivered in 3–5 working days nationwide across Pakistan</div>
                 </div>
-                <span style="font-weight:700;color:#25D366;text-transform:uppercase;font-size:0.82rem;letter-spacing:0.05em;">FREE</span>
+                <span style="font-weight:700;color:#111;text-transform:uppercase;font-size:0.82rem;letter-spacing:0.05em;">Rs. 260 PKR</span>
               </div>
             </div>
 
@@ -702,8 +702,8 @@
               <span id="subtotalAmount" style="font-weight:600;color:#111;">Rs. 0 PKR</span>
             </div>
             <div style="display:flex;justify-content:space-between;color:#555;">
-              <span>Delivery (Pakistan Nationwide)</span>
-              <span style="color:#25D366;font-weight:700;letter-spacing:0.04em;">FREE</span>
+              <span>Delivery Fee (Nationwide)</span>
+              <span style="font-weight:600;color:#111;">Rs. 260 PKR</span>
             </div>
             <div style="display:flex;justify-content:space-between;border-top:1px dashed var(--border-subtle);padding-top:0.85rem;margin-top:0.4rem;font-size:1.18rem;font-weight:700;color:#111;">
               <span>Total Payable</span>
@@ -719,7 +719,7 @@
             </div>
             <div style="display:flex;align-items:center;gap:10px;">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              <span>Complimentary Delivery Across All Cities in Pakistan</span>
+              <span>Nationwide Tracked Courier Delivery Across Pakistan</span>
             </div>
             <div style="display:flex;align-items:center;gap:10px;">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#25D366" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
@@ -864,11 +864,12 @@
         itemsList.appendChild(row);
       }
 
-      const total = cartTotal(items);
-      const totalStr = formatPrice(total);
-      subtotalEl.textContent = totalStr;
-      totalEl.textContent = totalStr;
-      bankPayAmountEl.textContent = totalStr;
+      const DELIVERY_FEE = 260;
+      const subtotal = cartTotal(items);
+      const total = subtotal + DELIVERY_FEE;
+      subtotalEl.textContent = formatPrice(subtotal);
+      totalEl.textContent = formatPrice(total);
+      bankPayAmountEl.textContent = formatPrice(total);
     }
 
     // Step 1 Validation & Transition to Step 2
@@ -965,7 +966,9 @@
       const notes = document.getElementById('custNotes').value.trim();
       const hp = document.querySelector('[name="hp"]').value;
       const paymentMethod = radioBank.checked ? 'bank' : 'cod';
-      const totalAmount = cartTotal(items);
+      const DELIVERY_FEE = 260;
+      const subtotal = cartTotal(items);
+      const totalAmount = subtotal + DELIVERY_FEE;
 
       submitting = true;
       submitBtn.disabled = true;
@@ -1000,6 +1003,8 @@
         `*Mobile:* ${phone}\n` +
         `*Delivery Address:* ${fullAddress}\n\n` +
         `*Ordered Items:*\n${itemsSummary}\n\n` +
+        `*Subtotal:* Rs. ${subtotal.toLocaleString('en-PK')} PKR\n` +
+        `*Delivery Fee:* Rs. 260 PKR\n` +
         `*Total Amount:* Rs. ${totalAmount.toLocaleString('en-PK')} PKR\n` +
         `*Payment Choice:* Direct Bank Transfer / Raast\n\n` +
         `Salam ANRAF Studio, I have placed this order and transferred the payment. Here is my transaction receipt screenshot.`;
