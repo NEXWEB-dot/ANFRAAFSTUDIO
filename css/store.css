@@ -368,8 +368,8 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   position: fixed;
   bottom: 24px;
   right: 24px;
-  width: 54px;
-  height: 54px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   background: #25d366;
   display: flex !important;
@@ -382,11 +382,14 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   transition: transform 0.25s var(--ease), box-shadow 0.25s ease, opacity 0.25s ease;
   text-decoration: none;
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
-.wa-bubble:hover {
-  transform: scale(1.08);
-  box-shadow: 0 8px 26px rgba(37, 211, 102, 0.6), 0 3px 8px rgba(0, 0, 0, 0.2);
-  color: #ffffff !important;
+@media (hover: hover) {
+  .wa-bubble:hover {
+    transform: scale(1.08);
+    box-shadow: 0 8px 26px rgba(37, 211, 102, 0.6), 0 3px 8px rgba(0, 0, 0, 0.2);
+    color: #ffffff !important;
+  }
 }
 .wa-bubble:active {
   transform: scale(0.92);
@@ -396,18 +399,19 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   height: 28px;
   fill: #ffffff;
   display: block;
+  pointer-events: none;
 }
 @media (max-width: 768px) {
   .wa-bubble {
-    bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
     right: 16px;
-    width: 48px;
-    height: 48px;
+    width: 46px;
+    height: 46px;
     z-index: 250;
   }
   .wa-bubble svg {
-    width: 26px;
-    height: 26px;
+    width: 24px;
+    height: 24px;
   }
   body.drawer-open .wa-bubble {
     opacity: 0;
