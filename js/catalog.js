@@ -9,10 +9,8 @@ const LS_KEY   = 'catalog:sanity:v5';
 const FRESH_MS = 5 * 60 * 1000;
 const STALE_MS = 24 * 60 * 60 * 1000;
 
-// Use the backend /api/catalog when deployed (avoids direct browser→Sanity CORS).
-// Fall back to direct Sanity CDN on GitHub Pages or local dev.
-const IS_GITHUB_PAGES = globalThis.location?.hostname?.endsWith('.github.io');
-const USE_BACKEND_API = !IS_GITHUB_PAGES && !!globalThis.location?.hostname;
+// Public Sanity CDN reads work on static hosts, including GitHub Pages and production domains.
+// Fresh snapshots last five minutes; outages may use a snapshot for 24 hours.
 
 let inFlight;
 
@@ -72,28 +70,19 @@ export async function loadCatalog(render = () => {}) {
   // 3. Render stale immediately while we revalidate
   if (cached) render(cached, 'cache');
 
-  // 4. Fetch catalog — via backend API on real domain, direct CDN on GitHub Pages / local.
-  // The CDN/Worker handles HTTP caching; inFlight coalesces simultaneous page requests.
+  // 4. Stable published query to Sanity CDN — fast edge cache, no token or backend needed.
   try {
     if (!inFlight) {
-      const fetchURL = USE_BACKEND_API ? '/api/catalog' : String(sanityURL({}));
-      inFlight = fetch(fetchURL, {
+      inFlight = fetch(sanityURL({}), {
         signal: AbortSignal.timeout(12000),
         credentials: 'omit',
-        ...(USE_BACKEND_API && cached ? {'If-None-Match': entry?.etag ?? ''} : {}),
       })
         .then(async r => {
-          // 304 Not Modified — cached version is still current
-          if (r.status === 304) return cached;
           if (!r.ok) throw new Error(`catalog ${r.status}`);
           const raw = await r.json();
-          // Backend returns normalized catalog; Sanity CDN returns {result:[...]}
-          const data = USE_BACKEND_API
-            ? normalizeCatalog(raw)
-            : normalizeCatalog(normalizeSanity(raw.result, {}));
+          const data = normalizeCatalog(normalizeSanity(raw.result, {}));
           if (!data) throw new Error('Invalid catalog');
-          const etag = r.headers.get('ETag') ?? '';
-          try { localStorage.setItem(LS_KEY, JSON.stringify({data, ts: Date.now(), etag})); } catch {}
+          try { localStorage.setItem(LS_KEY, JSON.stringify({data, ts: Date.now()})); } catch {}
           return data;
         })
         .finally(() => { inFlight = null; });
