@@ -77,7 +77,7 @@
   <!-- ── BREADCRUMBS ─────────────────────────────────────────── -->
   <div style="max-width:var(--max-w);margin:0 auto;padding:1.5rem 1.5rem 0;">
     <div class="breadcrumbs">
-      <a href="./index.html">Home</a> / <a href="./store.html">Collections</a> / <span id="bcCategory">Embroidered</span> / <span id="bcProduct">Product Detail</span>
+      <a href="./index.html">Home</a> / <a href="./store.html">Collections</a> / <a id="bcCategory" href="./store.html">Embroidered</a> / <span id="bcProduct">Product Detail</span>
     </div>
   </div>
 
@@ -97,8 +97,8 @@
         <div class="gallery-thumbs" id="galleryThumbs">
           <!-- Injected via JS -->
         </div>
-        <div class="main-img-box">
-          <img id="mainImage" alt="Garment presentation" width="1200" height="1600" loading="eager" fetchpriority="high" decoding="async">
+        <div class="main-img-box" id="mainImgBox">
+          <!-- Injected via JS as stacked images for instant crossfade -->
         </div>
       </div>
 
@@ -394,8 +394,9 @@
         });
       }
 
-      document.getElementById('bcCategory').textContent = p.category || 'Collection';
-      document.getElementById('bcCategory').parentElement.querySelector('a:nth-child(2)').href = `./store.html?category=${encodeURIComponent(p.category || '')}`;
+      const bcCat = document.getElementById('bcCategory');
+      bcCat.textContent = p.category || 'Collection';
+      bcCat.href = `./store.html?category=${encodeURIComponent((p.category || '').toLowerCase())}`;
       document.getElementById('bcProduct').textContent = p.name;
 
       document.getElementById('pCat').textContent = p.category || 'Couture';
@@ -417,11 +418,34 @@
 
       document.getElementById('pDescription').textContent = p.description || '';
 
-      // Gallery Images
+      // Gallery Images — preload all into stacked layers for instant crossfade + swipe
       const images = p.images?.length ? p.images : [{ url: './assets/WhatsApp Image 2026-09-28 at 2.54.30 PM.jpeg' }];
-      const mainImg = document.getElementById('mainImage');
-      mainImg.src = images[0].url;
-      mainImg.alt = images[0].alt || p.name;
+      const mainBox = document.getElementById('mainImgBox');
+      mainBox.innerHTML = '';
+
+      // Build stacked image layers (all loaded upfront, opacity crossfade = zero delay)
+      const imgEls = images.map((img, idx) => {
+        const el = document.createElement('img');
+        el.src = img.url;
+        el.alt = img.alt || `${p.name} view ${idx + 1}`;
+        el.width = 1200; el.height = 1600;
+        el.loading = idx === 0 ? 'eager' : 'lazy';
+        el.fetchPriority = idx === 0 ? 'high' : 'auto';
+        el.decoding = 'async';
+        el.style.cssText = `position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;opacity:${idx === 0 ? 1 : 0};transition:opacity 0.3s ease;`;
+        mainBox.appendChild(el);
+        return el;
+      });
+
+      let activeIdx = 0;
+      function switchTo(idx) {
+        if (idx === activeIdx) return;
+        imgEls[activeIdx].style.opacity = 0;
+        imgEls[idx].style.opacity = 1;
+        activeIdx = idx;
+        thumbsContainer.querySelectorAll('.thumb-img').forEach((el, i) =>
+          el.classList.toggle('active', i === idx));
+      }
 
       const thumbsContainer = document.getElementById('galleryThumbs');
       thumbsContainer.innerHTML = '';
@@ -434,14 +458,22 @@
         t.decoding = 'async';
         t.width = 75;
         t.height = 100;
-        t.addEventListener('click', () => {
-          mainImg.src = img.url;
-          mainImg.alt = img.alt || p.name;
-          thumbsContainer.querySelectorAll('.thumb-img').forEach(el => el.classList.remove('active'));
-          t.classList.add('active');
-        });
+        t.addEventListener('click', () => switchTo(idx));
         thumbsContainer.appendChild(t);
       });
+
+      // Swipe support on main image box
+      let swipeX = 0;
+      mainBox.addEventListener('touchstart', e => { swipeX = e.touches[0].clientX; }, { passive: true });
+      mainBox.addEventListener('touchend', e => {
+        const dx = e.changedTouches[0].clientX - swipeX;
+        if (Math.abs(dx) > 40) {
+          const next = dx < 0
+            ? (activeIdx + 1) % images.length
+            : (activeIdx - 1 + images.length) % images.length;
+          switchTo(next);
+        }
+      }, { passive: true });
 
       // WhatsApp Direct Concierge Floating Link
       updateWaLink();
