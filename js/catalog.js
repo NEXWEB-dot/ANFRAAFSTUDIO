@@ -115,7 +115,8 @@ export function getByCategory(catalog, category) {
   if (!category) return list;
   const key = v => v.toLowerCase().trim()
     .replace(/[\s_]+/g, '-')
-    .replace(/^embroidery$/, 'embroidered');
+    .replace(/^embroidery$/, 'embroidered')
+    .replace(/^heritage(-edit)?$/, 'embroidered');   // Heritage Edit = Embroidered
   return list.filter(p =>
     (p.filters?.length ? p.filters : [p.category || '']).some(f => key(f) === key(category))
   );
