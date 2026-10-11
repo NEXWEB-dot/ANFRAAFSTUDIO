@@ -281,6 +281,26 @@
       background: rgba(0,0,0,0.03);
       color: #000;
     }
+    /* Drawer dropdown */
+    .drawer-dropdown { display: flex; flex-direction: column; }
+    .drawer-dropdown-toggle {
+      display: flex; align-items: center; justify-content: space-between;
+      width: 100%; background: none; border: none; cursor: pointer;
+      padding: 14px 22px; font-size: 11px; letter-spacing: 0.16em;
+      text-transform: uppercase; color: #111;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    .drawer-dropdown-toggle:hover { background: rgba(0,0,0,0.03); }
+    .drawer-dropdown-toggle .dd-arrow { font-size: 0.6rem; transition: transform 0.25s; }
+    .drawer-dropdown.open .drawer-dropdown-toggle .dd-arrow { transform: rotate(180deg); }
+    .drawer-sub-links { display: none; flex-direction: column; background: rgba(0,0,0,0.02); }
+    .drawer-dropdown.open .drawer-sub-links { display: flex; }
+    .drawer-sub-links a {
+      padding: 11px 22px 11px 34px;
+      font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: #666; border-bottom: 1px solid rgba(0,0,0,0.04);
+    }
+    .drawer-sub-links a:hover { color: #000; background: rgba(0,0,0,0.03); }
 
     /* ── Search Overlay ──────────────────────── */
     .srch-overlay {
@@ -1024,10 +1044,18 @@
   <nav class="drawer-nav">
     <a href="./index.html">Home</a>
     <a href="./store.html">All Collections</a>
-    <a href="./store.html?category=ready-to-wear">Ready to Wear</a>
+    <div class="drawer-dropdown" id="rtwDropdown">
+      <button class="drawer-dropdown-toggle" id="rtwToggle" aria-expanded="false">
+        Ready to Wear <span class="dd-arrow">&#9660;</span>
+      </button>
+      <div class="drawer-sub-links">
+        <a href="./store.html?category=summer-collection">Summer Collection</a>
+        <a href="./store.html?category=heritage">Heritage Edit</a>
+      </div>
+    </div>
     <a href="./store.html?category=embroidered">Embroidered</a>
     <a href="./store.html?category=lawn">Lawn Collection</a>
-    <a href="./store.html?category=heritage">Heritage Edit</a>
+    <a href="./store.html?category=foil-collection">Foil Collection</a>
   </nav>
 </aside>
 
@@ -1364,6 +1392,16 @@ function closeDrawer() {
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') { closeDrawer(); }
 });
+
+// ── Ready to Wear dropdown toggle ──
+const rtwDropdown = document.getElementById('rtwDropdown');
+const rtwToggle   = document.getElementById('rtwToggle');
+if (rtwToggle) {
+  rtwToggle.addEventListener('click', () => {
+    const isOpen = rtwDropdown.classList.toggle('open');
+    rtwToggle.setAttribute('aria-expanded', isOpen);
+  });
+}
 
 // ── Smart Navbar (Hide on scroll down, reveal on scroll up) ──
 let lastScrollY = window.scrollY;

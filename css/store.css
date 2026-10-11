@@ -152,6 +152,32 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
 .drawer-nav a { font-size: 1rem; text-transform: uppercase; letter-spacing: 0.14em; font-weight: 400; color: var(--ink); }
 .drawer-nav a:hover { color: var(--gold-dark); }
 
+/* ── Drawer dropdown (accordion) ────────────────────────────── */
+.drawer-dropdown { display: flex; flex-direction: column; gap: 0; }
+.drawer-dropdown-toggle {
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 1rem; text-transform: uppercase; letter-spacing: 0.14em;
+  font-weight: 400; color: var(--ink); background: none; border: none;
+  cursor: pointer; padding: 0; width: 100%;
+}
+.drawer-dropdown-toggle:hover { color: var(--gold-dark); }
+.drawer-dropdown-toggle .dd-arrow {
+  font-size: 0.65rem; transition: transform 0.25s ease;
+  margin-left: 6px; display: inline-block;
+}
+.drawer-dropdown.open .drawer-dropdown-toggle .dd-arrow { transform: rotate(180deg); }
+.drawer-sub-links {
+  display: none; flex-direction: column; gap: 0.6rem;
+  padding: 0.75rem 0 0 1rem; border-left: 1px solid rgba(0,0,0,0.08);
+  margin-top: 0.5rem;
+}
+.drawer-dropdown.open .drawer-sub-links { display: flex; }
+.drawer-sub-links a {
+  font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.13em;
+  color: var(--muted, #888); font-weight: 400;
+}
+.drawer-sub-links a:hover { color: var(--ink); }
+
 /* ── SEARCH OVERLAY ─────────────────────────────────────────────────── */
 .srch-overlay {
   position: fixed;

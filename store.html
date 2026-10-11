@@ -68,10 +68,18 @@
     <nav class="drawer-nav">
       <a href="./index.html">Home</a>
       <a href="./store.html">All Collections</a>
-      <a href="./store.html?category=ready-to-wear">Ready to Wear</a>
+      <div class="drawer-dropdown" id="rtwDropdown">
+        <button class="drawer-dropdown-toggle" id="rtwToggle" aria-expanded="false">
+          Ready to Wear <span class="dd-arrow">&#9660;</span>
+        </button>
+        <div class="drawer-sub-links">
+          <a href="./store.html?category=summer-collection">Summer Collection</a>
+          <a href="./store.html?category=heritage">Heritage Edit</a>
+        </div>
+      </div>
       <a href="./store.html?category=embroidered">Embroidered</a>
       <a href="./store.html?category=lawn">Lawn Collection</a>
-      <a href="./store.html?category=heritage">Heritage Edit</a>
+      <a href="./store.html?category=foil-collection">Foil Collection</a>
     </nav>
   </aside>
 
@@ -85,6 +93,8 @@
         <button class="pill-btn" data-category="Embroidered">Embroidered</button>
         <button class="pill-btn" data-category="Heritage">Heritage</button>
         <button class="pill-btn" data-category="Ready to Wear">Ready to Wear</button>
+        <button class="pill-btn" data-category="Summer Collection">Summer</button>
+        <button class="pill-btn" data-category="Foil Collection">Foil</button>
       </div>
 
       <div class="filter-right">
@@ -192,6 +202,14 @@
     drawerClose.addEventListener('click', closeDrawer);
     dOverlay.addEventListener('click', closeDrawer);
 
+    // -- Ready to Wear dropdown toggle -----------------------
+    const rtwDropdown = document.getElementById('rtwDropdown');
+    const rtwToggle   = document.getElementById('rtwToggle');
+    rtwToggle.addEventListener('click', () => {
+      const isOpen = rtwDropdown.classList.toggle('open');
+      rtwToggle.setAttribute('aria-expanded', isOpen);
+    });
+
     // -- Cart Drawer Toggle -----------------------------------
     const cartBtn = document.getElementById('cartBtn');
     const cartDrawer = document.getElementById('cartDrawer');
@@ -220,11 +238,19 @@
     function filterAndRender() {
       if (!catalogReady) return;
       let items = selectedCat ? getByCategory(catalogData, selectedCat) : (catalogData.products || []);
-      
+
       const sort = sortSelect.value;
       if (sort === 'price-asc') items = [...items].sort((a,b) => a.price - b.price);
       else if (sort === 'price-desc') items = [...items].sort((a,b) => b.price - a.price);
       else if (sort === 'name') items = [...items].sort((a,b) => a.name.localeCompare(b.name));
+      else if (selectedCat.toLowerCase() === 'heritage') {
+        // Embroidered suits on top, then lawns
+        items = [...items].sort((a, b) => {
+          const aEmb = (a.category || '').toLowerCase().includes('embroid') ? 0 : 1;
+          const bEmb = (b.category || '').toLowerCase().includes('embroid') ? 0 : 1;
+          return aEmb - bEmb;
+        });
+      }
 
       countEl.textContent = `${items.length} Garment${items.length !== 1 ? 's' : ''}`;
       
