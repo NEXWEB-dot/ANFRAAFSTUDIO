@@ -1,0 +1,191 @@
+{
+  "source": "local-backup",
+  "version": 2,
+  "generated_at": "2026-10-12T00:00:00Z",
+  "count": 11,
+  "products": [
+    {
+      "id": "embroidered-emerald-grace-001",
+      "slug": "emerald-grace-embroidered",
+      "name": "Emerald Grace - Embroidered",
+      "category": "Embroidered",
+      "filters": ["Embroidered"],
+      "price": 12450,
+      "compare_at_price": null,
+      "description": "A stunning emerald green embroidered ensemble with intricate detailing. Featuring a beautifully crafted shirt with delicate embroidery work, paired with matching trousers and an elegant dupatta. Perfect for festive occasions and celebrations.",
+      "sizes": ["Small", "Medium", "Large", "XL"],
+      "in_stock": true,
+      "images": [
+        { "url": "assets/products/green.jpg",   "thumb": "assets/products/green.jpg",   "alt": "Emerald Grace - Embroidered" },
+        { "url": "assets/products/green2.jpg",  "thumb": "assets/products/green2.jpg",  "alt": "Emerald Grace - Embroidered detail" },
+        { "url": "assets/products/greenn3.jpg", "thumb": "assets/products/greenn3.jpg", "alt": "Emerald Grace - Embroidered full view" }
+      ]
+    },
+    {
+      "id": "embroidered-midnight-maroon-002",
+      "slug": "maroon-black",
+      "name": "Midnight Maroon - Embroidered",
+      "category": "Embroidered",
+      "filters": ["Embroidered"],
+      "price": 12850,
+      "compare_at_price": null,
+      "description": "A captivating fusion of midnight black and rich maroon, Midnight Maroon brings timeless elegance to traditional fashion. Featuring intricate multicoloured floral embroidery on a black shirt, beautifully paired with flowing maroon sharara-style trousers and a sheer black dupatta adorned with delicate motifs and an ornate border. Perfect for festive celebrations, evening gatherings, and special occasions.",
+      "sizes": ["Small", "Medium", "Large", "XL"],
+      "in_stock": true,
+      "images": [
+        { "url": "assets/products/maroon black.jpg",  "thumb": "assets/products/maroon black.jpg",  "alt": "Midnight Maroon - Embroidered" },
+        { "url": "assets/products/maroon black2.jpg", "thumb": "assets/products/maroon black2.jpg", "alt": "Midnight Maroon - Embroidered detail" },
+        { "url": "assets/products/maroon black3.jpg", "thumb": "assets/products/maroon black3.jpg", "alt": "Midnight Maroon - Embroidered full view" }
+      ]
+    },
+    {
+      "id": "embroidered-rose-garden-003",
+      "slug": "rose-garden-floral",
+      "name": "Rose Garden - Floral",
+      "category": "Embroidered",
+      "filters": ["Embroidered"],
+      "price": 12850,
+      "compare_at_price": null,
+      "description": "Step into a garden of elegance with Rose Garden, a graceful ensemble featuring vibrant pink floral patterns against a soft ivory-white base. The beautifully detailed neckline and decorative borders add sophistication, while the matching floral trousers and delicate pastel dupatta create a refreshing, feminine look. An effortless choice for daytime celebrations, family gatherings, and festive occasions.",
+      "sizes": ["Small", "Medium", "Large", "XL"],
+      "in_stock": true,
+      "images": [
+        { "url": "assets/products/white(1).jpg", "thumb": "assets/products/white(1).jpg", "alt": "Rose Garden - Floral" },
+        { "url": "assets/products/white(2).jpg", "thumb": "assets/products/white(2).jpg", "alt": "Rose Garden - Floral detail" }
+      ]
+    },
+    {
+      "id": "embroidered-mocha-royale-004",
+      "slug": "mocha-royale-embroidered",
+      "name": "Mocha Royale - Embroidered",
+      "category": "Embroidered",
+      "filters": ["Embroidered"],
+      "price": 12450,
+      "compare_at_price": null,
+      "description": "Embrace effortless sophistication with Mocha Royale, an elegant brown ensemble beautifully decorated with delicate champagne-gold floral embroidery. Featuring a refined embroidered neckline, graceful sleeve detailing, flowing matching trousers, and a statement dupatta with intricate floral borders, this outfit perfectly balances traditional charm with contemporary luxury.",
+      "sizes": ["Small", "Medium", "Large", "XL"],
+      "in_stock": true,
+      "images": [
+        { "url": "assets/products/gold.jpg",  "thumb": "assets/products/gold.jpg",  "alt": "Mocha Royale - Embroidered" },
+        { "url": "assets/products/gold2.jpg", "thumb": "assets/products/gold2.jpg", "alt": "Mocha Royale - Embroidered detail" },
+        { "url": "assets/products/gold3.jpg", "thumb": "assets/products/gold3.jpg", "alt": "Mocha Royale - Embroidered full view" }
+      ]
+    },
+    {
+      "id": "lawn-teal-blossom-005",
+      "slug": "teal-blossom-floral",
+      "name": "Teal Blossom - Floral",
+      "category": "Lawn",
+      "filters": ["Lawn"],
+      "price": 12450,
+      "compare_at_price": 12450,
+      "description": "A beautiful teal floral lawn suit with vibrant prints and elegant finishing. The soft fabric and refreshing colour make it ideal for summer gatherings, daytime events, and festive celebrations.",
+      "sizes": ["Small", "Medium", "Large", "XL"],
+      "in_stock": true,
+      "images": [
+        { "url": "assets/products/blue.jpg",       "thumb": "assets/products/blue.jpg",       "alt": "Teal Blossom - Floral" },
+        { "url": "assets/products/blue2.jpg",      "thumb": "assets/products/blue2.jpg",      "alt": "Teal Blossom - Floral detail" },
+        { "url": "assets/products/blue3 (1).jpg",  "thumb": "assets/products/blue3 (1).jpg",  "alt": "Teal Blossom - Floral full view" }
+      ]
+    },
+    {
+      "id": "lawn-midnight-paisley-006",
+      "slug": "midnight-paisley-classic",
+      "name": "Midnight Paisley - Classic",
+      "category": "Lawn",
+      "filters": ["Lawn"],
+      "price": 12450,
+      "compare_at_price": 12450,
+      "description": "Classic midnight blue paisley lawn suit with timeless elegance. Rich navy tones with intricate paisley motifs create a sophisticated look perfect for both day and evening occasions.",
+      "sizes": ["Small", "Medium", "Large", "XL"],
+      "in_stock": true,
+      "images": [
+        { "url": "assets/products/dark navy.jpg",    "thumb": "assets/products/dark navy.jpg",    "alt": "Midnight Paisley - Classic" },
+        { "url": "assets/products/dark navy(1).jpg", "thumb": "assets/products/dark navy(1).jpg", "alt": "Midnight Paisley - Classic detail" },
+        { "url": "assets/products/dark navy(2).jpg", "thumb": "assets/products/dark navy(2).jpg", "alt": "Midnight Paisley - Classic full view" }
+      ]
+    },
+    {
+      "id": "lawn-midnight-bloom-007",
+      "slug": "midnight-bloom-luxury",
+      "name": "Midnight Bloom - Luxury",
+      "category": "Lawn",
+      "filters": ["Lawn"],
+      "price": 8590,
+      "compare_at_price": null,
+      "description": "Luxury midnight bloom lawn ensemble with rich deep tones and delicate floral accents. A statement piece for special occasions and evening celebrations.",
+      "sizes": ["Small", "Medium", "Large", "XL"],
+      "in_stock": true,
+      "images": [
+        { "url": "assets/products/black.jpg",       "thumb": "assets/products/black.jpg",       "alt": "Midnight Bloom - Luxury" },
+        { "url": "assets/products/black2.jpg",      "thumb": "assets/products/black2.jpg",      "alt": "Midnight Bloom - Luxury detail" },
+        { "url": "assets/products/black3 (1).jpg",  "thumb": "assets/products/black3 (1).jpg",  "alt": "Midnight Bloom - Luxury full view" }
+      ]
+    },
+    {
+      "id": "lawn-copper-bloom-008",
+      "slug": "amber-sunset",
+      "name": "Copper Bloom",
+      "category": "Lawn",
+      "filters": ["Lawn"],
+      "price": 12500,
+      "compare_at_price": null,
+      "description": "Warm copper and amber tones bloom across this stunning lawn ensemble. Rich earthy hues with floral motifs create an effortlessly warm and inviting look perfect for autumn gatherings.",
+      "sizes": ["Small", "Medium", "Large", "XL"],
+      "in_stock": true,
+      "images": [
+        { "url": "assets/products/ChatGPT Image Sep 28, 2026 at 01_14_26 AM.jpg", "thumb": "assets/products/ChatGPT Image Sep 28, 2026 at 01_14_26 AM.jpg", "alt": "Copper Bloom" },
+        { "url": "assets/products/ChatGPT Image Sep 28, 2026 at 01_16_31 AM.jpg", "thumb": "assets/products/ChatGPT Image Sep 28, 2026 at 01_16_31 AM.jpg", "alt": "Copper Bloom detail" }
+      ]
+    },
+    {
+      "id": "lawn-royal-midnight-009",
+      "slug": "royal-midnight",
+      "name": "Royal Midnight",
+      "category": "Lawn",
+      "filters": ["Lawn"],
+      "price": 12450,
+      "compare_at_price": null,
+      "description": "Regal and refined, Royal Midnight is a deep midnight lawn suit that exudes luxury. Bold and sophisticated, perfect for evening occasions and festive events.",
+      "sizes": ["Small", "Medium", "Large", "XL"],
+      "in_stock": true,
+      "images": [
+        { "url": "assets/products/ChatGPT Image Sep 28, 2026 at 01_30_39 AM.jpg", "thumb": "assets/products/ChatGPT Image Sep 28, 2026 at 01_30_39 AM.jpg", "alt": "Royal Midnight" },
+        { "url": "assets/products/ChatGPT Image Sep 28, 2026 at 01_35_40 AM.jpg", "thumb": "assets/products/ChatGPT Image Sep 28, 2026 at 01_35_40 AM.jpg", "alt": "Royal Midnight detail" }
+      ]
+    },
+    {
+      "id": "lawn-blush-petals-010",
+      "slug": "blush-petals-luxury-floral",
+      "name": "Blush Petals - Luxury Floral",
+      "category": "Lawn",
+      "filters": ["Lawn"],
+      "price": 8750,
+      "compare_at_price": null,
+      "description": "Soft, romantic, and effortlessly elegant, Blush Petals captures the beauty of delicate spring florals. Featuring a beautifully detailed pastel-pink shirt adorned with intricate floral patterns and embroidered-style accents, this ensemble is complemented by coordinating trousers and a flowing printed dupatta. Its gentle colour palette and graceful detailing make it ideal for daytime festivities, intimate celebrations, and elegant gatherings.",
+      "sizes": ["Small", "Medium", "Large", "XL"],
+      "in_stock": true,
+      "images": [
+        { "url": "assets/products/blush pink.jpg",      "thumb": "assets/products/blush pink.jpg",      "alt": "Blush Petals - Luxury Floral" },
+        { "url": "assets/products/blush pink(1) (2).jpg","thumb": "assets/products/blush pink(1) (2).jpg","alt": "Blush Petals - Luxury Floral detail" },
+        { "url": "assets/products/blush pink(2).jpg",   "thumb": "assets/products/blush pink(2).jpg",   "alt": "Blush Petals - Luxury Floral full view" }
+      ]
+    },
+    {
+      "id": "lawn-midnight-florals-011",
+      "slug": "midnight-florals-luxury",
+      "name": "Midnight Florals - Luxury",
+      "category": "Lawn",
+      "filters": ["Lawn"],
+      "price": 12850,
+      "compare_at_price": null,
+      "description": "Bold florals meet timeless elegance in Midnight Florals, a stunning deep-blue ensemble adorned with vibrant orange, coral, and red floral motifs. The intricately patterned shirt features decorative geometric borders, perfectly complemented by matching floral trousers and a sheer dupatta with beautifully finished edges. Designed to make a memorable impression at festive gatherings and special occasions.",
+      "sizes": ["Small", "Medium", "Large", "XL"],
+      "in_stock": true,
+      "images": [
+        { "url": "assets/products/ChatGPT Image Sep 28, 2026 at 01_36_53 AM.jpg", "thumb": "assets/products/ChatGPT Image Sep 28, 2026 at 01_36_53 AM.jpg", "alt": "Midnight Florals - Luxury" },
+        { "url": "assets/products/ChatGPT Image Sep 28, 2026 at 01_38_22 AM.jpg", "thumb": "assets/products/ChatGPT Image Sep 28, 2026 at 01_38_22 AM.jpg", "alt": "Midnight Florals - Luxury detail" }
+      ]
+    }
+  ]
+}
