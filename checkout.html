@@ -6,16 +6,16 @@
   <meta name="robots" content="noindex, follow">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Checkout — ANRAF Studio | Luxury Pakistani Fashion</title>
-  <meta name="description" content="Secure multi-step checkout for ANRAF Studio luxury pret and couture. Cash on Delivery and Direct Bank Transfer via WhatsApp across Pakistan.">
+  <title>Checkout — ANRAAF | Luxury Pakistani Fashion</title>
+  <meta name="description" content="Secure multi-step checkout for ANRAAF luxury pret and couture. Cash on Delivery and Direct Bank Transfer via WhatsApp across Pakistan.">
   <link rel="canonical" href="https://anraaf.com/checkout.html">
   <link rel="icon" type="image/jpeg" href="assets/image (1).jpg">
   <link rel="apple-touch-icon" href="assets/image (1).jpg">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="ANRAF Studio">
-  <meta property="og:title" content="Secure Checkout — ANRAF Studio">
+  <meta property="og:site_name" content="ANRAAF">
+  <meta property="og:title" content="Secure Checkout — ANRAAF">
   <meta property="og:description" content="Complete your order for luxury handcrafted couture with nationwide complimentary delivery across Pakistan.">
   <meta property="og:url" content="https://anraaf.com/checkout.html">
   <meta property="og:image" content="https://cdn.sanity.io/images/m7hktaor/production/bf77d6e0888c7ae3aeea44ab274c5e1b07ecf7f2-1024x1536.jpg?w=1200&fit=max&auto=format&q=80">
@@ -437,7 +437,9 @@
   <!-- Minimal Luxury Header -->
   <header class="checkout-header">
     <div class="checkout-header-inner">
-      <a href="./index.html" class="logo" style="font-family:'Cormorant',serif;font-size:1.85rem;text-decoration:none;color:#111111;letter-spacing:0.08em;font-weight:400;">ANRAF</a>
+      <a href="./index.html" class="logo" style="text-decoration:none;display:inline-flex;align-items:center;">
+        <img src="assets/logo.png" alt="ANRAAF" style="height:28px;width:auto;display:block;">
+      </a>
       <div style="display:flex;align-items:center;gap:1.5rem;">
         <span style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:#666666;display:flex;align-items:center;gap:6px;">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#25D366" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
@@ -639,7 +641,7 @@
 
                 <div class="bank-row">
                   <span class="bank-label">Account Title</span>
-                  <span class="bank-val" style="font-family:inherit;">ANRAF STUDIO</span>
+                  <span class="bank-val" style="font-family:inherit;">ANRAAF</span>
                 </div>
 
                 <div class="bank-row">
@@ -683,7 +685,7 @@
             </button>
 
             <p style="font-size:0.75rem;color:#888888;text-align:center;margin-top:14px;">
-              By placing your order, you agree to ANRAF Studio purchase terms and return guidelines.
+              By placing your order, you agree to ANRAAF purchase terms and return guidelines.
             </p>
           </div>
         </form>
@@ -735,7 +737,7 @@
   </main>
 
   <footer style="border-top:1px solid var(--border-subtle);padding:2rem 1.5rem;text-align:center;font-size:0.8rem;color:#888888;background:#ffffff;">
-    <p>© 2026 ANRAF Studio. Handcrafted luxury artisanal fashion.</p>
+    <p>© 2026 ANRAAF. Handcrafted luxury artisanal fashion.</p>
     <p style="margin-top:4px;"><a href="mailto:Anrafstudio@gmail.com" style="color:#666666;text-decoration:none;">Anrafstudio@gmail.com</a></p>
   </footer>
 
@@ -1001,7 +1003,7 @@
       const storeWa = window.STORE_CONFIG?.whatsappUrl || 'https://wa.me/923000000000';
       const itemsSummary = items.map(i => `• ${i.product.name} (Size: ${{ Small: 'S', Medium: 'M', Large: 'L', XL: 'XL' }[i.size] || i.size || 'S'}) x ${i.qty} - Rs. ${(i.product.price * i.qty).toLocaleString('en-PK')}`).join('\n');
       
-      const waMessageText = `*ANRAF STUDIO - ORDER #${shortRef}*\n\n` +
+      const waMessageText = `*ANRAAF - ORDER #${shortRef}*\n\n` +
         `*Customer:* ${name}\n` +
         `*Mobile:* ${phone}\n` +
         `*Delivery Address:* ${fullAddress}\n\n` +
@@ -1010,7 +1012,7 @@
         `*Delivery Fee:* Rs. 260 PKR\n` +
         `*Total Amount:* Rs. ${totalAmount.toLocaleString('en-PK')} PKR\n` +
         `*Payment Choice:* Direct Bank Transfer / Raast\n\n` +
-        `Salam ANRAF Studio, I have placed this order and transferred the payment. Here is my transaction receipt screenshot.`;
+        `Salam ANRAAF, I have placed this order and transferred the payment. Here is my transaction receipt screenshot.`;
 
       const waFinalUrl = `${storeWa}?text=${encodeURIComponent(waMessageText)}`;
 

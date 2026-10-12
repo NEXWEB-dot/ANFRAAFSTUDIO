@@ -4,7 +4,7 @@
   <meta name="robots" content="noindex, follow">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Order Confirmed — ANRAF</title>
+  <title>Order Confirmed — ANRAAF</title>
   <link rel="icon" type="image/jpeg" href="assets/image (1).jpg">
   <link rel="apple-touch-icon" href="assets/image (1).jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,7 +38,9 @@
 <body>
 
   <header style="border-bottom:1px solid var(--border);padding:18px 1.5rem;background:#fff;text-align:center;">
-    <a href="./index.html" class="logo" style="font-size:1.8rem;">ANRAF</a>
+    <a href="./index.html" class="logo" style="display:inline-flex;align-items:center;text-decoration:none;">
+      <img src="assets/logo.png" alt="ANRAAF" style="height:28px;width:auto;display:block;">
+    </a>
   </header>
 
   <main style="padding:0 1.5rem 4rem;">
@@ -82,7 +84,7 @@
   </main>
 
   <footer style="border-top:1px solid var(--border);padding:2rem 1.5rem;text-align:center;font-size:0.8rem;color:var(--muted);background:#fff;">
-    <p>© 2026 ANRAF Studio. All rights reserved.</p>
+    <p>© 2026 ANRAAF. All rights reserved.</p>
     <p style="margin-top:4px;"><a href="mailto:Anrafstudio@gmail.com" style="color:inherit;text-decoration:none;">Anrafstudio@gmail.com</a></p>
   </footer>
 
@@ -116,7 +118,7 @@
     }
 
     const totalText = total && total > 0 ? ` with a total of Rs. ${Number(total).toLocaleString('en-PK')} PKR` : '';
-    const waMsg = encodeURIComponent(`Salam ANRAF Studio, I just placed order #${ref}${totalText}. Please confirm dispatch.`);
+    const waMsg = encodeURIComponent(`Salam ANRAAF, I just placed order #${ref}${totalText}. Please confirm dispatch.`);
     const storeWa = window.STORE_CONFIG?.whatsappUrl || 'https://wa.me/923000000000';
     document.getElementById('waConfirmLink').href = `${storeWa}?text=${waMsg}`;
   </script>

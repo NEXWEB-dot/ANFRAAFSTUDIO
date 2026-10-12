@@ -91,11 +91,28 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   background: var(--ink);
 }
 .logo {
+  display: inline-flex;
+  align-items: center;
   font-family: var(--font-serif);
   font-size: 2.1rem;
   font-weight: 400;
   letter-spacing: 0.18em;
   color: var(--ink);
+  text-decoration: none;
+}
+.logo-img {
+  height: 28px;
+  width: auto;
+  max-width: 130px;
+  object-fit: contain;
+  display: block;
+}
+.drawer-logo-img {
+  height: 24px;
+  width: auto;
+  max-width: 120px;
+  object-fit: contain;
+  display: block;
 }
 .header-right {
   display: flex;
