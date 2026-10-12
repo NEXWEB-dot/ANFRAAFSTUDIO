@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us — ANRAAF Studio</title>
+  <meta name="description" content="Get in touch with ANRAAF Client Concierge. Message our team directly on WhatsApp for order inquiries, bespoke sizing, custom pret, and nationwide dispatch.">
+
+  <!-- OpenGraph -->
+  <meta property="og:title" content="Contact Us — ANRAAF Studio">
+  <meta property="og:description" content="Connect with ANRAAF luxury fashion concierge directly via WhatsApp.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nexweb-dot.github.io/ANFRAAFSTUDIO/contact.html">
+  <meta property="og:image" content="https://cdn.sanity.io/images/m7hktaor/production/bf77d6e0888c7ae3aeea44ab274c5e1b07ecf7f2-1024x1536.jpg?w=1200&fit=max&auto=format&q=80">
+
+  <link rel="icon" type="image/jpeg" href="assets/image (1).jpg">
+  <link rel="apple-touch-icon" href="assets/image (1).jpg">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@200;300;400;500;600&family=Dancing+Script:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./css/store.css">
+
+  <style>
+    .contact-hero {
+      background: var(--cream);
+      padding: 4.5rem 1.5rem 3.5rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .contact-kicker {
+      font-size: 0.72rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      font-weight: 500;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+    .contact-heading {
+      font-family: var(--font-serif);
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 1rem;
+    }
+    .contact-sub {
+      font-size: 0.95rem;
+      color: var(--mid);
+      max-width: 580px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .contact-container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 3.5rem 1.5rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 1.35fr;
+      gap: 3.5rem;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .contact-container {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+        padding-top: 2.5rem;
+      }
+    }
+
+    /* Left Info Column */
+    .contact-info-card {
+      background: #faf8f5;
+      border: 1px solid var(--border);
+      padding: 2.5rem 2rem;
+    }
+    .info-block {
+      margin-bottom: 2rem;
+    }
+    .info-block:last-child {
+      margin-bottom: 0;
+    }
+    .info-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+      display: block;
+    }
+    .info-val {
+      font-size: 1.05rem;
+      color: var(--ink);
+      font-weight: 400;
+      line-height: 1.5;
+    }
+    .info-link {
+      color: var(--ink);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .info-link:hover {
+      color: var(--gold-dark);
+      text-decoration: underline;
+    }
+
+    .direct-wa-box {
+      margin-top: 2rem;
+      padding-top: 1.75rem;
+      border-top: 1px solid var(--border);
+    }
+    .btn-wa-direct {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: #25D366;
+      color: #ffffff;
+      padding: 14px 20px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.88rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: background 0.25s, transform 0.2s;
+    }
+    .btn-wa-direct:hover {
+      background: #1eb956;
+      transform: translateY(-1px);
+    }
+
+    /* Right Form Column */
+    .contact-form-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      padding: 2.75rem 2.5rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.03);
+    }
+    @media (max-width: 600px) {
+      .contact-form-card {
+        padding: 1.75rem 1.25rem;
+      }
+    }
+    .form-title {
+      font-family: var(--font-serif);
+      font-size: 1.85rem;
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+      color: var(--ink);
+    }
+    .form-subtitle {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 2rem;
+      line-height: 1.5;
+    }
+
+    .form-group {
+      margin-bottom: 1.4rem;
+    }
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+    }
+    @media (max-width: 600px) {
+      .form-row-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .f-label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 0.45rem;
+      color: #222222;
+    }
+    .f-input, .f-select, .f-textarea {
+      width: 100%;
+      padding: 13px 15px;
+      border: 1px solid #d5d5d5;
+      background: #fafafa;
+      font-size: 0.92rem;
+      color: #111111;
+      border-radius: 0;
+      transition: all 0.2s ease;
+      box-sizing: border-box;
+      outline: none;
+    }
+    .f-input:focus, .f-select:focus, .f-textarea:focus {
+      background: #ffffff;
+      border-color: #111111;
+      box-shadow: 0 0 0 1px #111111;
+    }
+    .f-textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    .btn-submit-wa {
+      width: 100%;
+      padding: 16px 24px;
+      background: #111111;
+      color: #ffffff;
+      border: none;
+      font-size: 0.88rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.25s ease;
+      margin-top: 1rem;
+    }
+    .btn-submit-wa:hover {
+      background: #25D366;
+      color: #ffffff;
+    }
+    .btn-submit-wa svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    .form-status {
+      display: none;
+      padding: 12px 14px;
+      font-size: 0.85rem;
+      margin-bottom: 1.25rem;
+    }
+    .form-status.error {
+      display: block;
+      background: #fff5f5;
+      color: #c53030;
+      border-left: 3px solid #c53030;
+    }
+    .form-status.success {
+      display: block;
+      background: #e8f7ee;
+      color: #128C7E;
+      border-left: 3px solid #25D366;
+    }
+  </style>
+
+  <script>
+    window.STORE_CONFIG = {
+      cdnOrigin: '',
+      whatsappUrl: 'https://wa.me/923000000000'
+    };
+  </script>
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header" id="siteHeader">
+    <div class="header-inner">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <button class="ham-btn" id="hamBtn" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+
+      <a href="./index.html" class="logo" aria-label="ANRAAF Home">
+        <img src="assets/logo.png" alt="ANRAAF" style="height:28px;width:auto;display:block;" width="912" height="273">
+      </a>
+
+      <div class="header-right">
+        <a href="./checkout.html" class="icon-btn" aria-label="Bag">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span class="cart-badge" id="navCartCount">(0)</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="d-overlay" id="dOverlay"></div>
+  <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Navigation">
+    <div class="drawer-head">
+      <span class="drawer-logo">
+        <img src="assets/logo.png" alt="ANRAAF" style="height:24px;width:auto;display:block;" width="912" height="273">
+      </span>
+      <button class="drawer-close" id="drawerClose">&times;</button>
+    </div>
+    <nav class="drawer-nav">
+      <a href="./index.html">Home</a>
+      <a href="./store.html">All Collections</a>
+      <div class="drawer-dropdown" id="rtwDropdown">
+        <button class="drawer-dropdown-toggle" id="rtwToggle" aria-expanded="false">
+          Ready to Wear <span class="dd-arrow">&#9660;</span>
+        </button>
+        <div class="drawer-sub-links">
+          <a href="./store.html?category=summer-edit">Summer Edit</a>
+          <a href="./store.html?category=fall-edit">Fall Edit</a>
+          <a href="./store.html?category=heritage-edit">Heritage Edit</a>
+        </div>
+      </div>
+      <a href="./contact.html" style="font-weight:600;">Contact Us</a>
+    </nav>
+  </aside>
+
+  <!-- Page Hero -->
+  <section class="contact-hero">
+    <p class="contact-kicker">Client Concierge</p>
+    <h1 class="contact-heading">Get in Touch with ANRAAF</h1>
+    <p class="contact-sub">
+      Have a question regarding sizes, custom tailoring, fabric specifications, or an ongoing order? Fill out the form below to message our studio directly on WhatsApp.
+    </p>
+  </section>
+
+  <!-- Main Content -->
+  <main class="contact-container">
+    
+    <!-- Left: Contact Details -->
+    <div class="contact-info-card">
+      <div class="info-block">
+        <span class="info-label">Official Studio Email</span>
+        <div class="info-val">
+          <a href="mailto:Anrafstudio@gmail.com" class="info-link">Anrafstudio@gmail.com</a>
+        </div>
+      </div>
+
+      <div class="info-block">
+        <span class="info-label">Direct WhatsApp Concierge</span>
+        <div class="info-val">
+          <a id="directWaLinkText" href="https://wa.me/923000000000" target="_blank" rel="noopener" class="info-link">+92 300 0000000</a>
+        </div>
+        <p style="font-size:0.8rem;color:var(--muted);margin-top:4px;">Available Monday to Saturday: 10:00 AM – 8:00 PM (PKT)</p>
+      </div>
+
+      <div class="info-block">
+        <span class="info-label">Studio Location</span>
+        <div class="info-val">Karachi, Pakistan</div>
+        <p style="font-size:0.8rem;color:var(--muted);margin-top:4px;">Nationwide tracked courier dispatch across Pakistan.</p>
+      </div>
+
+      <div class="direct-wa-box">
+        <a id="directWaBtn" href="https://wa.me/923000000000" target="_blank" rel="noopener" class="btn-wa-direct">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.669-.699c.969.53 1.771.815 2.791.815 3.179 0 5.767-2.587 5.768-5.766 0-3.18-2.588-5.766-5.768-5.766zm9.969 5.766c0 5.503-4.477 9.98-9.97 9.98-1.745 0-3.38-.453-4.81-1.246l-5.22 1.368 1.393-5.093c-.911-1.498-1.393-3.218-1.393-5.009 0-5.503 4.478-9.98 9.97-9.98 5.493 0 9.97 4.477 9.97 9.98z"/></svg>
+          Direct WhatsApp Chat
+        </a>
+      </div>
+    </div>
+
+    <!-- Right: Inquiry Form directly linking to WhatsApp -->
+    <div class="contact-form-card">
+      <h2 class="form-title">Send a Direct Inquiry</h2>
+      <p class="form-subtitle">Fill in your details and click send. WhatsApp will open with your structured inquiry ready to send.</p>
+
+      <div id="formStatus" class="form-status"></div>
+
+      <form id="contactForm">
+        <div class="form-row-2">
+          <div class="form-group">
+            <label class="f-label" for="contactName">Your Name *</label>
+            <input type="text" id="contactName" class="f-input" placeholder="e.g. Ayesha Khan" required>
+          </div>
+          <div class="form-group">
+            <label class="f-label" for="contactPhone">Phone / WhatsApp Number *</label>
+            <input type="tel" id="contactPhone" class="f-input" placeholder="e.g. 0300 1234567" required>
+          </div>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label class="f-label" for="contactEmail">Email Address (Optional)</label>
+            <input type="email" id="contactEmail" class="f-input" placeholder="you@example.com">
+          </div>
+          <div class="form-group">
+            <label class="f-label" for="contactSubject">Inquiry Subject *</label>
+            <select id="contactSubject" class="f-select" required>
+              <option value="General Inquiry">General Inquiry</option>
+              <option value="Order Status & Dispatch">Order Status & Dispatch</option>
+              <option value="Size & Fit Consultation">Size & Fit Consultation</option>
+              <option value="Custom Pret / Bespoke Stitching">Custom Pret / Bespoke Stitching</option>
+              <option value="Exchange or Return Guideline">Exchange or Return Guideline</option>
+              <option value="Bulk or International Order">Bulk or International Order</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="f-label" for="contactOrderRef">Order Reference Number (If applicable)</label>
+          <input type="text" id="contactOrderRef" class="f-input" placeholder="e.g. 4B2A8C1D">
+        </div>
+
+        <div class="form-group">
+          <label class="f-label" for="contactMessage">Your Message *</label>
+          <textarea id="contactMessage" class="f-textarea" placeholder="Please describe your query in detail..." required></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit-wa" id="submitContactBtn">
+          <svg viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.669-.699c.969.53 1.771.815 2.791.815 3.179 0 5.767-2.587 5.768-5.766 0-3.18-2.588-5.766-5.768-5.766zm9.969 5.766c0 5.503-4.477 9.98-9.97 9.98-1.745 0-3.38-.453-4.81-1.246l-5.22 1.368 1.393-5.093c-.911-1.498-1.393-3.218-1.393-5.009 0-5.503 4.478-9.98 9.97-9.98 5.493 0 9.97 4.477 9.97 9.98z"/></svg>
+          Send Message to WhatsApp →
+        </button>
+      </form>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer style="border-top:1px solid var(--border);padding:3rem 1.5rem 2.5rem;background:#ffffff;margin-top:auto;">
+    <div style="max-width:1140px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1.5rem;">
+      <a href="./index.html" class="logo" style="text-decoration:none;display:inline-block;">
+        <img src="assets/logo.png" alt="ANRAAF" style="height:26px;width:auto;display:block;">
+      </a>
+      <div style="display:flex;gap:1.5rem;font-size:0.85rem;color:var(--mid);">
+        <a href="./store.html" style="text-decoration:none;color:inherit;">Collections</a>
+        <a href="./checkout.html" style="text-decoration:none;color:inherit;">Shopping Bag</a>
+        <a href="./contact.html" style="text-decoration:none;color:inherit;font-weight:600;">Contact Us</a>
+      </div>
+      <p style="font-size:0.8rem;color:var(--muted);margin:0;">
+        <a href="mailto:Anrafstudio@gmail.com" style="color:inherit;text-decoration:none;">Anrafstudio@gmail.com</a> • © 2026 ANRAAF.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Drawer Script & Contact Form Logic -->
+  <script type="module">
+    import { normalizePhone } from './js/safety.js';
+    import { getCartCount } from './js/cart.js';
+
+    // Update Bag Counter
+    const navCart = document.getElementById('navCartCount');
+    if (navCart) navCart.textContent = `(${getCartCount()})`;
+
+    // Mobile Drawer Controls
+    const hamBtn = document.getElementById('hamBtn');
+    const drawer = document.getElementById('drawer');
+    const dOverlay = document.getElementById('dOverlay');
+    const drawerClose = document.getElementById('drawerClose');
+    const rtwToggle = document.getElementById('rtwToggle');
+    const rtwDropdown = document.getElementById('rtwDropdown');
+
+    function openDrawer() {
+      drawer.classList.add('open');
+      dOverlay.classList.add('open');
+      hamBtn.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeDrawer() {
+      drawer.classList.remove('open');
+      dOverlay.classList.remove('open');
+      hamBtn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    if (hamBtn) hamBtn.addEventListener('click', openDrawer);
+    if (dOverlay) dOverlay.addEventListener('click', closeDrawer);
+    if (drawerClose) drawerClose.addEventListener('click', closeDrawer);
+    if (rtwToggle && rtwDropdown) {
+      rtwToggle.addEventListener('click', () => {
+        const isOpen = rtwDropdown.classList.toggle('open');
+        rtwToggle.setAttribute('aria-expanded', String(isOpen));
+      });
+    }
+
+    // Configure WhatsApp Links
+    const baseWa = window.STORE_CONFIG?.whatsappUrl || 'https://wa.me/923000000000';
+    const directWaBtn = document.getElementById('directWaBtn');
+    const directWaLinkText = document.getElementById('directWaLinkText');
+    if (directWaBtn) directWaBtn.href = baseWa;
+    if (directWaLinkText) directWaLinkText.href = baseWa;
+
+    // Contact Form Submit Handler -> Redirects to WhatsApp
+    const form = document.getElementById('contactForm');
+    const statusEl = document.getElementById('formStatus');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      statusEl.className = 'form-status';
+      statusEl.style.display = 'none';
+
+      const name = document.getElementById('contactName').value.trim();
+      const rawPhone = document.getElementById('contactPhone').value.trim();
+      const email = document.getElementById('contactEmail').value.trim();
+      const subject = document.getElementById('contactSubject').value;
+      const orderRef = document.getElementById('contactOrderRef').value.trim();
+      const message = document.getElementById('contactMessage').value.trim();
+
+      if (!name || !rawPhone || !message) {
+        statusEl.className = 'form-status error';
+        statusEl.textContent = 'Please fill in all required fields (Name, Phone, and Message).';
+        statusEl.style.display = 'block';
+        return;
+      }
+
+      const phone = normalizePhone(rawPhone);
+
+      // Construct formatted WhatsApp message
+      let waText = `*ANRAAF CLIENT INQUIRY*\n\n` +
+        `*Name:* ${name}\n` +
+        `*Phone:* ${phone}\n`;
+
+      if (email) {
+        waText += `*Email:* ${email}\n`;
+      }
+
+      waText += `*Subject:* ${subject}\n`;
+
+      if (orderRef) {
+        waText += `*Order Reference:* #${orderRef.toUpperCase()}\n`;
+      }
+
+      waText += `\n*Message:*\n${message}\n\n` +
+        `Salam ANRAAF Concierge, I would like assistance with the above inquiry.`;
+
+      const targetUrl = `${baseWa}?text=${encodeURIComponent(waText)}`;
+
+      // Show temporary positive feedback
+      statusEl.className = 'form-status success';
+      statusEl.textContent = 'Opening WhatsApp with your inquiry...';
+      statusEl.style.display = 'block';
+
+      // Open WhatsApp
+      setTimeout(() => {
+        window.open(targetUrl, '_blank');
+      }, 300);
+    });
+  </script>
+</body>
+</html>
