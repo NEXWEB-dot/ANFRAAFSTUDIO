@@ -159,7 +159,8 @@
         name.textContent = item.product.name;
         details.appendChild(name);
         const sizeEl = document.createElement('p');
-        sizeEl.textContent = `Size: ${item.size}`;
+        const displaySize = { Small: 'S', Medium: 'M', Large: 'L', XL: 'XL' }[item.size] || item.size;
+        sizeEl.textContent = `Size: ${displaySize}`;
         details.appendChild(sizeEl);
 
         const priceEl = document.createElement('p');

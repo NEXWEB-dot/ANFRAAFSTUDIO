@@ -73,12 +73,12 @@
           Ready to Wear <span class="dd-arrow">&#9660;</span>
         </button>
         <div class="drawer-sub-links">
-          <a href="./store.html?category=summer-collection">Summer Collection</a>
-          <a href="./store.html?category=heritage">Heritage Edit</a>
+          <a href="./store.html?category=summer-edit">Summer Edit</a>
+          <a href="./store.html?category=fall-edit">Fall Edit</a>
+          <a href="./store.html?category=heritage-edit">Heritage Edit</a>
         </div>
       </div>
       <a href="./store.html?category=lawn">Lawn Collection</a>
-      <a href="./store.html?category=foil-collection">Foil Collection</a>
     </nav>
   </aside>
 
@@ -89,10 +89,9 @@
       <div class="category-pills" id="categoryPills">
         <button class="pill-btn active" data-category="">All</button>
         <button class="pill-btn" data-category="Lawn">Lawn</button>
-        <button class="pill-btn" data-category="Heritage">Heritage Edit</button>
         <button class="pill-btn" data-category="Ready to Wear">Ready to Wear</button>
-        <button class="pill-btn" data-category="Summer Collection">Summer</button>
-        <button class="pill-btn" data-category="Foil Collection">Foil</button>
+        <button class="pill-btn" data-category="Summer">Summer</button>
+        <button class="pill-btn" data-category="Heritage">Heritage Edit</button>
       </div>
 
       <div class="filter-right">
@@ -334,7 +333,7 @@
           <img class="summary-thumb" src="${escapeHTML(safeImageURL(it.product.images?.[0]?.thumb || it.product.images?.[0]?.url))}" alt="${escapeHTML(it.product.name)}">
           <div class="summary-info">
             <p class="summary-name">${escapeHTML(it.product.name)}</p>
-            <p class="summary-sub">Size: ${escapeHTML(it.size || 'Small')}</p>
+            <p class="summary-sub">Size: ${escapeHTML({ Small: 'S', Medium: 'M', Large: 'L', XL: 'XL' }[it.size] || it.size || 'S')}</p>
             <div style="display:flex;align-items:center;gap:8px;margin-top:4px;">
               <span style="font-size:0.85rem;">Qty: ${it.qty}</span>
               <button class="remove-cart-item" style="background:none;border:none;font-size:0.75rem;color:var(--muted);text-decoration:underline;cursor:pointer;">Remove</button>

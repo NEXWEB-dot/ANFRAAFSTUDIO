@@ -116,10 +116,19 @@ export function getByCategory(catalog, category) {
   const key = v => v.toLowerCase().trim()
     .replace(/[\s_]+/g, '-')
     .replace(/^embroidery$/, 'embroidered')
-    .replace(/^heritage(-edit)?$/, 'embroidered');   // Heritage Edit = Embroidered
-  return list.filter(p =>
-    (p.filters?.length ? p.filters : [p.category || '']).some(f => key(f) === key(category))
-  );
+    .replace(/^summer(-edit|-collection)?$/, 'summer')
+    .replace(/^fall(-edit)?$/, 'fall')
+    .replace(/^heritage-edit$/, 'heritage');
+  return list.filter(p => {
+    const listFilters = (p.filters?.length ? p.filters : [p.category || '']);
+    return listFilters.some(f => {
+      const kf = key(f);
+      const kc = key(category);
+      if (kf === kc) return true;
+      if ((kc === 'heritage' || kc === 'embroidered') && (kf === 'heritage' || kf === 'embroidered')) return true;
+      return false;
+    });
+  });
 }
 
 export function getCategories(catalog) {

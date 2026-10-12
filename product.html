@@ -70,9 +70,10 @@
       <a href="./index.html">Home</a>
       <a href="./store.html">All Collections</a>
       <a href="./store.html?category=ready-to-wear">Ready to Wear</a>
-      <a href="./store.html?category=embroidered">Embroidered</a>
       <a href="./store.html?category=lawn">Lawn Collection</a>
-      <a href="./store.html?category=heritage">Heritage Edit</a>
+      <a href="./store.html?category=summer-edit">Summer Edit</a>
+      <a href="./store.html?category=fall-edit">Fall Edit</a>
+      <a href="./store.html?category=heritage-edit">Heritage Edit</a>
     </nav>
   </aside>
 
@@ -115,14 +116,14 @@
           <span id="pSaleBadge" class="badge-sale" style="position:static;display:none;">SALE</span>
         </div>
 
-        <!-- Stitching / Size Selector -->
+        <!-- Size Selector -->
         <div>
-          <span class="option-label">Select Option / Stitching</span>
+          <span class="option-label">Select Size</span>
           <div class="size-selector" id="sizeSelector">
-            <button type="button" class="size-pill active" data-size="Small">Stitched — Small (38")</button>
-            <button type="button" class="size-pill" data-size="Medium">Stitched — Medium (41")</button>
-            <button type="button" class="size-pill" data-size="Large">Stitched — Large (44")</button>
-            <button type="button" class="size-pill" data-size="XL">Stitched — XL (47")</button>
+            <button type="button" class="size-pill active" data-size="Small" aria-label="S">S</button>
+            <button type="button" class="size-pill" data-size="Medium" aria-label="M">M</button>
+            <button type="button" class="size-pill" data-size="Large" aria-label="L">L</button>
+            <button type="button" class="size-pill" data-size="XL" aria-label="XL">XL</button>
           </div>
         </div>
 
@@ -330,9 +331,20 @@
       document.getElementById('productGrid').hidden = false;
       currentProduct = p;
       const sizes = p?.sizes ?? [];
-      if (!sizes.includes(selectedSize)) selectedSize = sizes[0] || '';
+      const isSizeAvailable = (sizeKey) => {
+        return sizes.includes(sizeKey) ||
+          (sizeKey === 'Small' && (sizes.includes('S') || sizes.includes('Small'))) ||
+          (sizeKey === 'Medium' && (sizes.includes('M') || sizes.includes('Medium'))) ||
+          (sizeKey === 'Large' && (sizes.includes('L') || sizes.includes('Large'))) ||
+          (sizeKey === 'XL' && sizes.includes('XL'));
+      };
+      if (!isSizeAvailable(selectedSize)) {
+        const found = sizes.find(s => ['Small', 'S', 'Medium', 'M', 'Large', 'L', 'XL'].includes(s));
+        selectedSize = found ? ({ S: 'Small', M: 'Medium', L: 'Large' }[found] || found) : 'Small';
+      }
       document.querySelectorAll('.size-pill').forEach(pill => {
-        pill.hidden = !sizes.includes(pill.dataset.size);
+        const available = isSizeAvailable(pill.dataset.size);
+        pill.hidden = !available;
         pill.disabled = !p?.in_stock || pill.hidden;
         pill.classList.toggle('active', pill.dataset.size === selectedSize);
         pill.setAttribute('aria-pressed', String(pill.dataset.size === selectedSize));
@@ -486,7 +498,8 @@
 
     function updateWaLink() {
       if (!currentProduct) return;
-      const waMsg = encodeURIComponent(`Salam ANRAF Studio, I would like to order: ${currentProduct.name} (${selectedSize}) priced at ${formatPrice(currentProduct.price)}.`);
+      const sizeDisplay = { Small: 'S', Medium: 'M', Large: 'L', XL: 'XL' }[selectedSize] || selectedSize;
+      const waMsg = encodeURIComponent(`Salam ANRAF Studio, I would like to order: ${currentProduct.name} (Size: ${sizeDisplay}) priced at ${formatPrice(currentProduct.price)}.`);
       const waEl = document.getElementById('waBubble');
       if (waEl) {
         waEl.href = `https://wa.me/923000000000?text=${waMsg}`;
@@ -555,7 +568,7 @@
           <img class="summary-thumb" src="${escapeHTML(safeImageURL(it.product.images?.[0]?.thumb || it.product.images?.[0]?.url))}" alt="${escapeHTML(it.product.name)}">
           <div class="summary-info">
             <p class="summary-name">${escapeHTML(it.product.name)}</p>
-            <p class="summary-sub">Size: ${escapeHTML(it.size || 'Small')}</p>
+            <p class="summary-sub">Size: ${escapeHTML({ Small: 'S', Medium: 'M', Large: 'L', XL: 'XL' }[it.size] || it.size || 'S')}</p>
             <div style="display:flex;align-items:center;gap:8px;margin-top:4px;">
               <span style="font-size:0.85rem;">Qty: ${it.qty}</span>
               <button class="remove-cart-item" style="background:none;border:none;font-size:0.75rem;color:var(--muted);text-decoration:underline;cursor:pointer;">Remove</button>

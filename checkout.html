@@ -859,7 +859,7 @@
           </div>
           <div style="flex:1;min-width:0;">
             <p style="font-weight:600;font-size:0.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:0 0 2px;color:#111;">${escapeHTML(it.product.name)}</p>
-            <p style="font-size:0.78rem;color:#777;margin:0;">Option: ${escapeHTML(it.size || 'Small')}</p>
+            <p style="font-size:0.78rem;color:#777;margin:0;">Size: ${escapeHTML({ Small: 'S', Medium: 'M', Large: 'L', XL: 'XL' }[it.size] || it.size || 'S')}</p>
           </div>
           <div style="font-weight:600;font-size:0.88rem;color:#111;">${formatPrice(it.product.price * it.qty)}</div>
         `;
@@ -998,7 +998,7 @@
 
       // Build WhatsApp message for Bank Transfer
       const storeWa = window.STORE_CONFIG?.whatsappUrl || 'https://wa.me/923000000000';
-      const itemsSummary = items.map(i => `• ${i.product.name} (${i.size || 'Small'}) x ${i.qty} - Rs. ${(i.product.price * i.qty).toLocaleString('en-PK')}`).join('\n');
+      const itemsSummary = items.map(i => `• ${i.product.name} (Size: ${{ Small: 'S', Medium: 'M', Large: 'L', XL: 'XL' }[i.size] || i.size || 'S'}) x ${i.qty} - Rs. ${(i.product.price * i.qty).toLocaleString('en-PK')}`).join('\n');
       
       const waMessageText = `*ANRAF STUDIO - ORDER #${shortRef}*\n\n` +
         `*Customer:* ${name}\n` +

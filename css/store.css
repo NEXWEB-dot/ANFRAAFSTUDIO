@@ -596,7 +596,9 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   border: 1px solid var(--border);
   background: transparent;
   padding: 8px 18px;
-  font-size: 0.82rem;
+  min-width: 44px;
+  text-align: center;
+  font-size: 0.85rem;
   letter-spacing: 0.05em;
   cursor: pointer;
   transition: all 0.2s ease;

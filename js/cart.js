@@ -3,7 +3,7 @@
 // Prices and names are derived from the catalog at display time.
 
 const LS_KEY = 'anraf_cart:v2';
-const SIZES = new Set(['Small', 'Medium', 'Large', 'XL']);
+const SIZES = new Set(['Small', 'Medium', 'Large', 'XL', 'S', 'M', 'L']);
 const PRODUCT_ID = /^(?!drafts\.)(?!versions\.)[a-zA-Z0-9_-][a-zA-Z0-9_.-]{0,127}$/;
 
 export function normalizeCart(value) {
@@ -89,7 +89,7 @@ export function enrichCart(cartItems, catalog) {
       }
     }))
     .map(item => ({...item, product: {...item.product,
-      in_stock: item.product.in_stock && (!Array.isArray(item.product.sizes) || item.product.sizes.includes(item.size)),
+      in_stock: item.product.in_stock && (!Array.isArray(item.product.sizes) || item.product.sizes.some(s => s === item.size || ({ Small: 'S', Medium: 'M', Large: 'L', XL: 'XL' }[s] === item.size) || ({ S: 'Small', M: 'Medium', L: 'Large', XL: 'XL' }[s] === item.size))),
     }}))
     .filter((item) => item.product);
 }
