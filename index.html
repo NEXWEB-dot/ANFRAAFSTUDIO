@@ -320,9 +320,9 @@
       position: relative;
       overflow: hidden;
       width: 100%;
-      height: min(78vh, 760px);
-      min-height: 520px;
-      max-height: 850px;
+      aspect-ratio: 21 / 9;
+      max-height: 640px;
+      min-height: 380px;
       background: #111;
       touch-action: pan-y pinch-zoom;
       user-select: none;
@@ -331,10 +331,17 @@
     .hero-carousel:active {
       cursor: grabbing;
     }
+    @media (max-width: 1024px) {
+      .hero-carousel {
+        aspect-ratio: 16 / 9;
+        min-height: 320px;
+      }
+    }
     @media (max-width: 768px) {
       .hero-carousel {
-        height: calc(100dvh - var(--header-height, 60px));
-        min-height: 480px;
+        aspect-ratio: auto;
+        height: 55vh;
+        min-height: 280px;
       }
     }
     .hero-slides {
@@ -1087,37 +1094,27 @@
   <section class="hero-carousel" id="heroCarousel" aria-label="Anraaf Studio Campaign Carousel">
     <div class="hero-slides" id="heroSlides">
 
-      <!-- Slide 1: Heritage Floral Sunset Campaign -->
+      <!-- Slide 1: Heritage Edit '26 Fashion Banner (2048x768 Wide Landscape) -->
       <div class="hero-slide active">
         <img
-          src="assets/Heritage Floral Sunset Campaign (1).jpg"
-          alt="ANRAAF Heritage Floral Sunset Campaign"
+          src="assets/Heritage Edit '26 Fashion Banner.jpg"
+          alt="ANRAAF Heritage Edit '26 Fashion Banner"
           class="hero-169-img"
           fetchpriority="high"
         />
-        <div class="hero-center-caption">
-          <div class="hero-script-title">New Season</div>
-          <div class="rtw-title">HERITAGE EDIT '26</div>
-          <div class="rtw-sub">ARTFUL CRAFT FOR EFFORTLESS DAYS</div>
-        </div>
       </div>
 
-      <!-- Slide 2: End of Season Sale -->
+      <!-- Slide 2: Heritage Edit New Arrivals Banner (2048x768 Wide Landscape) -->
       <div class="hero-slide">
         <img
-          src="assets/End of Season Sale Elegance.jpg"
-          alt="ANRAAF End of Season Sale — Exclusive Luxury Deals"
+          src="assets/Heritage Edit_ New Arrivals.jpg"
+          alt="ANRAAF Heritage Edit New Arrivals"
           class="hero-169-img"
           loading="lazy" decoding="async"
         />
-        <div class="hero-center-caption">
-          <div class="hero-script-title">Limited Time</div>
-          <div class="rtw-title">END OF SEASON SALE</div>
-          <div class="rtw-sub">EXCLUSIVE PRICES ON LUXURY SILHOUETTES</div>
-        </div>
       </div>
 
-      <!-- Slide 3: Maroon Black (Last) -->
+      <!-- Slide 3: Maroon Black (1376x768 Landscape) -->
       <div class="hero-slide">
         <img
           src="assets/maroon_black.jpg"
