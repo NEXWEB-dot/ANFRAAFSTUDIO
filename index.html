@@ -320,10 +320,10 @@
       position: relative;
       overflow: hidden;
       width: 100%;
-      height: calc(100vh - var(--header-height, 68px));
-      height: calc(100dvh - var(--header-height, 68px));
-      min-height: 600px;
-      background: var(--studio-bg);
+      height: min(78vh, 760px);
+      min-height: 520px;
+      max-height: 850px;
+      background: #111;
       touch-action: pan-y pinch-zoom;
       user-select: none;
       cursor: pointer;
@@ -334,7 +334,7 @@
     @media (max-width: 768px) {
       .hero-carousel {
         height: calc(100dvh - var(--header-height, 60px));
-        min-height: 520px;
+        min-height: 480px;
       }
     }
     .hero-slides {
@@ -349,7 +349,7 @@
       width: 100%;
       height: 100%;
       position: relative;
-      background: var(--studio-bg);
+      background: #111;
       overflow: hidden;
     }
     /* Subtle bottom gradient to guarantee crisp text legibility over any photo */
@@ -357,7 +357,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(to top, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0.28) 42%, rgba(0, 0, 0, 0) 70%);
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.15) 40%, rgba(0, 0, 0, 0) 70%);
       pointer-events: none;
       z-index: 2;
     }
@@ -367,7 +367,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center 20%;
+      object-position: center center;
       display: block;
       transition: transform 1.2s var(--ease);
     }
@@ -1087,37 +1087,22 @@
   <section class="hero-carousel" id="heroCarousel" aria-label="Anraaf Studio Campaign Carousel">
     <div class="hero-slides" id="heroSlides">
 
-      <!-- Slide 1: Embroidery — Maroon Black -->
+      <!-- Slide 1: Heritage Floral Sunset Campaign -->
       <div class="hero-slide active">
         <img
-          src="assets/maroon_black.jpg"
-          alt="Anraaf Studio Embroidery Maroon Black Collection"
+          src="assets/Heritage Floral Sunset Campaign (1).jpg"
+          alt="ANRAAF Heritage Floral Sunset Campaign"
           class="hero-169-img"
           fetchpriority="high"
         />
         <div class="hero-center-caption">
-          <div class="hero-script-title">Maroon Black</div>
-          <div class="rtw-title">EMBROIDERY</div>
-          <div class="rtw-sub">HAND-CRAFTED LUXURY WITH SOUL !</div>
-        </div>
-      </div>
-
-      <!-- Slide 2: Heritage Edit '26 -->
-      <div class="hero-slide">
-        <img
-          src="assets/Heritage Edit '26 Fashion Banner.jpg"
-          alt="ANRAAF Heritage Edit '26 — Timeless Pakistani Fashion"
-          class="hero-169-img"
-          loading="lazy" decoding="async"
-        />
-        <div class="hero-center-caption">
           <div class="hero-script-title">New Season</div>
           <div class="rtw-title">HERITAGE EDIT '26</div>
-          <div class="rtw-sub">TIMELESS MOTIFS CRAFTED WITH SOUL</div>
+          <div class="rtw-sub">ARTFUL CRAFT FOR EFFORTLESS DAYS</div>
         </div>
       </div>
 
-      <!-- Slide 3: End of Season Sale -->
+      <!-- Slide 2: End of Season Sale -->
       <div class="hero-slide">
         <img
           src="assets/End of Season Sale Elegance.jpg"
@@ -1129,6 +1114,21 @@
           <div class="hero-script-title">Limited Time</div>
           <div class="rtw-title">END OF SEASON SALE</div>
           <div class="rtw-sub">EXCLUSIVE PRICES ON LUXURY SILHOUETTES</div>
+        </div>
+      </div>
+
+      <!-- Slide 3: Maroon Black (Last) -->
+      <div class="hero-slide">
+        <img
+          src="assets/maroon_black.jpg"
+          alt="Anraaf Studio Maroon Black Collection"
+          class="hero-169-img"
+          loading="lazy" decoding="async"
+        />
+        <div class="hero-center-caption">
+          <div class="hero-script-title">Maroon Black</div>
+          <div class="rtw-title">EMBROIDERY</div>
+          <div class="rtw-sub">HAND-CRAFTED LUXURY WITH SOUL</div>
         </div>
       </div>
 
@@ -1164,26 +1164,14 @@
     </div>
   </section>
 
-  <!-- ── 3-BLOCK EDITORIAL (Embroidered, Lawn, Heritage) ── -->
+  <!-- ── 3-BLOCK EDITORIAL (Heritage, Film Video, End of Season Sale) ── -->
   <section aria-label="Collections Editorial Showcase" class="reveal">
     <div class="edit-grid">
 
-      <!-- Left: Embroidered (Maroon Black) -->
-      <a href="./store.html?category=embroidered" class="edit-block">
-        <img
-          src="assets/maroon_black.jpg"
-          alt="Embroidered Collection"
-          loading="lazy" decoding="async"
-        />
-        <div class="edit-overlay">
-          <p class="edit-title">Embroidered</p>
-        </div>
-      </a>
-
-      <!-- Center: Heritage Edit '26 Banner -->
+      <!-- Left: Heritage Edit '26 -->
       <a href="./store.html?category=heritage" class="edit-block">
         <img
-          src="assets/Heritage Edit '26 Fashion Banner.jpg"
+          src="assets/Heritage Floral Sunset Campaign (1).jpg"
           alt="Heritage Edit '26"
           loading="lazy" decoding="async"
         />
@@ -1191,6 +1179,22 @@
           <p class="edit-title">Heritage Edit '26</p>
         </div>
       </a>
+
+      <!-- Middle: Campaign Video -->
+      <div class="edit-block edit-block-video" style="background:#000;position:relative;">
+        <video
+          src="assets/Adobe Express - IMG_3881.mp4"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          style="width:100%;height:100%;object-fit:cover;display:block;"
+        ></video>
+        <div class="edit-overlay" style="background:rgba(0,0,0,0.25);">
+          <p class="edit-title">Campaign '26</p>
+        </div>
+      </div>
 
       <!-- Right: End of Season Sale -->
       <a href="./store.html" class="edit-block">
@@ -1267,26 +1271,27 @@
   </section>
 
   <!-- ── PREMIUM VIDEO SHOWCASE ─────────────────────────── -->
-  <section aria-label="Anraaf Studio — Campaign Film" style="position:relative;width:100%;background:#111;overflow:hidden;">
-    <!-- Cinematic letterbox overlay for premium feel -->
-    <div style="position:absolute;top:0;left:0;right:0;height:clamp(20px,3vw,40px);background:#111;z-index:5;"></div>
-    <div style="position:absolute;bottom:0;left:0;right:0;height:clamp(20px,3vw,40px);background:#111;z-index:5;"></div>
-    <video
-      src="assets/Adobe Express - IMG_3881.mp4"
-      autoplay
-      muted
-      loop
-      playsinline
-      preload="metadata"
-      style="width:100%;display:block;aspect-ratio:16/9;object-fit:cover;opacity:0.92;"
-      aria-label="ANRAAF Studio Campaign Film"
-    ></video>
-    <!-- Subtle gradient overlay for editorial polish -->
-    <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.18) 0%,rgba(0,0,0,0.04) 40%,rgba(0,0,0,0.04) 60%,rgba(0,0,0,0.22) 100%);pointer-events:none;z-index:4;"></div>
-    <!-- Editorial caption -->
-    <div style="position:absolute;bottom:clamp(30px,5vw,64px);left:50%;transform:translateX(-50%);text-align:center;z-index:6;pointer-events:none;">
-      <p style="font-family:'DM Sans',sans-serif;font-size:clamp(8px,1vw,11px);font-weight:500;letter-spacing:0.32em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:6px;">ANRAAF STUDIO</p>
-      <p style="font-family:'Cormorant',Georgia,serif;font-size:clamp(22px,4vw,52px);font-weight:400;letter-spacing:0.18em;color:#ffffff;text-shadow:0 2px 24px rgba(0,0,0,0.7);line-height:1.1;">CAMPAIGN '26</p>
+  <section aria-label="Anraaf Studio — Campaign Film" style="position:relative;width:100%;background:#0d0d0d;padding:clamp(20px, 4vw, 50px) 0;">
+    <div style="max-width:1240px;margin:0 auto;padding:0 clamp(16px, 3.5vw, 40px);">
+      <div style="position:relative;width:100%;border-radius:4px;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,0.35);background:#000;">
+        <video
+          src="assets/Adobe Express - IMG_3881.mp4"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          style="width:100%;height:auto;max-height:70vh;aspect-ratio:16/9;object-fit:cover;display:block;"
+          aria-label="ANRAAF Studio Campaign Film"
+        ></video>
+        <!-- Subtle gradient overlay for editorial polish -->
+        <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.12) 0%,rgba(0,0,0,0.02) 50%,rgba(0,0,0,0.3) 100%);pointer-events:none;"></div>
+        <!-- Editorial caption -->
+        <div style="position:absolute;bottom:clamp(20px,3.5vw,44px);left:50%;transform:translateX(-50%);text-align:center;pointer-events:none;width:90%;">
+          <p style="font-family:'DM Sans',sans-serif;font-size:clamp(8px,1vw,11px);font-weight:500;letter-spacing:0.32em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:4px;">ANRAAF STUDIO</p>
+          <p style="font-family:'Cormorant',Georgia,serif;font-size:clamp(20px,3.2vw,44px);font-weight:400;letter-spacing:0.18em;color:#ffffff;text-shadow:0 2px 20px rgba(0,0,0,0.8);line-height:1.1;">CAMPAIGN '26</p>
+        </div>
+      </div>
     </div>
   </section>
 
