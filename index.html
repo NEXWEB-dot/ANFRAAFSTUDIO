@@ -320,9 +320,8 @@
       position: relative;
       overflow: hidden;
       width: 100%;
-      aspect-ratio: 21 / 9;
-      max-height: 600px;
-      min-height: 360px;
+      aspect-ratio: 16 / 9;
+      max-height: 720px;
       background: #111;
       touch-action: pan-y pinch-zoom;
       user-select: none;
@@ -330,12 +329,6 @@
     }
     .hero-carousel:active {
       cursor: grabbing;
-    }
-    @media (max-width: 1024px) {
-      .hero-carousel {
-        aspect-ratio: 16 / 9;
-        min-height: 280px;
-      }
     }
     @media (max-width: 768px) {
       .hero-carousel {
@@ -378,12 +371,6 @@
       object-position: center center;
       display: block;
       transition: transform 1.2s var(--ease);
-    }
-    @media (max-width: 768px) {
-      .hero-169-img {
-        object-fit: contain;
-        background: #111;
-      }
     }
     .hero-slide.active .hero-169-img {
       transform: scale(1.02);
