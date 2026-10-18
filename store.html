@@ -241,14 +241,12 @@
       else if (sort === 'price-desc') items = [...items].sort((a,b) => b.price - a.price);
       else if (sort === 'name') items = [...items].sort((a,b) => a.name.localeCompare(b.name));
       else {
-        // Default featured order: Heritage/Embroidered first, Lawn second, everything else after
-        const catRank = cat => {
-          const c = (cat || '').toLowerCase();
-          if (c.includes('embroid') || c.includes('heritage')) return 0;
-          if (c.includes('lawn'))                               return 1;
-          return 2;
-        };
-        items = [...items].sort((a, b) => catRank(a.category) - catRank(b.category));
+        // Default featured order: preserve Sanity's sortOrder (Display order)
+        items = [...items].sort((a, b) => {
+          const orderA = typeof a.sortOrder === 'number' ? a.sortOrder : (typeof a.sort_order === 'number' ? a.sort_order : 999);
+          const orderB = typeof b.sortOrder === 'number' ? b.sortOrder : (typeof b.sort_order === 'number' ? b.sort_order : 999);
+          return orderA - orderB;
+        });
       }
 
       countEl.textContent = `${items.length} Garment${items.length !== 1 ? 's' : ''}`;
