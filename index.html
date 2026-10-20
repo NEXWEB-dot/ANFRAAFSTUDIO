@@ -1732,7 +1732,20 @@ function renderTrack(track, products, max) {
 
 // Populate New Arrivals ONLY from Sanity live products
 loadCatalog((catalog) => {
-  const sanityProducts = (catalog?.products || []).filter(p => !p.id?.startsWith('asset-') && p.in_stock !== false);
+  const customPriority = {
+    'maroon-black': 1,
+    'emerald-grace-embroidered': 2,
+    'rose-garden-floral': 3,
+    'mocha-royale-embroidered': 4
+  };
+  const sanityProducts = (catalog?.products || [])
+    .filter(p => !p.id?.startsWith('asset-') && p.in_stock !== false)
+    .sort((a, b) => {
+      const rankA = customPriority[a.slug] ?? 99;
+      const rankB = customPriority[b.slug] ?? 99;
+      if (rankA !== rankB) return rankA - rankB;
+      return (a.name || '').localeCompare(b.name || '');
+    });
   const newArrivalsTrack = document.getElementById('newArrivalsTrack');
   renderTrack(newArrivalsTrack, sanityProducts, 4);
 });

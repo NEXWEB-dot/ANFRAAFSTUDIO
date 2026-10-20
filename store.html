@@ -241,11 +241,18 @@
       else if (sort === 'price-desc') items = [...items].sort((a,b) => b.price - a.price);
       else if (sort === 'name') items = [...items].sort((a,b) => a.name.localeCompare(b.name));
       else {
-        // Default featured order: preserve Sanity's sortOrder (Display order)
+        // Priority sequence: 1. Midnight Maroon, 2. Emerald Grace, 3. Rose Garden, 4. Mocha Royale
+        const customPriority = {
+          'maroon-black': 1,
+          'emerald-grace-embroidered': 2,
+          'rose-garden-floral': 3,
+          'mocha-royale-embroidered': 4
+        };
         items = [...items].sort((a, b) => {
-          const orderA = typeof a.sortOrder === 'number' ? a.sortOrder : (typeof a.sort_order === 'number' ? a.sort_order : 999);
-          const orderB = typeof b.sortOrder === 'number' ? b.sortOrder : (typeof b.sort_order === 'number' ? b.sort_order : 999);
-          return orderA - orderB;
+          const rankA = customPriority[a.slug] ?? 99;
+          const rankB = customPriority[b.slug] ?? 99;
+          if (rankA !== rankB) return rankA - rankB;
+          return (a.name || '').localeCompare(b.name || '');
         });
       }
 
