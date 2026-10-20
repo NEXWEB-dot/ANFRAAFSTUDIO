@@ -272,7 +272,7 @@
       </div>
 
       <a href="./index.html" class="logo" aria-label="ANRAAF Home">
-        <img src="assets/logo.png" alt="ANRAAF" style="height:28px;width:auto;display:block;" width="912" height="273">
+        <img src="assets/logo.png" alt="ANRAAF" style="height:38px;width:auto;display:block;" width="912" height="273">
       </a>
 
       <div class="header-right">
@@ -289,7 +289,7 @@
   <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Navigation">
     <div class="drawer-head">
       <span class="drawer-logo">
-        <img src="assets/logo.png" alt="ANRAAF" style="height:24px;width:auto;display:block;" width="912" height="273">
+        <img src="assets/logo.png" alt="ANRAAF" style="height:32px;width:auto;display:block;" width="912" height="273">
       </span>
       <button class="drawer-close" id="drawerClose">&times;</button>
     </div>
@@ -301,9 +301,17 @@
           Ready to Wear <span class="dd-arrow">&#9660;</span>
         </button>
         <div class="drawer-sub-links">
-          <a href="./store.html?category=summer-edit">Summer Edit</a>
-          <a href="./store.html?category=fall-edit">Fall Edit</a>
-          <a href="./store.html?category=heritage-edit">Heritage Edit</a>
+          <a href="./store.html?category=summer">Summer Collection</a>
+          <a href="./store.html?category=fall">Fall Collection</a>
+          <a href="./store.html?category=heritage">Heritage Edit</a>
+        </div>
+      </div>
+      <div class="drawer-dropdown" id="saleDropdown">
+        <button class="drawer-dropdown-toggle" id="saleToggle" aria-expanded="false" style="color:var(--sale-red,#c0392b);">
+          Sale <span class="dd-arrow">&#9660;</span>
+        </button>
+        <div class="drawer-sub-links">
+          <a href="./store.html?category=summer&sale=true">Summer Collection</a>
         </div>
       </div>
       <a href="./contact.html" style="font-weight:600;">Contact Us</a>
@@ -413,12 +421,16 @@
   <footer style="border-top:1px solid var(--border);padding:3rem 1.5rem 2.5rem;background:#ffffff;margin-top:auto;">
     <div style="max-width:1140px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1.5rem;">
       <a href="./index.html" class="logo" style="text-decoration:none;display:inline-block;">
-        <img src="assets/logo.png" alt="ANRAAF" style="height:26px;width:auto;display:block;">
+        <img src="assets/logo.png" alt="ANRAAF" style="height:32px;width:auto;display:block;">
       </a>
-      <div style="display:flex;gap:1.5rem;font-size:0.85rem;color:var(--mid);">
+      <div style="display:flex;gap:1.5rem;font-size:0.85rem;color:var(--mid);align-items:center;">
         <a href="./store.html" style="text-decoration:none;color:inherit;">Collections</a>
         <a href="./checkout.html" style="text-decoration:none;color:inherit;">Shopping Bag</a>
-        <a href="./contact.html" style="text-decoration:none;color:inherit;font-weight:600;">Contact Us</a>
+        <a href="./contact.html" style="text-decoration:none;color:inherit;font-weight:600;">Inquiry</a>
+        <a href="https://www.instagram.com/anraf_studio/" target="_blank" rel="noopener" style="text-decoration:none;color:inherit;display:inline-flex;align-items:center;gap:4px;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          Instagram
+        </a>
       </div>
       <p style="font-size:0.8rem;color:var(--muted);margin:0;">
         <a href="mailto:Anrafstudio@gmail.com" style="color:inherit;text-decoration:none;">Anrafstudio@gmail.com</a> • © 2026 ANRAAF.
@@ -463,6 +475,14 @@
       rtwToggle.addEventListener('click', () => {
         const isOpen = rtwDropdown.classList.toggle('open');
         rtwToggle.setAttribute('aria-expanded', String(isOpen));
+      });
+    }
+    const saleToggle = document.getElementById('saleToggle');
+    const saleDropdown = document.getElementById('saleDropdown');
+    if (saleToggle && saleDropdown) {
+      saleToggle.addEventListener('click', () => {
+        const isOpen = saleDropdown.classList.toggle('open');
+        saleToggle.setAttribute('aria-expanded', String(isOpen));
       });
     }
 

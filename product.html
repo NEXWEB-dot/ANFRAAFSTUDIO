@@ -48,7 +48,7 @@
         <span></span><span></span><span></span>
       </button>
 
-      <a href="./index.html" class="logo" aria-label="ANRAAF Home"><img src="assets/logo.png" alt="ANRAAF" style="height:28px;width:auto;display:block;" width="912" height="273"></a>
+      <a href="./index.html" class="logo" aria-label="ANRAAF Home"><img src="assets/logo.png" alt="ANRAAF" style="height:38px;width:auto;display:block;" width="912" height="273"></a>
 
       <div class="header-right">
         <button class="icon-btn" id="cartBtn" aria-label="Cart">
@@ -63,16 +63,30 @@
   <div class="d-overlay" id="dOverlay"></div>
   <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Navigation">
     <div class="drawer-head">
-      <span class="drawer-logo"><img src="assets/logo.png" alt="ANRAAF" style="height:24px;width:auto;display:block;" width="912" height="273"></span>
+      <span class="drawer-logo"><img src="assets/logo.png" alt="ANRAAF" style="height:32px;width:auto;display:block;" width="912" height="273"></span>
       <button class="drawer-close" id="drawerClose">&times;</button>
     </div>
     <nav class="drawer-nav">
       <a href="./index.html">Home</a>
       <a href="./store.html">All Collections</a>
-      <a href="./store.html?category=ready-to-wear">Ready to Wear</a>
-      <a href="./store.html?category=summer-edit">Summer Edit</a>
-      <a href="./store.html?category=fall-edit">Fall Edit</a>
-      <a href="./store.html?category=heritage-edit">Heritage Edit</a>
+      <div class="drawer-dropdown" id="rtwDropdown">
+        <button class="drawer-dropdown-toggle" id="rtwToggle" aria-expanded="false">
+          Ready to Wear <span class="dd-arrow">&#9660;</span>
+        </button>
+        <div class="drawer-sub-links">
+          <a href="./store.html?category=summer">Summer Collection</a>
+          <a href="./store.html?category=fall">Fall Collection</a>
+          <a href="./store.html?category=heritage">Heritage Edit</a>
+        </div>
+      </div>
+      <div class="drawer-dropdown" id="saleDropdown">
+        <button class="drawer-dropdown-toggle" id="saleToggle" aria-expanded="false" style="color:#c0392b;font-weight:600;">
+          Sale <span class="dd-arrow">&#9660;</span>
+        </button>
+        <div class="drawer-sub-links">
+          <a href="./store.html?category=summer&sale=true">Summer Collection</a>
+        </div>
+      </div>
       <a href="./contact.html">Contact Us</a>
     </nav>
   </aside>
@@ -208,36 +222,34 @@
 
   <!-- ── FOOTER ──────────────────────────────────────────────── -->
   <footer>
-    <div class="footer-inner">
+    <div class="footer-inner" style="grid-template-columns:repeat(3,1fr);">
       <div>
-        <h3 class="footer-title">ANRAAF</h3>
-        <p style="font-size:0.85rem;line-height:1.7;color:rgba(255,255,255,0.65);">
-          Haute couture and luxury ready-to-wear engineered with timeless Pakistani artisanal craftsmanship.
-        </p>
-      </div>
-      <div>
-        <h3 class="footer-title">Collections</h3>
+        <h3 class="footer-title">Contact Us</h3>
         <ul class="footer-links">
-          <li><a href="./store.html?category=lawn">Summer Lawn</a></li>
-          <li><a href="./store.html?category=embroidered">Embroidered Cambric</a></li>
-          <li><a href="./store.html?category=heritage">Heritage Festive</a></li>
-          <li><a href="./store.html?category=ready-to-wear">Ready to Wear</a></li>
+          <li><a href="https://wa.me/923062226688" target="_blank" rel="noopener">+92 306 2226688</a></li>
+          <li><a href="mailto:Anrafstudio@gmail.com">Anrafstudio@gmail.com</a></li>
+          <li><a href="./contact.html">Inquiry</a></li>
         </ul>
       </div>
       <div>
-        <h3 class="footer-title">Client Concierge</h3>
+        <h3 class="footer-title">Our Location</h3>
         <ul class="footer-links">
-          <li><a href="./contact.html">Contact Us</a></li>
-          <li><a href="mailto:Anrafstudio@gmail.com">Anrafstudio@gmail.com</a></li>
-          <li><a href="https://wa.me/923062226688" target="_blank" rel="noopener">WhatsApp Concierge</a></li>
-          <li><a href="./checkout.html">Track / Place Order</a></li>
-          <li><a href="./store.html">Delivery Information</a></li>
+          <li><span style="font-family:'DM Sans',sans-serif;font-size:0.85rem;color:rgba(255,255,255,0.7);">Bahria Town Phase 7</span></li>
+          <li><span style="font-family:'DM Sans',sans-serif;font-size:0.85rem;color:rgba(255,255,255,0.7);">Islamabad, Pakistan</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="footer-title">Follow Us</h3>
+        <ul class="footer-links">
+          <li><a href="https://www.instagram.com/anraf_studio/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            @anraf_studio
+          </a></li>
         </ul>
       </div>
     </div>
     <div class="footer-copy">
       <span>© 2026 ANRAAF. All rights reserved.</span>
-      <span>Designed with pure luxury craftsmanship</span>
     </div>
   </footer>
 
@@ -277,6 +289,24 @@
     hamBtn.addEventListener('click', () => { drawer.classList.add('open'); dOverlay.classList.add('open'); });
     drawerClose.addEventListener('click', () => { drawer.classList.remove('open'); dOverlay.classList.remove('open'); });
     dOverlay.addEventListener('click', () => { drawer.classList.remove('open'); dOverlay.classList.remove('open'); });
+
+    // Drawer Dropdowns
+    const rtwToggle = document.getElementById('rtwToggle');
+    const rtwDropdown = document.getElementById('rtwDropdown');
+    if (rtwToggle && rtwDropdown) {
+      rtwToggle.addEventListener('click', () => {
+        const isOpen = rtwDropdown.classList.toggle('open');
+        rtwToggle.setAttribute('aria-expanded', String(isOpen));
+      });
+    }
+    const saleToggle = document.getElementById('saleToggle');
+    const saleDropdown = document.getElementById('saleDropdown');
+    if (saleToggle && saleDropdown) {
+      saleToggle.addEventListener('click', () => {
+        const isOpen = saleDropdown.classList.toggle('open');
+        saleToggle.setAttribute('aria-expanded', String(isOpen));
+      });
+    }
 
     const cartBtn = document.getElementById('cartBtn');
     const cartDrawer = document.getElementById('cartDrawer');

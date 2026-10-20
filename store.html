@@ -47,7 +47,7 @@
         </button>
       </div>
 
-      <a href="./index.html" class="logo" aria-label="ANRAAF Home"><img src="assets/logo.png" alt="ANRAAF" style="height:28px;width:auto;display:block;" width="912" height="273"></a>
+      <a href="./index.html" class="logo" aria-label="ANRAAF Home"><img src="assets/logo.png" alt="ANRAAF" style="height:38px;width:auto;display:block;" width="912" height="273"></a>
 
       <div class="header-right">
         <button class="icon-btn" id="cartBtn" aria-label="Cart">
@@ -62,7 +62,7 @@
   <div class="d-overlay" id="dOverlay"></div>
   <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Navigation">
     <div class="drawer-head">
-      <span class="drawer-logo"><img src="assets/logo.png" alt="ANRAAF" style="height:24px;width:auto;display:block;" width="912" height="273"></span>
+      <span class="drawer-logo"><img src="assets/logo.png" alt="ANRAAF" style="height:32px;width:auto;display:block;" width="912" height="273"></span>
       <button class="drawer-close" id="drawerClose">&times;</button>
     </div>
     <nav class="drawer-nav">
@@ -73,9 +73,17 @@
           Ready to Wear <span class="dd-arrow">&#9660;</span>
         </button>
         <div class="drawer-sub-links">
-          <a href="./store.html?category=summer-edit">Summer Edit</a>
-          <a href="./store.html?category=fall-edit">Fall Edit</a>
-          <a href="./store.html?category=heritage-edit">Heritage Edit</a>
+          <a href="./store.html?category=summer">Summer Collection</a>
+          <a href="./store.html?category=fall">Fall Collection</a>
+          <a href="./store.html?category=heritage">Heritage Edit</a>
+        </div>
+      </div>
+      <div class="drawer-dropdown" id="saleDropdown">
+        <button class="drawer-dropdown-toggle" id="saleToggle" aria-expanded="false" style="color:var(--sale-red,#c0392b);">
+          Sale <span class="dd-arrow">&#9660;</span>
+        </button>
+        <div class="drawer-sub-links">
+          <a href="./store.html?category=summer&sale=true">Summer Collection</a>
         </div>
       </div>
       <a href="./contact.html">Contact Us</a>
@@ -90,7 +98,7 @@
         <button class="pill-btn active" data-category="">All</button>
         <button class="pill-btn" data-category="Summer">Summer</button>
         <button class="pill-btn" data-category="Heritage">Heritage Edit</button>
-        <button class="pill-btn" data-category="embroidered">Embroidered</button>
+        <button class="pill-btn" data-category="fall">Fall Collection</button>
       </div>
 
       <div class="filter-right">
@@ -138,30 +146,29 @@
 
   <!-- -- FOOTER ------------------------------------------------ -->
   <footer>
-    <div class="footer-inner">
-      <div>
-        <h3 class="footer-title">Navigate</h3>
-        <ul class="footer-links">
-          <li><a href="./index.html">Home</a></li>
-          <li><a href="./store.html">All Collections</a></li>
-          <li><a href="./store.html?category=embroidered">Embroidered</a></li>
-          <li><a href="./store.html?category=heritage">Heritage Edit</a></li>
-          <li><a href="./checkout.html">Shopping Bag</a></li>
-          <li><a href="./contact.html">Contact Us</a></li>
-        </ul>
-      </div>
+    <div class="footer-inner" style="grid-template-columns:repeat(3,1fr);">
       <div>
         <h3 class="footer-title">Contact Us</h3>
         <ul class="footer-links">
           <li><a href="https://wa.me/923062226688" target="_blank" rel="noopener">+92 306 2226688</a></li>
           <li><a href="mailto:Anrafstudio@gmail.com">Anrafstudio@gmail.com</a></li>
+          <li><a href="./contact.html">Inquiry</a></li>
         </ul>
       </div>
       <div>
         <h3 class="footer-title">Our Location</h3>
         <ul class="footer-links">
-          <li><span>Bahria Town Phase 7</span></li>
-          <li><span>Islamabad, Pakistan</span></li>
+          <li><span style="font-family:'DM Sans',sans-serif;font-size:0.85rem;color:rgba(255,255,255,0.7);">Bahria Town Phase 7</span></li>
+          <li><span style="font-family:'DM Sans',sans-serif;font-size:0.85rem;color:rgba(255,255,255,0.7);">Islamabad, Pakistan</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="footer-title">Follow Us</h3>
+        <ul class="footer-links">
+          <li><a href="https://www.instagram.com/anraf_studio/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            @anraf_studio
+          </a></li>
         </ul>
       </div>
     </div>
@@ -199,13 +206,23 @@
     drawerClose.addEventListener('click', closeDrawer);
     dOverlay.addEventListener('click', closeDrawer);
 
-    // -- Ready to Wear dropdown toggle -----------------------
+    // -- Ready to Wear & Sale dropdown toggles -----------------------
     const rtwDropdown = document.getElementById('rtwDropdown');
     const rtwToggle   = document.getElementById('rtwToggle');
-    rtwToggle.addEventListener('click', () => {
-      const isOpen = rtwDropdown.classList.toggle('open');
-      rtwToggle.setAttribute('aria-expanded', isOpen);
-    });
+    if (rtwToggle && rtwDropdown) {
+      rtwToggle.addEventListener('click', () => {
+        const isOpen = rtwDropdown.classList.toggle('open');
+        rtwToggle.setAttribute('aria-expanded', isOpen);
+      });
+    }
+    const saleDropdown = document.getElementById('saleDropdown');
+    const saleToggle   = document.getElementById('saleToggle');
+    if (saleToggle && saleDropdown) {
+      saleToggle.addEventListener('click', () => {
+        const isOpen = saleDropdown.classList.toggle('open');
+        saleToggle.setAttribute('aria-expanded', isOpen);
+      });
+    }
 
     // -- Cart Drawer Toggle -----------------------------------
     const cartBtn = document.getElementById('cartBtn');
@@ -231,10 +248,14 @@
 
     const urlParams = new URLSearchParams(window.location.search);
     let selectedCat = urlParams.get('category') || '';
+    const isSaleFilter = urlParams.get('sale') === 'true';
 
     function filterAndRender() {
       if (!catalogReady) return;
       let items = selectedCat ? getByCategory(catalogData, selectedCat) : (catalogData.products || []);
+      if (isSaleFilter) {
+        items = items.filter(p => p.compare_at_price && Number(p.compare_at_price) > Number(p.price));
+      }
 
       const sort = sortSelect.value;
       if (sort === 'price-asc') items = [...items].sort((a,b) => a.price - b.price);
@@ -259,8 +280,12 @@
       countEl.textContent = `${items.length} Garment${items.length !== 1 ? 's' : ''}`;
       
       if (selectedCat) {
-        if (headingEl) headingEl.textContent = selectedCat.toUpperCase();
-        if (breadcrumbCat) breadcrumbCat.textContent = selectedCat;
+        const titleText = isSaleFilter ? `SALE — ${selectedCat.toUpperCase()}` : selectedCat.toUpperCase();
+        if (headingEl) headingEl.textContent = titleText;
+        if (breadcrumbCat) breadcrumbCat.textContent = isSaleFilter ? `Sale (${selectedCat})` : selectedCat;
+      } else if (isSaleFilter) {
+        if (headingEl) headingEl.textContent = 'SALE';
+        if (breadcrumbCat) breadcrumbCat.textContent = 'Sale';
       } else {
         if (headingEl) headingEl.textContent = 'ALL COLLECTIONS';
         if (breadcrumbCat) breadcrumbCat.textContent = 'Shop All';
@@ -288,7 +313,6 @@
             <img class="img-secondary" src="${escapeHTML(safeImageURL(imgB))}" alt="${escapeHTML(p.name)} detail" width="480" height="640" loading="lazy" decoding="async">
           </a>
           <div class="p-details">
-            <div class="p-category">${escapeHTML(p.category || 'Couture')}</div>
             <a href="./product.html?slug=${encodeURIComponent(p.slug)}" class="p-title">${escapeHTML(p.name)}</a>
             <div class="p-price-row">
               ${isSale ? `<span class="p-was-price">${formatPrice(p.compare_at_price)}</span>` : ''}

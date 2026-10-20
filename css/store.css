@@ -101,16 +101,16 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   text-decoration: none;
 }
 .logo-img {
-  height: 28px;
+  height: 38px;
   width: auto;
-  max-width: 130px;
+  max-width: 170px;
   object-fit: contain;
   display: block;
 }
 .drawer-logo-img {
-  height: 24px;
+  height: 32px;
   width: auto;
-  max-width: 120px;
+  max-width: 150px;
   object-fit: contain;
   display: block;
 }

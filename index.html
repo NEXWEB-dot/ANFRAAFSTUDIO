@@ -155,7 +155,7 @@
       grid-template-columns: 1fr auto 1fr;
       align-items: center;
       padding: 0 clamp(16px, 3.5vw, 40px);
-      height: 52px;
+      height: clamp(56px, 6vw, 68px);
     }
     .logo {
       font-family: 'Cormorant', Georgia, serif;
@@ -870,7 +870,8 @@
     }
     .f-links { list-style: none; }
     .f-links li { margin-bottom: 9px; }
-    .f-links a {
+    .f-links a, .f-links span {
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       font-size: 11.5px;
       font-weight: 300;
       color: rgba(255, 255, 255, 0.55);
@@ -1039,7 +1040,7 @@
 <div class="d-overlay" id="dOverlay"></div>
 <aside class="drawer" id="drawer" aria-label="Mobile Navigation">
   <div class="drawer-head">
-    <span class="d-logo"><img src="assets/logo.png" alt="ANRAAF" style="height:24px;width:auto;display:block;" width="912" height="273"></span>
+    <span class="d-logo"><img src="assets/logo.png" alt="ANRAAF" style="height:32px;width:auto;display:block;" width="912" height="273"></span>
     <button class="drawer-close" id="homeDrawerClose" aria-label="Close menu">&#x2715;</button>
   </div>
   <nav class="drawer-nav">
@@ -1050,9 +1051,17 @@
         Ready to Wear <span class="dd-arrow">&#9660;</span>
       </button>
       <div class="drawer-sub-links">
-        <a href="./store.html?category=summer-edit">Summer Edit</a>
-        <a href="./store.html?category=fall-edit">Fall Edit</a>
-        <a href="./store.html?category=heritage-edit">Heritage Edit</a>
+        <a href="./store.html?category=summer">Summer Collection</a>
+        <a href="./store.html?category=fall">Fall Collection</a>
+        <a href="./store.html?category=heritage">Heritage Edit</a>
+      </div>
+    </div>
+    <div class="drawer-dropdown" id="saleDropdown">
+      <button class="drawer-dropdown-toggle" id="saleToggle" aria-expanded="false" style="color:var(--sale-red,#c0392b);">
+        Sale <span class="dd-arrow">&#9660;</span>
+      </button>
+      <div class="drawer-sub-links">
+        <a href="./store.html?category=summer&sale=true">Summer Collection</a>
       </div>
     </div>
     <a href="./contact.html">Contact Us</a>
@@ -1070,7 +1079,7 @@
     </div>
 
     <!-- Center: Logo ANRAAF -->
-    <a href="./index.html" class="logo" aria-label="ANRAAF – Home"><img src="assets/logo.png" alt="ANRAAF" style="height:28px;width:auto;display:block;" width="912" height="273"></a>
+    <a href="./index.html" class="logo" aria-label="ANRAAF – Home"><img src="assets/logo.png" alt="ANRAAF" style="height:38px;width:auto;display:block;" width="912" height="273"></a>
 
     <!-- Right: Cart only (Search icon removed as requested) -->
     <div class="header-right">
@@ -1261,30 +1270,6 @@
     </div>
   </section>
 
-  <!-- ── PREMIUM VIDEO SHOWCASE ─────────────────────────── -->
-  <section aria-label="Anraaf Studio — Campaign Film" style="position:relative;width:100%;background:#0d0d0d;padding:clamp(20px, 4vw, 50px) 0;">
-    <div style="max-width:1240px;margin:0 auto;padding:0 clamp(16px, 3.5vw, 40px);">
-      <div style="position:relative;width:100%;border-radius:4px;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,0.35);background:#000;">
-        <video
-          src="assets/Adobe Express - IMG_3881.mp4"
-          autoplay
-          muted
-          loop
-          playsinline
-          preload="metadata"
-          style="width:100%;height:auto;max-height:70vh;aspect-ratio:16/9;object-fit:cover;display:block;"
-          aria-label="ANRAAF Studio Campaign Film"
-        ></video>
-        <!-- Subtle gradient overlay for editorial polish -->
-        <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.12) 0%,rgba(0,0,0,0.02) 50%,rgba(0,0,0,0.3) 100%);pointer-events:none;"></div>
-        <!-- Editorial caption -->
-        <div style="position:absolute;bottom:clamp(20px,3.5vw,44px);left:50%;transform:translateX(-50%);text-align:center;pointer-events:none;width:90%;">
-          <p style="font-family:'DM Sans',sans-serif;font-size:clamp(8px,1vw,11px);font-weight:500;letter-spacing:0.32em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:4px;">ANRAAF STUDIO</p>
-          <p style="font-family:'Cormorant',Georgia,serif;font-size:clamp(20px,3.2vw,44px);font-weight:400;letter-spacing:0.18em;color:#ffffff;text-shadow:0 2px 20px rgba(0,0,0,0.8);line-height:1.1;">CAMPAIGN '26</p>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- ── 16:9 FOOTER CAMPAIGN SHOWCASE ────────── -->
   <!-- Using the new widescreen 16:9 studio image -->
@@ -1303,40 +1288,39 @@
 <footer>
   <div class="footer-grid" style="grid-template-columns:repeat(3,1fr);">
     <div>
-      <h3 class="f-title">Navigate</h3>
-      <ul class="f-links">
-        <li><a href="./index.html">Home</a></li>
-        <li><a href="./store.html">All Collections</a></li>
-        <li><a href="./store.html?category=embroidered">Embroidered</a></li>
-        <li><a href="./store.html?category=heritage">Heritage Edit</a></li>
-        <li><a href="./checkout.html">Shopping Bag</a></li>
-        <li><a href="./contact.html">Contact Us</a></li>
-      </ul>
-    </div>
-    <div>
       <h3 class="f-title">Contact Us</h3>
       <ul class="f-links">
         <li><a href="https://wa.me/923062226688" target="_blank" rel="noopener">+92 306 2226688</a></li>
         <li><a href="mailto:Anrafstudio@gmail.com">Anrafstudio@gmail.com</a></li>
+        <li><a href="./contact.html">Inquiry</a></li>
       </ul>
     </div>
     <div>
       <h3 class="f-title">Our Location</h3>
       <ul class="f-links">
-        <li><span>Bahria Town Phase 7</span></li>
-        <li><span>Islamabad, Pakistan</span></li>
+        <li><span style="font-family:'DM Sans',sans-serif;">Bahria Town Phase 7</span></li>
+        <li><span style="font-family:'DM Sans',sans-serif;">Islamabad, Pakistan</span></li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="f-title">Follow Us</h3>
+      <ul class="f-links">
+        <li><a href="https://www.instagram.com/anraf_studio/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          @anraf_studio
+        </a></li>
       </ul>
     </div>
   </div>
 
   <!-- Brand and Socials -->
   <div class="footer-bottom">
-    <span class="f-logo-txt"><img src="assets/logo.png" alt="ANRAAF" style="height:26px;width:auto;display:inline-block;filter:brightness(0) invert(1);" width="912" height="273"></span>
+    <span class="f-logo-txt"><img src="assets/logo.png" alt="ANRAAF" style="height:32px;width:auto;display:inline-block;filter:brightness(0) invert(1);" width="912" height="273"></span>
     <div class="f-social">
       <a href="#" aria-label="Facebook">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
       </a>
-      <a href="#" aria-label="Instagram">
+      <a href="https://www.instagram.com/anraf_studio/" target="_blank" rel="noopener" aria-label="Instagram">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
       </a>
       <a href="#" aria-label="TikTok">
@@ -1384,13 +1368,21 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape') { closeDrawer(); }
 });
 
-// ── Ready to Wear dropdown toggle ──
+// ── Ready to Wear & Sale dropdown toggles ──
 const rtwDropdown = document.getElementById('rtwDropdown');
 const rtwToggle   = document.getElementById('rtwToggle');
 if (rtwToggle) {
   rtwToggle.addEventListener('click', () => {
     const isOpen = rtwDropdown.classList.toggle('open');
     rtwToggle.setAttribute('aria-expanded', isOpen);
+  });
+}
+const saleDropdown = document.getElementById('saleDropdown');
+const saleToggle   = document.getElementById('saleToggle');
+if (saleToggle && saleDropdown) {
+  saleToggle.addEventListener('click', () => {
+    const isOpen = saleDropdown.classList.toggle('open');
+    saleToggle.setAttribute('aria-expanded', isOpen);
   });
 }
 
