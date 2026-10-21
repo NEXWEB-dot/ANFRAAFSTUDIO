@@ -1585,7 +1585,7 @@ if ('IntersectionObserver' in window) {
 
 <!-- ── Dynamic Catalog Rendering ──────────────────────────── -->
 <script type="module">
-import { loadCatalog, DEFAULT_CATALOG } from './js/catalog.js';
+import { loadCatalog, DEFAULT_CATALOG, isProductOnSale } from './js/catalog.js';
 import { getCartCount } from './js/cart.js';
 function updateCartCount() {
   const el = document.getElementById('navCartCount');
@@ -1603,7 +1603,7 @@ const fmt = (n) => 'Rs. ' + Number(n).toLocaleString('en-PK') + ' PKR';
 function buildCard(p, isFirst) {
   const imgA = p.images?.[0]?.thumb || p.images?.[0]?.url || '';
   const imgB = p.images?.[1]?.thumb || p.images?.[1]?.url || imgA;
-  const isSale = p.compare_at_price && p.compare_at_price > p.price;
+  const isSale = isProductOnSale(p);
 
   const article = document.createElement('article');
   article.className = 'p-card reveal';

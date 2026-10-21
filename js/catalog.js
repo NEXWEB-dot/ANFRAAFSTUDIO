@@ -110,20 +110,35 @@ export function getProductBySlug(catalog, slug) {
   return list.find(p => p.slug === slug) ?? null;
 }
 
+export function isProductOnSale(p) {
+  if (!p) return false;
+  if (p.is_sale === true || p.sale === true || p.on_sale === true) return true;
+  if (p.compare_at_price != null && Number(p.compare_at_price) > Number(p.price)) return true;
+  if (Number(p.discount_percent || p.discountPercent || 0) > 0) return true;
+  const listFilters = (p.filters?.length ? p.filters : [p.category || '']);
+  if (listFilters.some(f => typeof f === 'string' && f.toLowerCase().trim() === 'sale')) return true;
+  return false;
+}
+
 export function getByCategory(catalog, category) {
   const list = mergeAdminProducts(catalog || DEFAULT_CATALOG)?.products || [];
   if (!category) return list;
-  const key = v => v.toLowerCase().trim()
+  const key = v => String(v).toLowerCase().trim()
     .replace(/[\s_]+/g, '-')
     .replace(/^embroidery$/, 'embroidered')
     .replace(/^summer(-edit|-collection)?$/, 'summer')
-    .replace(/^fall(-edit)?$/, 'fall')
+    .replace(/^fall(-edit|-collection)?$/, 'fall')
     .replace(/^heritage-edit$/, 'heritage');
+
+  const kc = key(category);
+  if (kc === 'sale') {
+    return list.filter(isProductOnSale);
+  }
+
   return list.filter(p => {
     const listFilters = (p.filters?.length ? p.filters : [p.category || '']);
     return listFilters.some(f => {
       const kf = key(f);
-      const kc = key(category);
       if (kf === kc) return true;
       if ((kc === 'heritage' || kc === 'embroidered') && (kf === 'heritage' || kf === 'embroidered')) return true;
       return false;

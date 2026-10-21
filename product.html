@@ -255,7 +255,7 @@
 
   <script type="module">
     import { escapeHTML, safeImageURL, normalizePhone } from './js/safety.js';
-    import { loadCatalog, getProductBySlug, DEFAULT_CATALOG } from './js/catalog.js';
+    import { loadCatalog, getProductBySlug, DEFAULT_CATALOG, isProductOnSale } from './js/catalog.js';
     import { getCart, getCartCount, addToCart, enrichCart, cartTotal, removeFromCart, formatPrice } from './js/cart.js';
 
     // ── Cart UI ─────────────────────────────────────────────
@@ -449,7 +449,7 @@
       document.getElementById('pTitle').textContent = p.name;
       document.getElementById('pPrice').textContent = formatPrice(p.price);
 
-      const isSale = p.compare_at_price && Number(p.compare_at_price) > Number(p.price);
+      const isSale = isProductOnSale(p);
       const compEl = document.getElementById('pCompare');
       const badgeEl = document.getElementById('pSaleBadge');
       if (isSale) {
@@ -550,7 +550,7 @@
         card.className = 'p-card';
         const imgA = p.images?.[0]?.thumb || p.images?.[0]?.url || '';
         const imgB = p.images?.[1]?.thumb || p.images?.[1]?.url || imgA;
-        const isSale = p.compare_at_price && Number(p.compare_at_price) > Number(p.price);
+        const isSale = isProductOnSale(p);
         card.innerHTML = `
           <a href="./product.html?slug=${encodeURIComponent(p.slug)}" class="p-img-wrap">
             ${isSale ? '<span class="badge-sale">SALE</span>' : ''}
@@ -558,7 +558,6 @@
             <img class="img-secondary" src="${escapeHTML(safeImageURL(imgB))}" alt="${escapeHTML(p.name)} detail" width="480" height="640" loading="lazy" decoding="async">
           </a>
           <div class="p-details">
-            <div class="p-category">${escapeHTML(p.category || 'Couture')}</div>
             <a href="./product.html?slug=${encodeURIComponent(p.slug)}" class="p-title">${escapeHTML(p.name)}</a>
             <div class="p-price-row">
               ${isSale ? `<span class="p-was-price">${formatPrice(p.compare_at_price)}</span>` : ''}

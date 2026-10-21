@@ -257,6 +257,15 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   color: var(--white);
   border-color: var(--ink);
 }
+.pill-btn-sale {
+  color: var(--sale-red, #c0392b);
+  border-color: rgba(192, 57, 43, 0.4);
+}
+.pill-btn-sale:hover, .pill-btn-sale.active {
+  background: var(--sale-red, #c0392b) !important;
+  border-color: var(--sale-red, #c0392b) !important;
+  color: #ffffff !important;
+}
 .filter-right {
   display: flex;
   align-items: center;

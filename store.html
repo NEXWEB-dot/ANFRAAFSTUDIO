@@ -98,7 +98,8 @@
         <button class="pill-btn active" data-category="">All</button>
         <button class="pill-btn" data-category="Summer">Summer</button>
         <button class="pill-btn" data-category="Heritage">Heritage Edit</button>
-        <button class="pill-btn" data-category="fall">Fall Collection</button>
+        <button class="pill-btn" data-category="fall">Fall</button>
+        <button class="pill-btn pill-btn-sale" data-category="sale">Sale</button>
       </div>
 
       <div class="filter-right">
@@ -179,7 +180,7 @@
 
   <script type="module">
     import { escapeHTML, safeImageURL, normalizePhone } from './js/safety.js';
-    import { loadCatalog, getByCategory, getCategories, DEFAULT_CATALOG, mergeAdminProducts } from './js/catalog.js';
+    import { loadCatalog, getByCategory, getCategories, DEFAULT_CATALOG, mergeAdminProducts, isProductOnSale } from './js/catalog.js';
     import { getCart, getCartCount, addToCart, enrichCart, cartTotal, updateQty, removeFromCart, formatPrice } from './js/cart.js';
 
     // -- Update Cart Counter in Header ------------------------
@@ -248,13 +249,17 @@
 
     const urlParams = new URLSearchParams(window.location.search);
     let selectedCat = urlParams.get('category') || '';
-    const isSaleFilter = urlParams.get('sale') === 'true';
+    let isSaleFilter = urlParams.get('sale') === 'true' || selectedCat.toLowerCase() === 'sale';
+    if (selectedCat.toLowerCase() === 'sale') {
+      selectedCat = '';
+      isSaleFilter = true;
+    }
 
     function filterAndRender() {
       if (!catalogReady) return;
       let items = selectedCat ? getByCategory(catalogData, selectedCat) : (catalogData.products || []);
       if (isSaleFilter) {
-        items = items.filter(p => p.compare_at_price && Number(p.compare_at_price) > Number(p.price));
+        items = items.filter(isProductOnSale);
       }
 
       const sort = sortSelect.value;
@@ -279,13 +284,17 @@
 
       countEl.textContent = `${items.length} Garment${items.length !== 1 ? 's' : ''}`;
       
-      if (selectedCat) {
-        const titleText = isSaleFilter ? `SALE — ${selectedCat.toUpperCase()}` : selectedCat.toUpperCase();
+      if (isSaleFilter && selectedCat) {
+        const titleText = `SALE — ${selectedCat.toUpperCase()}`;
         if (headingEl) headingEl.textContent = titleText;
-        if (breadcrumbCat) breadcrumbCat.textContent = isSaleFilter ? `Sale (${selectedCat})` : selectedCat;
+        if (breadcrumbCat) breadcrumbCat.textContent = `Sale (${selectedCat})`;
       } else if (isSaleFilter) {
         if (headingEl) headingEl.textContent = 'SALE';
         if (breadcrumbCat) breadcrumbCat.textContent = 'Sale';
+      } else if (selectedCat) {
+        const titleText = selectedCat.toUpperCase();
+        if (headingEl) headingEl.textContent = titleText;
+        if (breadcrumbCat) breadcrumbCat.textContent = selectedCat;
       } else {
         if (headingEl) headingEl.textContent = 'ALL COLLECTIONS';
         if (breadcrumbCat) breadcrumbCat.textContent = 'Shop All';
@@ -293,7 +302,10 @@
 
       grid.innerHTML = '';
       if (!items.length) {
-        grid.innerHTML = `<p style="grid-column:1/-1;text-align:center;padding:4rem 0;color:var(--muted);">${catalogData.unavailable ? 'The collection is temporarily unavailable. Please try again shortly.' : 'No garments found in this category.'}</p>`;
+        const emptyMsg = isSaleFilter
+          ? 'No garments currently on sale. Check back soon for exclusive seasonal offers.'
+          : (catalogData.unavailable ? 'The collection is temporarily unavailable. Please try again shortly.' : 'No garments found in this category.');
+        grid.innerHTML = `<p style="grid-column:1/-1;text-align:center;padding:4rem 0;color:var(--muted);">${emptyMsg}</p>`;
         return;
       }
 
@@ -303,7 +315,8 @@
 
         const imgA = p.images?.[0]?.thumb || p.images?.[0]?.url || '';
         const imgB = p.images?.[1]?.thumb || p.images?.[1]?.url || imgA;
-        const isSale = p.compare_at_price && Number(p.compare_at_price) > Number(p.price);
+        const isSale = isProductOnSale(p);
+        const hasComparePrice = p.compare_at_price && Number(p.compare_at_price) > Number(p.price);
 
         card.innerHTML = `
           <a href="./product.html?slug=${encodeURIComponent(p.slug)}" class="p-img-wrap">
@@ -315,7 +328,7 @@
           <div class="p-details">
             <a href="./product.html?slug=${encodeURIComponent(p.slug)}" class="p-title">${escapeHTML(p.name)}</a>
             <div class="p-price-row">
-              ${isSale ? `<span class="p-was-price">${formatPrice(p.compare_at_price)}</span>` : ''}
+              ${hasComparePrice ? `<span class="p-was-price">${formatPrice(p.compare_at_price)}</span>` : ''}
               <span class="${isSale ? 'p-now-sale' : ''}">${formatPrice(p.price)}</span>
             </div>
           </div>
@@ -325,19 +338,45 @@
       }
     }
 
+    function updateActivePill() {
+      pills.forEach(pill => {
+        const cat = (pill.dataset.category || '').toLowerCase();
+        if (isSaleFilter && !selectedCat && cat === 'sale') {
+          pill.classList.add('active');
+        } else if (isSaleFilter && selectedCat && cat === selectedCat.toLowerCase()) {
+          pill.classList.add('active');
+        } else if (!isSaleFilter && !selectedCat && cat === '') {
+          pill.classList.add('active');
+        } else if (!isSaleFilter && selectedCat && cat === selectedCat.toLowerCase()) {
+          pill.classList.add('active');
+        } else {
+          pill.classList.remove('active');
+        }
+      });
+    }
+
     // Category pill clicks
     pills.forEach(pill => {
-      if (selectedCat && pill.dataset.category.toLowerCase() === selectedCat.toLowerCase()) {
-        pills.forEach(b => b.classList.remove('active'));
-        pill.classList.add('active');
-      }
       pill.addEventListener('click', () => {
-        pills.forEach(b => b.classList.remove('active'));
-        pill.classList.add('active');
-        selectedCat = pill.dataset.category;
+        const cat = pill.dataset.category || '';
+        if (cat.toLowerCase() === 'sale') {
+          selectedCat = '';
+          isSaleFilter = true;
+          try { window.history.replaceState(null, '', './store.html?sale=true'); } catch {}
+        } else {
+          selectedCat = cat;
+          isSaleFilter = false;
+          try {
+            const nextUrl = selectedCat ? `./store.html?category=${encodeURIComponent(selectedCat.toLowerCase())}` : './store.html';
+            window.history.replaceState(null, '', nextUrl);
+          } catch {}
+        }
+        updateActivePill();
         filterAndRender();
       });
     });
+
+    updateActivePill();
 
     sortSelect.addEventListener('change', filterAndRender);
 
