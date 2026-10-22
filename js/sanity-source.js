@@ -44,7 +44,7 @@ export function normalizeSanity(result, env) {
     const validSizes = ['Small', 'Medium', 'Large', 'XL', 'S', 'M', 'L'];
     if (!Array.isArray(sizes) || sizes.some(s => !validSizes.includes(s))) throw new Error('Invalid sizes');
     const filters = p.filters?.length ? p.filters : (p.category ? [p.category] : []);
-    const validFilters = ['Embroidered', 'Lawn', 'Heritage', 'Ready to Wear', 'Summer', 'Summer Collection', 'Fall', 'Sale'];
+    const validFilters = ['Embroidered', 'Lawn', 'Heritage', 'Heritage Edit', 'Ready to Wear', 'Summer', 'Summer Collection', 'Fall', 'Sale'];
     if (!Array.isArray(filters) || filters.some(f => !validFilters.includes(f))) throw new Error('Invalid filters');
     return {...p, price, compare_at_price: discount > 0 ? p.price : p.compare_at_price,
       discount_percent: discount, sizes: [...new Set(sizes)], filters: [...new Set(filters)],

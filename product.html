@@ -94,7 +94,7 @@
   <!-- ── BREADCRUMBS ─────────────────────────────────────────── -->
   <div style="max-width:var(--max-w);margin:0 auto;padding:1.5rem 1.5rem 0;">
     <div class="breadcrumbs">
-      <a href="./index.html">Home</a> / <a href="./store.html">Collections</a> / <a id="bcCategory" href="./store.html">Embroidered</a> / <span id="bcProduct">Product Detail</span>
+      <a href="./index.html">Home</a> / <a href="./store.html">Collections</a> / <a id="bcCategory" href="./store.html">Heritage Edit</a> / <span id="bcProduct">Product Detail</span>
     </div>
   </div>
 
@@ -173,7 +173,7 @@
               <span class="acc-icon">+</span>
             </button>
             <div class="acc-panel">
-              <p>• <strong>Standard Delivery:</strong> 3–5 working days nationwide across Pakistan.<br>
+              <p>• <strong>Standard Delivery:</strong> 5–7 days nationwide across Pakistan.<br>
               • <strong>Shipping Charges:</strong> Rs. 260 delivery fee on all orders across Pakistan.<br>
               • <strong>Payment Method:</strong> Cash on Delivery (COD) & Raast / Direct Bank Transfer.</p>
             </div>
@@ -241,9 +241,9 @@
       <div>
         <h3 class="footer-title">Follow Us</h3>
         <ul class="footer-links">
-          <li><a href="https://www.instagram.com/anraf_studio/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;">
+          <li><a href="https://www.instagram.com/anraafofficial/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-            @anraf_studio
+            @anraafofficial
           </a></li>
         </ul>
       </div>
@@ -441,11 +441,14 @@
       }
 
       const bcCat = document.getElementById('bcCategory');
-      bcCat.textContent = p.category || 'Collection';
-      bcCat.href = `./store.html?category=${encodeURIComponent((p.category || '').toLowerCase())}`;
+      const catLower = (p.category || '').toLowerCase().trim();
+      const isHeritage = (catLower === 'embroidered' || catLower === 'embroidery' || catLower === 'heritage' || catLower === 'heritage edit');
+      const displayCat = isHeritage ? 'Heritage Edit' : (p.category || 'Collection');
+      bcCat.textContent = displayCat;
+      bcCat.href = `./store.html?category=${encodeURIComponent(isHeritage ? 'heritage' : catLower)}`;
       document.getElementById('bcProduct').textContent = p.name;
 
-      document.getElementById('pCat').textContent = p.category || 'Couture';
+      document.getElementById('pCat').textContent = displayCat;
       document.getElementById('pTitle').textContent = p.name;
       document.getElementById('pPrice').textContent = formatPrice(p.price);
 
