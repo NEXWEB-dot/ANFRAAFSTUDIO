@@ -6,7 +6,10 @@ export function updateCSP(directory, includeAdmin = true) {
 const root = directory instanceof URL ? fileURLToPath(directory) : directory;
 const files = fs.readdirSync(root).filter(f=>f.endsWith('.html'));
 if (includeAdmin && fs.existsSync(path.join(root,'admin'))) files.push(...fs.readdirSync(path.join(root,'admin')).filter(f=>f.endsWith('.html')).map(f=>'admin/'+f));
-const hashes = new Set();
+const hashes = new Set([
+  // Cloudflare Web Analytics runtime beacon
+  "'sha256-5W4Fqmt+snPPN2oO5RbEeG2E7dbp6J2V/CNlpg9t3RE='"
+]);
 for (const file of files) {
   const source = fs.readFileSync(path.join(root,file),'utf8');
   for (const script of source.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)) {

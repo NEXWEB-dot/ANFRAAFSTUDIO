@@ -7,7 +7,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Checkout — ANRAAF | Luxury Pakistani Fashion</title>
-  <meta name="description" content="Secure multi-step checkout for ANRAAF luxury pret and couture. Cash on Delivery and Direct Bank Transfer via WhatsApp across Pakistan.">
+  <meta name="description" content="Secure checkout for ANRAAF luxury pret and couture. Cash on Delivery across Pakistan.">
   <link rel="canonical" href="https://anraaf.com/checkout.html">
   <link rel="icon" type="image/jpeg" href="assets/image (1).jpg">
   <link rel="apple-touch-icon" href="assets/image (1).jpg">
@@ -336,49 +336,9 @@
       background: #ffffff;
       box-shadow: 0 0 0 1px var(--ink);
     }
-    .payment-option-card.selected.is-whatsapp-method {
-      border-color: var(--wa-green);
-      box-shadow: 0 0 0 1px var(--wa-green);
-    }
+    
 
-    /* Account Details Box (Revealed on Bank Transfer / WhatsApp selection) */
-    .bank-details-box {
-      display: none;
-      background: #fdfdfd;
-      border: 1.5px solid #25D366;
-      padding: 1.4rem;
-      margin-top: -0.5rem;
-      margin-bottom: 1.5rem;
-      animation: stepFade 0.3s ease;
-    }
-    .bank-details-box.open {
-      display: block;
-    }
-    .bank-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: #e8f7ee;
-      color: #128C7E;
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      padding: 4px 10px;
-      margin-bottom: 1rem;
-      border-radius: 2px;
-    }
-    .bank-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 8px 0;
-      border-bottom: 1px dashed #e8e8e8;
-      font-size: 0.88rem;
-    }
-    .bank-row:last-child {
-      border-bottom: none;
-    }
+    
     .bank-label {
       color: #666;
       font-size: 0.8rem;
@@ -613,66 +573,7 @@
                 </div>
               </label>
 
-              <!-- Bank Transfer / WhatsApp Payment Card -->
-              <label class="payment-option-card" id="optBank">
-                <input type="radio" name="paymentMethod" value="bank" style="margin-top:4px;accent-color:#25D366;">
-                <div>
-                  <strong style="display:block;font-size:0.95rem;color:#111;display:flex;align-items:center;gap:6px;">
-                    Direct Bank Transfer / Raast Instant Pay
-                    <span style="background:#e8f7ee;color:#128C7E;font-size:0.7rem;padding:2px 6px;border-radius:2px;font-weight:700;text-transform:uppercase;">WhatsApp</span>
-                  </strong>
-                  <span style="font-size:0.82rem;color:#666;line-height:1.45;display:block;margin-top:3px;">
-                    Transfer via any Pakistani Banking App or Raast ID. Instant order verification and receipt confirmation via WhatsApp.
-                  </span>
-                </div>
-              </label>
-
-              <!-- Dynamic Bank Details Box (Shown when Bank / WhatsApp chosen) -->
-              <div class="bank-details-box" id="bankDetailsBox">
-                <div class="bank-badge">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                  Official Store Bank Account
-                </div>
-
-                <div class="bank-row">
-                  <span class="bank-label">Bank Name</span>
-                  <span class="bank-val" style="font-family:inherit;">Meezan Bank Limited</span>
-                </div>
-
-                <div class="bank-row">
-                  <span class="bank-label">Account Title</span>
-                  <span class="bank-val" style="font-family:inherit;">ANRAAF</span>
-                </div>
-
-                <div class="bank-row">
-                  <span class="bank-label">Account Number</span>
-                  <div class="bank-val-wrap">
-                    <span class="bank-val" id="copyAccNum">02010108554321</span>
-                    <button type="button" class="btn-copy" data-copy="02010108554321">Copy</button>
-                  </div>
-                </div>
-
-                <div class="bank-row">
-                  <span class="bank-label">IBAN</span>
-                  <div class="bank-val-wrap">
-                    <span class="bank-val" id="copyIban" style="font-size:0.82rem;">PK45MEZN0002010108554321</span>
-                    <button type="button" class="btn-copy" data-copy="PK45MEZN0002010108554321">Copy</button>
-                  </div>
-                </div>
-
-                <div class="bank-row">
-                  <span class="bank-label">Raast ID / Mobile</span>
-                  <div class="bank-val-wrap">
-                    <span class="bank-val" id="copyRaast">03336230844</span>
-                    <button type="button" class="btn-copy" data-copy="03336230844">Copy</button>
-                  </div>
-                </div>
-
-                <div style="margin-top:14px;padding-top:10px;border-top:1px solid #e0e0e0;font-size:0.78rem;color:#444;line-height:1.5;">
-                  💡 <strong>Next Step:</strong> Transfer <strong id="bankPayAmount">Rs. 0</strong> using the details above. Click <strong>"Confirm Order on WhatsApp"</strong> below, and WhatsApp will open with your pre-filled order summary ready to receive your screenshot.
-                </div>
               </div>
-            </div>
 
             <div id="checkoutError" class="error-pill"></div>
 
@@ -756,7 +657,6 @@
     const itemsList = document.getElementById('checkoutItemsList');
     const subtotalEl = document.getElementById('subtotalAmount');
     const totalEl = document.getElementById('totalAmount');
-    const bankPayAmountEl = document.getElementById('bankPayAmount');
 
     const stepPanel1 = document.getElementById('stepPanel1');
     const stepPanel2 = document.getElementById('stepPanel2');
@@ -770,42 +670,8 @@
     const step1Error = document.getElementById('step1Error');
     const checkoutError = document.getElementById('checkoutError');
     const submitBtn = document.getElementById('submitOrderBtn');
-
-    // Payment options
-    const optCod = document.getElementById('optCod');
-    const optBank = document.getElementById('optBank');
-    const radioCod = optCod.querySelector('input');
-    const radioBank = optBank.querySelector('input');
-    const bankDetailsBox = document.getElementById('bankDetailsBox');
-
     let submitting = false;
     let challengeToken = '';
-
-    // WhatsApp icon SVG
-    const waIconSvg = `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:8px;"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.669-.699c.969.53 1.771.815 2.791.815 3.179 0 5.767-2.587 5.768-5.766 0-3.18-2.588-5.766-5.768-5.766zm9.969 5.766c0 5.503-4.477 9.98-9.97 9.98-1.745 0-3.38-.453-4.81-1.246l-5.22 1.368 1.393-5.093c-.911-1.498-1.393-3.218-1.393-5.009 0-5.503 4.478-9.98 9.97-9.98 5.493 0 9.97 4.477 9.97 9.98z"/></svg>`;
-
-    // Update payment method UI
-    function updatePaymentMethodUI() {
-      const isBank = radioBank.checked;
-      if (isBank) {
-        optBank.classList.add('selected', 'is-whatsapp-method');
-        optCod.classList.remove('selected');
-        bankDetailsBox.classList.add('open');
-        submitBtn.classList.add('btn-whatsapp-active');
-        submitBtn.innerHTML = `${waIconSvg} Confirm Order on WhatsApp →`;
-      } else {
-        optCod.classList.add('selected');
-        optBank.classList.remove('selected', 'is-whatsapp-method');
-        bankDetailsBox.classList.remove('open');
-        submitBtn.classList.remove('btn-whatsapp-active');
-        submitBtn.innerHTML = `Place Order (Cash on Delivery) →`;
-      }
-    }
-
-    radioCod.addEventListener('change', updatePaymentMethodUI);
-    radioBank.addEventListener('change', updatePaymentMethodUI);
-    optCod.addEventListener('click', () => { radioCod.checked = true; updatePaymentMethodUI(); });
-    optBank.addEventListener('click', () => { radioBank.checked = true; updatePaymentMethodUI(); });
 
     // Background silent challenge check (never blocks customer with error)
     async function setupChallengeSilent() {
@@ -874,7 +740,6 @@
       const total = subtotal + DELIVERY_FEE;
       subtotalEl.textContent = formatPrice(subtotal);
       totalEl.textContent = formatPrice(total);
-      bankPayAmountEl.textContent = formatPrice(total);
     }
 
     // Step 1 Validation & Transition to Step 2
@@ -970,17 +835,14 @@
       const province = document.getElementById('custProvince').value;
       const notes = document.getElementById('custNotes').value.trim();
       const hp = document.querySelector('[name="hp"]').value;
-      const paymentMethod = radioBank.checked ? 'bank' : 'cod';
+      const paymentMethod = 'cod';
       const DELIVERY_FEE = 260;
       const subtotal = cartTotal(items);
       const totalAmount = subtotal + DELIVERY_FEE;
 
       submitting = true;
       submitBtn.disabled = true;
-      const prevBtnHtml = submitBtn.innerHTML;
-      submitBtn.innerHTML = paymentMethod === 'bank'
-        ? `${waIconSvg} Connecting to WhatsApp…`
-        : `Securing Your Order…`;
+      submitBtn.innerHTML = 'Securing Your Order…';
 
       const fullAddress = `${address}, ${city}, ${province}, Pakistan`;
       const payload = {
@@ -989,7 +851,7 @@
         email,
         phone,
         address: fullAddress,
-        notes: (notes ? notes + ' | ' : '') + `Payment Choice: ${paymentMethod === 'bank' ? 'DIRECT BANK TRANSFER / RAAST (WHATSAPP)' : 'CASH ON DELIVERY (COD)'}`,
+        notes: (notes ? notes + ' | ' : '') + 'Payment Choice: CASH ON DELIVERY (COD)',
         hp,
         payment_method: paymentMethod,
         turnstile_token: challengeToken,
@@ -999,53 +861,24 @@
       const shortRef = clientRef.slice(0, 8).toUpperCase();
       let orderTotal = totalAmount;
 
-      // Build WhatsApp message for Bank Transfer
-      const storeWa = window.STORE_CONFIG?.whatsappUrl || 'https://wa.me/923062226688';
-      const itemsSummary = items.map(i => `• ${i.product.name} (Size: ${{ Small: 'S', Medium: 'M', Large: 'L', XL: 'XL' }[i.size] || i.size || 'S'}) x ${i.qty} - Rs. ${(i.product.price * i.qty).toLocaleString('en-PK')}`).join('\n');
-      
-      const waMessageText = `*ANRAAF - ORDER #${shortRef}*\n\n` +
-        `*Customer:* ${name}\n` +
-        `*Mobile:* ${phone}\n` +
-        `*Delivery Address:* ${fullAddress}\n\n` +
-        `*Ordered Items:*\n${itemsSummary}\n\n` +
-        `*Subtotal:* Rs. ${subtotal.toLocaleString('en-PK')} PKR\n` +
-        `*Delivery Fee:* Rs. 260 PKR\n` +
-        `*Total Amount:* Rs. ${totalAmount.toLocaleString('en-PK')} PKR\n` +
-        `*Payment Choice:* Direct Bank Transfer / Raast\n\n` +
-        `Salam ANRAAF, I have placed this order and transferred the payment. Here is my transaction receipt screenshot.`;
-
-      const waFinalUrl = `${storeWa}?text=${encodeURIComponent(waMessageText)}`;
-
       try {
-        // Attempt backend submission
         const data = await submitOrder(payload).catch(() => null);
         if (data?.total) orderTotal = data.total;
-      } catch (err) {
-        // Proceed gracefully even on backend pause so customer NEVER loses their order
-      }
+      } catch (err) {}
 
-      // Finish order
       clearCart();
       finishOrder();
 
-      // Store verified order details securely in sessionStorage
       try {
         sessionStorage.setItem('last_order', JSON.stringify({
           ref: shortRef,
           total: orderTotal,
-          method: paymentMethod
+          method: 'cod'
         }));
       } catch {}
 
-      if (paymentMethod === 'bank') {
-        // Open WhatsApp in new tab/window
-        window.open(waFinalUrl, '_blank');
-        // And navigate to confirmation page without total in URL
-        window.location.href = `./order-confirmed.html?ref=${encodeURIComponent(shortRef)}&method=bank`;
-      } else {
-        // Navigate to confirmation page without total in URL
-        window.location.href = `./order-confirmed.html?ref=${encodeURIComponent(shortRef)}&method=cod`;
-      }
+      window.location.href = `./order-confirmed.html?ref=${encodeURIComponent(shortRef)}&method=cod`;
+    }
     });
 
     // Update concierge link
@@ -1061,24 +894,6 @@
         renderSummary();
       }
     });
-
-    // Copy buttons
-    document.querySelectorAll('.btn-copy').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const text = btn.getAttribute('data-copy');
-        if (!text) return;
-        navigator.clipboard.writeText(text).then(() => {
-          const orig = btn.textContent;
-          btn.textContent = 'Copied ✓';
-          btn.style.background = '#25D366';
-          btn.style.color = '#fff';
-          setTimeout(() => {
-            btn.textContent = orig;
-            btn.style.background = '';
-            btn.style.color = '';
-          }, 2000);
-        });
-      });
     });
 
     renderSummary();
