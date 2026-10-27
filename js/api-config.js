@@ -1,6 +1,6 @@
 // Public setting only. Set the HTTPS backend origin when deploying checkout.
 // Never put Resend or Turnstile secrets in browser files.
-export const API_ORIGIN = '';
+export const API_ORIGIN = 'https://anrafstudiobackend.pages.dev';
 
 export function apiURL(path) {
   if (!['/api/config', '/api/checkout'].includes(path)) throw new Error('Invalid API path');
