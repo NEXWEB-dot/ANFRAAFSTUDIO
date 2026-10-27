@@ -93,7 +93,7 @@ export async function loadCatalog(render = () => {}) {
     return result;
 
   } catch (error) {
-    console.warn('Catalog refresh failed:', error?.message || 'Request failed');
+    // Catalog refresh failed silently — stale cache or empty fallback served instead.
     if (cached) return cached;
     const empty = {
       source: 'sanity', count: 0, products: [],

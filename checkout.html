@@ -341,7 +341,7 @@
       box-shadow: 0 0 0 1px var(--wa-green);
     }
 
-    /* Account Details Box (Revealed on Online Payment) */
+    /* Account Details Box (Revealed on Bank Transfer / WhatsApp selection) */
     .bank-details-box {
       display: none;
       background: #fdfdfd;
@@ -613,7 +613,7 @@
                 </div>
               </label>
 
-              <!-- Online Payment / Direct Bank Transfer Card -->
+              <!-- Bank Transfer / WhatsApp Payment Card -->
               <label class="payment-option-card" id="optBank">
                 <input type="radio" name="paymentMethod" value="bank" style="margin-top:4px;accent-color:#25D366;">
                 <div>
@@ -679,7 +679,7 @@
             <!-- Optional invisible challenge holder -->
             <div id="checkoutChallenge" style="display:none;"></div>
 
-            <!-- Dynamic Submit Button: Changes to Green on Online Payment Selection -->
+            <!-- Dynamic Submit Button: Changes to WhatsApp green on Bank Transfer selection -->
             <button type="submit" class="btn-step-next" id="submitOrderBtn">
               Place Order (Cash on Delivery) →
             </button>
