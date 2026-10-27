@@ -79,11 +79,13 @@ export function clearCart() {
 
 /** Enrich cart items with product data from catalog */
 export function enrichCart(cartItems, catalog) {
-  const byId = new Map((catalog?.products ?? []).map((p) => [p.id, p]));
+  const products = catalog?.products ?? [];
+  const byId = new Map(products.map((p) => [p.id, p]));
+  const bySlug = new Map(products.map((p) => [p.slug, p]));
   return normalizeCart(cartItems)
     .map((item) => ({
       ...item,
-      product: byId.get(item.product_id) || {
+      product: byId.get(item.product_id) || bySlug.get(item.product_id) || {
         id: item.product_id, slug: '', name: 'Unavailable product — please remove from bag',
         price: 0, in_stock: false, images: [],
       }

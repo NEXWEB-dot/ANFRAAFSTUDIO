@@ -706,9 +706,9 @@
 
     // Render cart summary
     function renderSummary() {
-      const items = enrichCart(getCart(), catalog);
+      const rawCart = getCart();
 
-      if (!items.length) {
+      if (!rawCart.length) {
         checkoutLayout.style.display = 'none';
         emptyNotice.style.display = 'block';
         return;
@@ -716,6 +716,15 @@
 
       checkoutLayout.style.display = 'grid';
       emptyNotice.style.display = 'none';
+
+      if (!catalog || !Array.isArray(catalog.products) || catalog.products.length === 0) {
+        itemsList.innerHTML = '<div style="padding:1rem 0;color:#777;font-size:0.88rem;text-align:center;">Updating bag summary…</div>';
+        subtotalEl.textContent = 'Calculating…';
+        totalEl.textContent = 'Calculating…';
+        return;
+      }
+
+      const items = enrichCart(rawCart, catalog);
       itemsList.innerHTML = '';
 
       for (const it of items) {
@@ -730,7 +739,7 @@
             <p style="font-weight:600;font-size:0.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:0 0 2px;color:#111;">${escapeHTML(it.product.name)}</p>
             <p style="font-size:0.78rem;color:#777;margin:0;">Size: ${escapeHTML({ Small: 'S', Medium: 'M', Large: 'L', XL: 'XL' }[it.size] || it.size || 'S')}</p>
           </div>
-          <div style="font-weight:600;font-size:0.88rem;color:#111;">${formatPrice(it.product.price * it.qty)}</div>
+          <div style="font-weight:600;font-size:0.88rem;color:#111;">${formatPrice(it.product.price * it.qty)} PKR</div>
         `;
         itemsList.appendChild(row);
       }
@@ -738,8 +747,8 @@
       const DELIVERY_FEE = 260;
       const subtotal = cartTotal(items);
       const total = subtotal + DELIVERY_FEE;
-      subtotalEl.textContent = formatPrice(subtotal);
-      totalEl.textContent = formatPrice(total);
+      subtotalEl.textContent = `${formatPrice(subtotal)} PKR`;
+      totalEl.textContent = `${formatPrice(total)} PKR`;
     }
 
     // Step 1 Validation & Transition to Step 2
@@ -878,7 +887,6 @@
       } catch {}
 
       window.location.href = `./order-confirmed.html?ref=${encodeURIComponent(shortRef)}&method=cod`;
-    }
     });
 
     // Update concierge link
@@ -889,11 +897,10 @@
 
     // Load dynamic catalog
     loadCatalog((data) => {
-      if (data && Array.isArray(data.products)) {
+      if (data && Array.isArray(data.products) && data.products.length > 0) {
         catalog = data;
         renderSummary();
       }
-    });
     });
 
     renderSummary();
