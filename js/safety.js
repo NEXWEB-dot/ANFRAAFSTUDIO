@@ -14,9 +14,20 @@ export function safeImageURL(value) {
 }
 
 export function normalizePhone(value) {
-  if (!value) return '';
-  const raw = String(value).trim();
+  if (typeof value !== 'string') return '';
+  const raw = value.trim();
+  if (!/^[+\d\s()-]+$/.test(raw)) return '';
   const clean = raw.replace(/[\s()+-]/g, '');
+
+  // Explicit country codes take precedence over local number shortcuts.
+  if (raw.startsWith('+') || clean.startsWith('00')) {
+    const digits = raw.startsWith('+') ? clean : clean.slice(2);
+    if (!/^[1-9]\d{7,14}$/.test(digits) ||
+        (digits.startsWith('92') && !/^923\d{9}$/.test(digits)) ||
+        (raw.includes('+') && !/^\+[^+]*$/.test(raw))) return '';
+    return `+${digits}`;
+  }
+  if (raw.includes('+')) return '';
 
   // 1. Pakistani format: 03001234567, 300 1234567, +92 300 1234567, 00923001234567
   const pkDigits = clean.replace(/^(?:0092|92|0)/, '');
@@ -28,13 +39,6 @@ export function normalizePhone(value) {
   const uaeDigits = clean.replace(/^(?:00971|971)/, '').replace(/^0/, '');
   if (/^5\d{8}$/.test(uaeDigits)) {
     return `+971${uaeDigits}`;
-  }
-
-  // 3. International format explicitly starting with '+':
-  if (raw.startsWith('+')) {
-    if (clean.length >= 8 && clean.length <= 15 && /^\d+$/.test(clean)) {
-      return `+${clean}`;
-    }
   }
 
   return '';
